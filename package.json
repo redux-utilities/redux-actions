@@ -1,0 +1,28 @@
+{
+  "name": "redux-fas",
+  "version": "0.1.0",
+  "description": "Flux Action Standard utlities for Redux",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "make test",
+    "prepublish": "make clean build"
+  },
+  "keywords": [
+    "flux",
+    "redux",
+    "FAS",
+    "actions"
+  ],
+  "author": "Andrew Clark <acdlite@me.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.15",
+    "babel-eslint": "^3.1.20",
+    "chai": "^3.0.0",
+    "eslint": "^0.24.0",
+    "eslint-config-airbnb": "0.0.6",
+    "lodash.isplainobject": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
