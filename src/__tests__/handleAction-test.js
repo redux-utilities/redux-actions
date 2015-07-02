@@ -26,13 +26,13 @@ describe('handleAction()', () => {
   describe('map of handlers form', () => {
     describe('resulting reducer', () => {
       it('returns previous state if type does not match', () => {
-        const reducer = handleAction('NOTTYPE', { next: () => null });
+        const reducer = handleAction('NOTTYPE', { success: () => null });
         expect(reducer(prevState, { type })).to.equal(prevState);
       });
 
-      it('uses `next()` if status is undefined', () => {
+      it('uses `success()` if status is undefined', () => {
         const reducer = handleAction(type, {
-          next: (state, action) => ({
+          success: (state, action) => ({
             counter: state.counter + action.body
           })
         });
@@ -42,9 +42,9 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `next()` if status is "success"', () => {
+      it('uses `success()` if status is "success"', () => {
         const reducer = handleAction(type, {
-          next: (state, action) => ({
+          success: (state, action) => ({
             counter: state.counter + action.body
           })
         });
@@ -67,13 +67,13 @@ describe('handleAction()', () => {
       });
 
       it('returns previous state if status defined but not one of "error" or "success"', () => {
-        const reducer = handleAction(type, { next: () => null });
+        const reducer = handleAction(type, { success: () => null });
         expect(reducer(prevState, { type, status: 'pending' }))
           .to.equal(prevState);
       });
 
       it('throws if matching handler is not function', () => {
-        const reducer = handleAction(type, { next: null, error: 123 });
+        const reducer = handleAction(type, { success: null, error: 123 });
         expect(() => reducer(prevState, { type, status: 'success' }))
           .to.throw(/is not a function/);
         expect(() => reducer(prevState, { type, status: 'error' }))

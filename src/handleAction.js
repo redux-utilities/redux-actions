@@ -3,7 +3,7 @@ import isFunction from './isFunction';
 // Map of action statuses to handler property names
 const statusMappings = {
   'error': 'error',
-  'success': 'next'
+  'success': 'success'
 };
 
 // Default action status, if none is specified
