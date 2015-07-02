@@ -66,6 +66,6 @@ const reducer = handleActions({
 
 ## Suggested libraries
 
-Use redux-fsa in combination with FSA compliant-libraries.
+Use redux-fsa in combination with FSA-compliant libraries.
 
 - [redux-promise](https://github.com/acdlite/redux-promise) - Promise middleware
