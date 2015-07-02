@@ -21,4 +21,21 @@ describe('handleActions', () => {
         counter: 3
       });
   });
+
+  it('accepts a default state as the second parameter', () => {
+    const reducer = handleActions({
+      INCREMENT: ({ counter }, { body: amount }) => ({
+        counter: counter + amount
+      }),
+
+      DECREMENT: ({ counter }, { body: amount }) => ({
+        counter: counter - amount
+      })
+    }, { counter: 3 });
+
+    expect(reducer(undefined, { type: 'INCREMENT', body: 7 }))
+      .to.deep.equal({
+        counter: 10
+      });
+  });
 });

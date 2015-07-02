@@ -6,9 +6,15 @@ describe('handleAction()', () => {
 
   describe('single handler form', () => {
     describe('resulting reducer', () => {
-      it('returns prevState if type does not match', () => {
+      it('returns previous state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', () => null);
         expect(reducer(prevState, { type })).to.equal(prevState);
+      });
+
+      it('returns previous state if status defined but not one of "error" or "success"', () => {
+        const reducer = handleAction(type, () => null);
+        expect(reducer(prevState, { type, status: 'pending' }))
+          .to.equal(prevState);
       });
 
       it('accepts single function as handler', () => {

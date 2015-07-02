@@ -22,5 +22,12 @@ describe('createAction()', () => {
         body: payload
       });
     });
+
+    it('uses identity function if actionCreator is not a function', () => {
+      expect(createAction(type)(payload)).to.deep.equal({
+        type,
+        body: payload
+      });
+    });
   });
 });
