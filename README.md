@@ -47,6 +47,8 @@ The optional second parameter specifies a default or initial state, which is use
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers].)
 
+Example:
+
 ```js
 const reducer = handleActions({
   INCREMENT: (state, action) => ({
