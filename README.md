@@ -20,7 +20,7 @@ increment = createAction('INCREMENT');
 
 expect(increment(42)).to.deep.equal({
   type: 'INCREMENT',
-  amount: 42
+  body: 42
 });
 ```
 
@@ -44,6 +44,8 @@ handleAction('FETCH_DATA', {
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are the passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
 The optional second parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+
+(Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers].)
 
 ```js
 const reducer = handleActions({
