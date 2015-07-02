@@ -5,28 +5,28 @@ describe('createAction()', () => {
   describe('resulting action creator', () => {
     const type = 'TYPE';
     const actionCreator = createAction(type, b => b);
-    const payload = { foo: 'bar' };
-    const action = actionCreator(payload);
+    const foobar = { foo: 'bar' };
+    const action = actionCreator(foobar);
 
     it('returns plain object', () => {
       expect(isPlainObject(action)).to.be.true;
     });
 
-    it('uses return value as body', () => {
-      expect(action.body).to.equal(payload);
+    it('uses return value as payload', () => {
+      expect(action.payload).to.equal(foobar);
     });
 
     it('has `status` nor any extraneous keys', () => {
       expect(action).to.deep.equal({
         type,
-        body: payload
+        payload: foobar
       });
     });
 
     it('uses identity function if actionCreator is not a function', () => {
-      expect(createAction(type)(payload)).to.deep.equal({
+      expect(createAction(type)(foobar)).to.deep.equal({
         type,
-        body: payload
+        payload: foobar
       });
     });
   });

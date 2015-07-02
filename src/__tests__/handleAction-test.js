@@ -19,9 +19,9 @@ describe('handleAction()', () => {
 
       it('accepts single function as handler', () => {
         const reducer = handleAction(type, (state, action) => ({
-          counter: state.counter + action.body
+          counter: state.counter + action.payload
         }));
-        expect(reducer(prevState, { type, body: 7 }))
+        expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
@@ -39,10 +39,10 @@ describe('handleAction()', () => {
       it('uses `success()` if status is undefined', () => {
         const reducer = handleAction(type, {
           success: (state, action) => ({
-            counter: state.counter + action.body
+            counter: state.counter + action.payload
           })
         });
-        expect(reducer(prevState, { type, body: 7 }))
+        expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
@@ -51,10 +51,10 @@ describe('handleAction()', () => {
       it('uses `success()` if status is "success"', () => {
         const reducer = handleAction(type, {
           success: (state, action) => ({
-            counter: state.counter + action.body
+            counter: state.counter + action.payload
           })
         });
-        expect(reducer(prevState, { type, body: 7, status: 'success' }))
+        expect(reducer(prevState, { type, payload: 7, status: 'success' }))
           .to.deep.equal({
             counter: 10
           });
@@ -63,10 +63,10 @@ describe('handleAction()', () => {
       it('uses `error()` if status is "error"', () => {
         const reducer = handleAction(type, {
           error: (state, action) => ({
-            counter: state.counter + action.body
+            counter: state.counter + action.payload
           })
         });
-        expect(reducer(prevState, { type, body: 7, status: 'error' }))
+        expect(reducer(prevState, { type, payload: 7, status: 'error' }))
           .to.deep.equal({
             counter: 10
           });

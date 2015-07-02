@@ -12,7 +12,7 @@ npm install --save redux-fsa
 
 ### `createAction(type, actionCreator)`
 
-Wraps an action creator so that its return value is the body of a Flux Standard Action. If no action creator is passed, or if the action creator is not a function, the identity function is used.
+Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no action creator is passed, or if the action creator is not a function, the identity function is used.
 
 Example:
 
@@ -23,7 +23,7 @@ increment = createAction('INCREMENT');
 
 expect(increment(42)).to.deep.equal({
   type: 'INCREMENT',
-  body: 42
+  payload: 42
 });
 ```
 
@@ -58,7 +58,7 @@ const reducer = handleActions({
     counter: state.counter + amount.
   }),
 
-  DECREMENT: ({ counter }, { body: amount }) => ({
+  DECREMENT: ({ counter }, { payload: amount }) => ({
     counter: counter - amount
   })
 }, { counter: 0 });

@@ -9,6 +9,6 @@ export default function createAction(type, actionCreator) {
 
   return (...args) => ({
     type,
-    body: finalActionCreator(...args)
+    payload: finalActionCreator(...args)
   });
 }
