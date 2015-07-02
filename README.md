@@ -1,6 +1,9 @@
 redux-fsa
 =========
 
+[![build status](https://img.shields.io/travis/acdlite/redux-fsa/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-fsa)
+[![npm version](https://img.shields.io/npm/v/redux-fsa.svg?style=flat-square)](https://www.npmjs.com/package/redux)
+
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
 ```js
