@@ -1,7 +1,7 @@
 redux-fsa
 =========
 
-[Flux Standard Action](https://github.com/acdlite/flux-standard-action) utlities for Redux.
+[Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
 ```js
 npm install --save redux-fsa
