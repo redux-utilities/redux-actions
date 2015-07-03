@@ -10,7 +10,7 @@ redux-actions
 npm install --save redux-actions
 ```
 
-### `createAction(type, ?actionCreator = Identity)`
+### `createAction(type, actionCreator = Identity)`
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no action creator is passed, or if the action creator is not a function, the identity function is used.
 
