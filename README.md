@@ -1,13 +1,13 @@
-redux-fsa
-=========
+redux-actions
+=============
 
-[![build status](https://img.shields.io/travis/acdlite/redux-fsa/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-fsa)
-[![npm version](https://img.shields.io/npm/v/redux-fsa.svg?style=flat-square)](https://www.npmjs.com/package/redux-fsa)
+[![build status](https://img.shields.io/travis/acdlite/redux-actions/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-actions)
+[![npm version](https://img.shields.io/npm/v/redux-actions.svg?style=flat-square)](https://www.npmjs.com/package/redux-actions)
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
 ```js
-npm install --save redux-fsa
+npm install --save redux-actions
 ```
 
 ### `createAction(type, ?actionCreator = Identity)`
@@ -74,7 +74,7 @@ const reducer = handleActions({
 
 ## Usage with middleware
 
-redux-fsa is useful handy all by itself, however, it's real power comes when you combine it with middleware.
+redux-actions is useful handy all by itself, however, it's real power comes when you combine it with middleware.
 
 The identity form of `createAction` is a great way to create a single action creator that handles multiple payload types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
 
@@ -98,7 +98,7 @@ addTodo(Observable.of(
 
 ## See also
 
-Use redux-fsa in combination with FSA-compliant libraries.
+Use redux-actions in combination with FSA-compliant libraries.
 
 - [redux-promise](https://github.com/acdlite/redux-promise) - Promise middleware
 - [redux-rx](https://github.com/acdlite/redux-rx) - Includes observable middleware.

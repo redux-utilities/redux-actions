@@ -1,5 +1,5 @@
 {
-  "name": "redux-fsa",
+  "name": "redux-actions",
   "version": "0.4.0",
   "description": "Flux Standard Action utlities for Redux",
   "main": "lib/index.js",
