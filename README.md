@@ -82,7 +82,7 @@ The identity form of `createAction` is a great way to create a single action cre
 const addTodo = createAction('ADD_TODO');
 
 // A single reducer...
-handle('ADD_TODO', (state = { todos: [] }, action) => ({
+handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
   ...state,
   todos: state.todos.push(action.payload)
 }));
