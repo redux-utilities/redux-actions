@@ -10,7 +10,7 @@ redux-fsa
 npm install --save redux-fsa
 ```
 
-### `createAction(type, actionCreator)`
+### `createAction(type, ?actionCreator = Identity)`
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no action creator is passed, or if the action creator is not a function, the identity function is used.
 
@@ -25,6 +25,25 @@ expect(increment(42)).to.deep.equal({
   type: 'INCREMENT',
   payload: 42
 });
+```
+
+**NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
+
+Use the identity form to create one-off actions:
+
+```js
+createAction('ADD_TODO')('Use Redux');
+```
+
+The identity form also works well in combination FSA-compliant middleware. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
+
+```js
+const addTodo = createAction('ADD_TODO');
+
+// The following are equivalent
+increment('Use Redux')
+increment(Promise.resolve('Use Redux'));
+increment(Observable.of('Use Redux')).subscribe();
 ```
 
 ### `handleAction(type, reducer | reducerMap)`
