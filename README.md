@@ -35,17 +35,6 @@ Use the identity form to create one-off actions:
 createAction('ADD_TODO')('Use Redux');
 ```
 
-The identity form also works well in combination FSA-compliant middleware. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
-
-```js
-const addTodo = createAction('ADD_TODO');
-
-// The following are equivalent
-increment('Use Redux')
-increment(Promise.resolve('Use Redux'));
-increment(Observable.of('Use Redux')).subscribe();
-```
-
 ### `handleAction(type, reducer | reducerMap)`
 
 Wraps a reducer so that only handles Flux Standard Actions of a certain type.
@@ -83,7 +72,31 @@ const reducer = handleActions({
 }, { counter: 0 });
 ```
 
-## Suggested libraries
+## Usage with middleware
+
+redux-fsa is useful handy all by itself, however, it's real power comes when you combine it with middleware.
+
+The identity form of `createAction` is a great way to create a single action creator that handles multiple types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
+
+```js
+const addTodo = createAction('ADD_TODO');
+
+// A single reducer...
+handle('ADD_TODO', (state = { todos: [] }, action) => ({
+  ...state,
+  todos: state.todos.push(action.payload)
+}));
+
+// ...that works with all of these forms:
+increment('Use Redux')
+increment(Promise.resolve('Weep with joy'));
+increment(Observable.of(
+  'Learn about middleware',
+  'Learn about higher-order stores'
+)).subscribe();
+```
+
+## See also
 
 Use redux-fsa in combination with FSA-compliant libraries.
 
