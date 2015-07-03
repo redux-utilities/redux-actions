@@ -79,7 +79,7 @@ redux-actions is handy all by itself, however, it's real power comes when you co
 The identity form of `createAction` is a great way to create a single action creator that handles multiple payload types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
 
 ```js
-const addTodo = createAction('ADD_TODO');
+let addTodo = createAction('ADD_TODO');
 
 // A single reducer...
 handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
@@ -88,6 +88,8 @@ handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
 }));
 
 // ...that works with all of these forms:
+// (Don't forget to use `bindActionCreators()` or equivalent.
+// I've left that bit out)
 addTodo('Use Redux')
 addTodo(Promise.resolve('Weep with joy'));
 addTodo(Observable.of(
