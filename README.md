@@ -84,7 +84,7 @@ const addTodo = createAction('ADD_TODO');
 // A single reducer...
 handle('ADD_TODO', (state = { todos: [] }, action) => ({
   ...state,
-  todos: state.todos.push(action.payload)
+  todos: [...state.todos, action.payload]
 }));
 
 // ...that works with all of these forms:
