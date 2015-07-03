@@ -1,10 +1,12 @@
-import isFunction from './isFunction';
-
 // Map of action statuses to reducer property names
 const statusMappings = {
   'error': 'error',
   'success': 'success'
 };
+
+function isFunction(val) {
+  return typeof val === 'function';
+}
 
 // Default action status, if none is specified
 const defaultStatus = 'success';
