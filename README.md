@@ -88,9 +88,9 @@ handle('ADD_TODO', (state = { todos: [] }, action) => ({
 }));
 
 // ...that works with all of these forms:
-increment('Use Redux')
-increment(Promise.resolve('Weep with joy'));
-increment(Observable.of(
+addTodo('Use Redux')
+addTodo(Promise.resolve('Weep with joy'));
+addTodo(Observable.of(
   'Learn about middleware',
   'Learn about higher-order stores'
 )).subscribe();
