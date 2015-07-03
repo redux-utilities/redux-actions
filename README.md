@@ -55,11 +55,11 @@ Example:
 ```js
 const reducer = handleActions({
   INCREMENT: (state, action) => ({
-    counter: state.counter + amount.
+    counter: state.counter + action.payload
   }),
 
-  DECREMENT: ({ counter }, { payload: amount }) => ({
-    counter: counter - amount
+  DECREMENT: (state, action) => ({
+    counter: state.counter - action.payload
   })
 }, { counter: 0 });
 ```
