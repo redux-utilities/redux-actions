@@ -76,7 +76,7 @@ const reducer = handleActions({
 
 redux-fsa is useful handy all by itself, however, it's real power comes when you combine it with middleware.
 
-The identity form of `createAction` is a great way to create a single action creator that handles multiple types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
+The identity form of `createAction` is a great way to create a single action creator that handles multiple payload types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
 
 ```js
 const addTodo = createAction('ADD_TODO');
