@@ -15,12 +15,12 @@
   ],
   "author": "Andrew Clark <acdlite@me.com>",
   "bugs": {
-    "url": "https://github.com/acdlite/redux-fsa/issues"
+    "url": "https://github.com/acdlite/redux-actions/issues"
   },
-  "homepage": "https://github.com/acdlite/redux-fsa",
+  "homepage": "https://github.com/acdlite/redux-actions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/acdlite/redux-fsa.git"
+    "url": "https://github.com/acdlite/redux-actions.git"
   },
   "license": "MIT",
   "devDependencies": {
