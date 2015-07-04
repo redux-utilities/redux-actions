@@ -16,7 +16,7 @@ describe('createAction()', () => {
       expect(action.payload).to.equal(foobar);
     });
 
-    it('has `status` nor any extraneous keys', () => {
+    it('has no extraneous keys', () => {
       expect(action).to.deep.equal({
         type,
         payload: foobar
