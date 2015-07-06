@@ -12,7 +12,9 @@ export default function handleAction(type, reducers) {
     const handlerKey = isError(action) ? 'throw' : 'next';
 
     // If function is passed instead of map, use as reducer
-    if (isFunction(reducers)) return reducers(state, action);
+    if (isFunction(reducers)) {
+      reducers.next = reducers;
+    }
 
     // Otherwise, assume an action map was passed
     const reducer = reducers[handlerKey];
