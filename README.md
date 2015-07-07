@@ -39,7 +39,7 @@ createAction('ADD_TODO')('Use Redux');
 
 Wraps a reducer so that only handles Flux Standard Actions of a certain type.
 
-If a single reducer is passed, it is used to handle normal actions. (A normal action is analogous to a resolved promise.) For failed actions(A failed action is analogous to a rejected promise.), it will set a default `throw` function. (only return state.)
+If a single reducer is passed, it is used to handle normal actions. (A normal action is analogous to a resolved promise.) For failed actions(A failed action is analogous to a rejected promise.), it will set a default `throw` function. (do nothing but return state.)
 
 Otherwise, you can specify separate reducers for `next()` and `throw()`. This API is inspired by the ES6 generator interface. (ps. if you do not set `throw` property, it also use the default `throw` function.)
 
