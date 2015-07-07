@@ -4,7 +4,7 @@ function isFunction(val) {
   return typeof val === 'function';
 }
 
-export default function handleAction(type, reducers) {
+export default function handleAsyncAction(type, reducers) {
   return (state, action) => {
     // If action type does not match, return previous state
     if (action.type !== type) return state;
