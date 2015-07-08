@@ -4,8 +4,8 @@ import isPlainObject from 'lodash.isplainobject';
 describe('createAction()', () => {
   describe('resulting action creator', () => {
     const type = 'TYPE';
-    const actionCreator = createAction(type, b => b);
-    const foobar = { foo: 'bar' };
+    const actionCreator = createAction(type, b => b, ({ cid }) => ({cid}));
+    const foobar = { foo: 'bar', cid: 5 };
     const action = actionCreator(foobar);
 
     it('returns plain object', () => {
@@ -19,14 +19,18 @@ describe('createAction()', () => {
     it('has no extraneous keys', () => {
       expect(action).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
+        meta: {
+          cid: 5
+        }
       });
     });
 
-    it('uses identity function if actionCreator is not a function', () => {
+    it('uses identity function if actionCreator and/or metaCreator is not a function', () => {
       expect(createAction(type)(foobar)).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
+        meta: foobar
       });
     });
   });
