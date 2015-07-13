@@ -7,13 +7,14 @@ export default function createAction(type, actionCreator, metaCreator) {
     ? actionCreator
     : identity;
 
-  const finalMetaCreator = typeof metaCreator === 'function'
-    ? metaCreator
-    : identity;
+  return (...args) => {
+    const action = {
+      type,
+      payload: finalActionCreator(...args)
+    };
 
-  return (...args) => ({
-    type,
-    payload: finalActionCreator(...args),
-    meta: finalMetaCreator(...args)
-  });
+    if (typeof metaCreator === 'function') action.meta = metaCreator(...args);
+
+    return action;
+  };
 }
