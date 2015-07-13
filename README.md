@@ -10,9 +10,9 @@ redux-actions
 npm install --save redux-actions
 ```
 
-### `createAction(type, actionCreator = Identity)`
+### `createAction(type, payloadCreator = Identity, ?metaCreator)`
 
-Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no action creator is passed, or if the action creator is not a function, the identity function is used.
+Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no payload creator is passed, or if it's not a function, the identity function is used.
 
 Example:
 
@@ -34,6 +34,8 @@ Use the identity form to create one-off actions:
 ```js
 createAction('ADD_TODO')('Use Redux');
 ```
+
+`metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
 ### `handleAction(type, reducer | reducerMap)`
 
