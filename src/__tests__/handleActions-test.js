@@ -9,7 +9,22 @@ describe('handleActions', () => {
 
       DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
-      })
+      }),
+
+      ASYNC_TEST: {
+        begin: ({ counter}, { payload: amount }) => ({
+          counter: counter + amount * 2
+        }),
+        end: {
+          next: ({ counter}, { payload: amount }) => ({
+            counter: counter + amount * 3
+          }),
+
+          throw: ({ counter}, { payload: amount }) => ({
+            counter: counter + amount * 4
+          })
+        }
+      }
     });
 
     expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
@@ -19,6 +34,19 @@ describe('handleActions', () => {
     expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
       .to.deep.equal({
         counter: 3
+      });
+
+    expect(reducer({ counter: 10 }, { type: 'ASYNC_TEST', payload: 2, meta: { async: 'begin' }}))
+      .to.deep.equal({
+        counter: 14
+      });
+    expect(reducer({ counter: 10 }, { type: 'ASYNC_TEST', payload: 2, meta: { async: 'end' }}))
+      .to.deep.equal({
+        counter: 16
+      });
+    expect(reducer({ counter: 10 }, { type: 'ASYNC_TEST', payload: 2, error: true, meta: { async: 'end' }}))
+      .to.deep.equal({
+        counter: 18
       });
   });
 
