@@ -13,10 +13,11 @@ describe('handleAction()', () => {
 
       it('accepts single function as handler', () => {
         const reducer = handleAction(type, (state, action) => ({
+          ...state,
           counter: state.counter + action.payload
         }));
         expect(reducer(prevState, { type, payload: 7 }))
-          .to.deep.equal({
+          .to.eql({
             counter: 10
           });
       });
@@ -30,14 +31,31 @@ describe('handleAction()', () => {
         expect(reducer(prevState, { type })).to.equal(prevState);
       });
 
+      it('uses `start()` if action signals start of action sequence', () => {
+        const reducer = handleAction(type, {
+          start: (state, action) => ({
+            ...state,
+            pending: [...state.pending, action.sequence.id]
+          })
+        });
+        const initialState = { counter: 3, pending: [] };
+        const action = { type, sequence: { type: 'start', id: 123 } };
+        expect(reducer(initialState, action))
+          .to.eql({
+            counter: 3,
+            pending: [123]
+          });
+      });
+
       it('uses `next()` if action does not represent an error', () => {
         const reducer = handleAction(type, {
           next: (state, action) => ({
+            ...state,
             counter: state.counter + action.payload
           })
         });
         expect(reducer(prevState, { type, payload: 7 }))
-          .to.deep.equal({
+          .to.eql({
             counter: 10
           });
       });
@@ -45,12 +63,29 @@ describe('handleAction()', () => {
       it('uses `throw()` if action represents an error', () => {
         const reducer = handleAction(type, {
           throw: (state, action) => ({
+            ...state,
             counter: state.counter + action.payload
           })
         });
         expect(reducer(prevState, { type, payload: 7, error: true }))
-          .to.deep.equal({
+          .to.eql({
             counter: 10
+          });
+      });
+
+      it('uses `return()` if action signals end of action sequence', () => {
+        const reducer = handleAction(type, {
+          return: (state, action) => ({
+            ...state,
+            pending: state.pending.filter(id => id !== action.sequence.id)
+          })
+        });
+        const initialState = { counter: 3, pending: [123, 456, 789] };
+        const action = { type, sequence: { type: 'return', id: 123 } };
+        expect(reducer(initialState, action))
+          .to.eql({
+            counter: 3,
+            pending: [456, 789]
           });
       });
 
