@@ -3,6 +3,8 @@ function identity(t) {
 }
 
 export default function createAction(type, actionCreator, metaCreator) {
+  if (!type) throw new Error('createAction requires a type as the first argument');
+
   const finalActionCreator = typeof actionCreator === 'function'
     ? actionCreator
     : identity;

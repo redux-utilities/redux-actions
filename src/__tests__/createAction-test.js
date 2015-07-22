@@ -52,4 +52,9 @@ describe('createAction()', () => {
       });
     });
   });
+
+  it('throws an error when it\'s passed undefined as a type', () => {
+    const func = () => createAction();
+    expect(func).to.throw('createAction requires a type as the first argument');
+  });
 });
