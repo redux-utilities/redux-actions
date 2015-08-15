@@ -13,7 +13,14 @@ export default function createAction(type, actionCreator, metaCreator) {
       payload: finalActionCreator(...args)
     };
 
-    if (typeof metaCreator === 'function') action.meta = metaCreator(...args);
+    if (args.length === 1 && args[0] instanceof Error) {
+      // Handle FSA errors where the payload is an Error object. Set error.
+      action.error = true;
+    }
+
+    if (typeof metaCreator === 'function') {
+      action.meta = metaCreator(...args);
+    }
 
     return action;
   };
