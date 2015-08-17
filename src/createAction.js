@@ -2,18 +2,13 @@ function identity(t) {
   return t;
 }
 
-export default function createAction(type, actionCreator, metaCreator) {
-  const finalActionCreator = typeof actionCreator === 'function'
-    ? actionCreator
-    : identity;
-
+export default function createAction(type, actionCreator = identity, metaCreator = () => ({}) ) {
   return (...args) => {
     const action = {
       type,
-      payload: finalActionCreator(...args)
+      payload: actionCreator(...args),
+      meta: metaCreator(...args)
     };
-
-    if (typeof metaCreator === 'function') action.meta = metaCreator(...args);
 
     return action;
   };
