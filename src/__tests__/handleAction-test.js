@@ -60,9 +60,9 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `throw()` if action represents an error', () => {
+      it('uses `error()` if action represents an error', () => {
         const reducer = handleAction(type, {
-          throw: (state, action) => ({
+          error: (state, action) => ({
             ...state,
             counter: state.counter + action.payload
           })
