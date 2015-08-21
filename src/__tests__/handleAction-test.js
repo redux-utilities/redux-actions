@@ -73,15 +73,15 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `return()` if action signals end of action sequence', () => {
+      it('uses `complete()` if action signals end of action sequence', () => {
         const reducer = handleAction(type, {
-          return: (state, action) => ({
+          complete: (state, action) => ({
             ...state,
             pending: state.pending.filter(id => id !== action.sequence.id)
           })
         });
         const initialState = { counter: 3, pending: [123, 456, 789] };
-        const action = { type, sequence: { type: 'return', id: 123 } };
+        const action = { type, sequence: { type: 'complete', id: 123 } };
         expect(reducer(initialState, action))
           .to.eql({
             counter: 3,
