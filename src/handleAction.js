@@ -19,7 +19,16 @@ function getHandlerKey(action) {
 }
 
 export default function handleAction(type, reducers) {
-  return (state, action) => {
+  return (...args) => {
+    if (args.length < 2) {
+      throw new Error(`reducer for ${type} must be called with (state, action, ...extraArgs)`);
+    }
+
+    // Fetch variables manually, destructuring causes unnecessary
+    // loop + extra allocations - https://gist.github.com/tappleby/f1933823c52224870014
+    const state = args[0];
+    const action = args[1];
+
     // If action type does not match, return previous state
     if (action.type !== type) return state;
 
@@ -34,7 +43,7 @@ export default function handleAction(type, reducers) {
     const reducer = reducersMap[handlerKey];
 
     return isFunction(reducer)
-      ? reducer(state, action)
+      ? reducer(...args)
       : state;
   };
 }

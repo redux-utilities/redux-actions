@@ -1,4 +1,5 @@
 import { handleAction } from '../';
+import { spy } from 'sinon';
 
 describe('handleAction()', () => {
   const type = 'TYPE';
@@ -20,6 +21,24 @@ describe('handleAction()', () => {
           .to.eql({
             counter: 10
           });
+      });
+
+      it('passes extract arguments to handler', () => {
+        const reducerSpy = spy();
+        const reducer = handleAction(type, reducerSpy);
+        const action = { type, payload: 7 };
+
+        reducer(prevState, action, 'foo', 'bar');
+
+        expect(reducerSpy.calledWith(prevState, action, 'foo', 'bar')).to.be.ok;
+      });
+
+      it('throws when reducer is called with invalid number of arguments', () => {
+        const reducer = handleAction(type, () => ({}));
+
+        expect(() => {
+          reducer();
+        }).to.throw(/must be called with/);
       });
     });
   });
