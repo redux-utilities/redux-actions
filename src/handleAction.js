@@ -11,7 +11,7 @@ function inArray(array, val) {
 function getHandlerKey(action) {
   if (isError(action)) return 'throw';
 
-  if (action.sequence && inArray(['start', 'return'], action.sequence.type)) {
+  if (action.sequence && inArray(['start', 'complete'], action.sequence.type)) {
     return action.sequence.type;
   }
 
