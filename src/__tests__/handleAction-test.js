@@ -32,14 +32,6 @@ describe('handleAction()', () => {
 
         expect(reducerSpy.calledWith(prevState, action, 'foo', 'bar')).to.be.ok;
       });
-
-      it('throws when reducer is called with invalid number of arguments', () => {
-        const reducer = handleAction(type, () => ({}));
-
-        expect(() => {
-          reducer();
-        }).to.throw(/must be called with/);
-      });
     });
   });
 

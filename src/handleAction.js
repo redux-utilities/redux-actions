@@ -20,10 +20,6 @@ function getHandlerKey(action) {
 
 export default function handleAction(type, reducers) {
   return (...args) => {
-    if (args.length < 2) {
-      throw new Error(`reducer for ${type} must be called with (state, action, ...extraArgs)`);
-    }
-
     // Fetch variables manually, destructuring causes unnecessary
     // loop + extra allocations - https://gist.github.com/tappleby/f1933823c52224870014
     const state = args[0];
