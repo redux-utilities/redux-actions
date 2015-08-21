@@ -23,7 +23,7 @@ describe('handleAction()', () => {
           });
       });
 
-      it('passes extract arguments to handler', () => {
+      it('passes extra arguments to handler', () => {
         const reducerSpy = spy();
         const reducer = handleAction(type, reducerSpy);
         const action = { type, payload: 7 };
