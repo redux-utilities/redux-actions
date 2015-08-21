@@ -31,7 +31,8 @@
     "eslint": "^0.24.0",
     "eslint-config-airbnb": "0.0.6",
     "lodash.isplainobject": "^3.2.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "sinon": "^1.16.1"
   },
   "dependencies": {
     "flux-standard-action": "^0.6.0",

@@ -9,9 +9,9 @@ function inArray(array, val) {
 }
 
 function getHandlerKey(action) {
-  if (isError(action)) return 'throw';
+  if (isError(action)) return 'error';
 
-  if (action.sequence && inArray(['start', 'return'], action.sequence.type)) {
+  if (action.sequence && inArray(['start', 'complete'], action.sequence.type)) {
     return action.sequence.type;
   }
 
@@ -19,7 +19,12 @@ function getHandlerKey(action) {
 }
 
 export default function handleAction(type, reducers) {
-  return (state, action) => {
+  return (...args) => {
+    // Fetch variables manually, destructuring causes unnecessary
+    // loop + extra allocations - https://gist.github.com/tappleby/f1933823c52224870014
+    const state = args[0];
+    const action = args[1];
+
     // If action type does not match, return previous state
     if (action.type !== type) return state;
 
@@ -34,7 +39,7 @@ export default function handleAction(type, reducers) {
     const reducer = reducersMap[handlerKey];
 
     return isFunction(reducer)
-      ? reducer(state, action)
+      ? reducer(...args)
       : state;
   };
 }

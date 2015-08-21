@@ -1,4 +1,5 @@
 import { handleAction } from '../';
+import { spy } from 'sinon';
 
 describe('handleAction()', () => {
   const type = 'TYPE';
@@ -20,6 +21,16 @@ describe('handleAction()', () => {
           .to.eql({
             counter: 10
           });
+      });
+
+      it('passes extra arguments to handler', () => {
+        const reducerSpy = spy();
+        const reducer = handleAction(type, reducerSpy);
+        const action = { type, payload: 7 };
+
+        reducer(prevState, action, 'foo', 'bar');
+
+        expect(reducerSpy.calledWith(prevState, action, 'foo', 'bar')).to.be.ok;
       });
     });
   });
@@ -60,9 +71,9 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `throw()` if action represents an error', () => {
+      it('uses `error()` if action represents an error', () => {
         const reducer = handleAction(type, {
-          throw: (state, action) => ({
+          error: (state, action) => ({
             ...state,
             counter: state.counter + action.payload
           })
@@ -73,15 +84,15 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `return()` if action signals end of action sequence', () => {
+      it('uses `complete()` if action signals end of action sequence', () => {
         const reducer = handleAction(type, {
-          return: (state, action) => ({
+          complete: (state, action) => ({
             ...state,
             pending: state.pending.filter(id => id !== action.sequence.id)
           })
         });
         const initialState = { counter: 3, pending: [123, 456, 789] };
-        const action = { type, sequence: { type: 'return', id: 123 } };
+        const action = { type, sequence: { type: 'complete', id: 123 } };
         expect(reducer(initialState, action))
           .to.eql({
             counter: 3,
