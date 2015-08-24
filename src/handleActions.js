@@ -1,8 +1,9 @@
 import handleAction from './handleAction';
+import ownKeys from './ownKeys';
 import reduceReducers from 'reduce-reducers';
 
 export default function handleActions(handlers, defaultState) {
-  const reducers = Object.keys(handlers).map(type => {
+  const reducers = ownKeys(handlers).map(type => {
     return handleAction(type, handlers[type]);
   });
 

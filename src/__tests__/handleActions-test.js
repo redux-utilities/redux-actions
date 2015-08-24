@@ -22,6 +22,21 @@ describe('handleActions', () => {
       });
   });
 
+  it('works with symbol action types', () => {
+    const INCREMENT = Symbol();
+
+    const reducer = handleActions({
+      [INCREMENT]: ({ counter }, { payload: amount }) => ({
+        counter: counter + amount
+      })
+    });
+
+    expect(reducer({ counter: 3 }, { type: INCREMENT, payload: 7 }))
+      .to.deep.equal({
+        counter: 10
+      });
+  });
+
   it('accepts a default state as the second parameter', () => {
     const reducer = handleActions({
       INCREMENT: ({ counter }, { payload: amount }) => ({
