@@ -43,12 +43,12 @@ Wraps a reducer so that only handles Flux Standard Actions of a certain type.
 
 If a single reducer is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
-Otherwise, you can specify separate reducers for `next()` and `throw()`. This API is inspired by the ES6 generator interface.
+Otherwise, you can specify separate reducers for `next()` and `error()`. This API is inspired by the [ECMAScript observer interface](https://github.com/zenparsing/es-observable#observer).
 
 ```js
 handleAction('FETCH_DATA', {
-  next(state, action) {...}
-  throw(state, action) {...}
+  next(state, action) {...},
+  error(state, action) {...}
 });
 ```
 
