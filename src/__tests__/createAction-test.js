@@ -70,5 +70,16 @@ describe('createAction()', () => {
         payload: foobar
       });
     });
+
+    it('can be used as object key', () => {
+      const actionCreator1 = createAction('TYPE1');
+      const actionCreator2 = createAction('TYPE2');
+      const handlers = {
+        [actionCreator1]: () => {},
+        [actionCreator2]: () => {}
+      };
+      expect(Object.keys(handlers)).to.have.length(2);
+    });
+
   });
 });

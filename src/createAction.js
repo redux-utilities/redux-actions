@@ -2,15 +2,15 @@ function identity(t) {
   return t;
 }
 
-export default function createAction(type, actionCreator, metaCreator) {
-  const finalActionCreator = typeof actionCreator === 'function'
-    ? actionCreator
+export default function createAction(type, payloadCreator, metaCreator) {
+  const finalPayloadCreator = typeof payloadCreator === 'function'
+    ? payloadCreator
     : identity;
 
-  return (...args) => {
+  function actionCreator(...args) {
     const action = {
       type,
-      payload: finalActionCreator(...args)
+      payload: finalPayloadCreator(...args)
     };
 
     if (args.length === 1 && args[0] instanceof Error) {
@@ -23,5 +23,9 @@ export default function createAction(type, actionCreator, metaCreator) {
     }
 
     return action;
-  };
+  }
+
+  actionCreator.toString = () => type;
+
+  return actionCreator;
 }
