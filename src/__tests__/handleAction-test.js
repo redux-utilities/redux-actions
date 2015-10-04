@@ -42,9 +42,9 @@ describe('handleAction()', () => {
           });
       });
 
-      it('uses `throw()` if action represents an error', () => {
+      it('uses `error()` if action represents an error', () => {
         const reducer = handleAction(type, {
-          throw: (state, action) => ({
+          error: (state, action) => ({
             counter: state.counter + action.payload,
           }),
         });
@@ -52,6 +52,34 @@ describe('handleAction()', () => {
           .to.deep.equal({
             counter: 10,
           });
+      });
+
+      it('uses `first()` if action is first from an observer', () => {
+        const reducer = handleAction(type, {
+          first: (state, action) => ({
+            counter: state.counter + action.payload,
+          }),
+        });
+        expect(reducer(prevState, {
+          type, payload: 7,
+          meta: {sequence: 'first' },
+        })).to.deep.equal({
+          counter: 10,
+        });
+      });
+
+      it('uses `complete()` if action last from an observer', () => {
+        const reducer = handleAction(type, {
+          complete: (state, action) => ({
+            counter: state.counter + action.payload,
+          }),
+        });
+        expect(reducer(prevState, {
+          type,
+          payload: 7, meta: {sequence: 'complete' },
+        })).to.deep.equal({
+          counter: 10,
+        });
       });
 
       it('returns previous state if matching handler is not function', () => {
