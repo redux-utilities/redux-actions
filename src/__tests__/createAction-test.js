@@ -1,4 +1,5 @@
 import { createAction } from '../';
+import identity from '../identity';
 import isPlainObject from 'lodash.isplainobject';
 
 describe('createAction()', () => {
@@ -6,26 +7,26 @@ describe('createAction()', () => {
     const type = 'TYPE';
 
     it('returns plain object', () => {
-      const actionCreator = createAction(type, b => b);
+      const actionCreator = createAction(type, identity);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
       expect(isPlainObject(action)).to.be.true;
     });
 
     it('uses return value as payload', () => {
-      const actionCreator = createAction(type, b => b);
+      const actionCreator = createAction(type, identity);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
       expect(action.payload).to.equal(foobar);
     });
 
     it('has no extraneous keys', () => {
-      const actionCreator = createAction(type, b => b);
+      const actionCreator = createAction(type, identity);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
       });
     });
 
@@ -35,7 +36,7 @@ describe('createAction()', () => {
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
       });
     });
 
@@ -47,8 +48,8 @@ describe('createAction()', () => {
         type,
         payload: foobar,
         meta: {
-          cid: 5
-        }
+          cid: 5,
+        },
       });
     });
   });
