@@ -20,6 +20,13 @@ describe('handleAction()', () => {
             counter: 10
           });
       });
+
+      context('when given `defaultState` and called with `undefined`', () => {
+        it('returns a default state', () => {
+          const reducer = handleAction(type, state => state, 'default');
+          expect( reducer(undefined, {}) ).to.equal( 'default' );
+        });
+      });
     });
   });
 
@@ -59,6 +66,13 @@ describe('handleAction()', () => {
         expect(reducer(prevState, { type, payload: 123 })).to.equal(prevState);
         expect(reducer(prevState, { type, payload: 123, error: true }))
           .to.equal(prevState);
+      });
+    });
+
+    context('when given `defaultState` and called with `undefined`', () => {
+      it('returns a default state', () => {
+        const reducer = handleAction(type, { next: (state ) => state }, 'default');
+        expect( reducer(undefined, {}) ).to.equal( 'default' );
       });
     });
   });

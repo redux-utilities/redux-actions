@@ -3,11 +3,11 @@ import ownKeys from './ownKeys';
 import reduceReducers from 'reduce-reducers';
 
 export default function handleActions(handlers, defaultState) {
-  const reducers = ownKeys(handlers).map(type => {
-    return handleAction(type, handlers[type]);
-  });
+  const reducers = ownKeys(handlers).map(type =>
+    handleAction(type, handlers[type])
+  );
 
-  return typeof defaultState !== 'undefined'
-    ? (state = defaultState, action) => reduceReducers(...reducers)(state, action)
-    : reduceReducers(...reducers);
+  const reduction = reduceReducers(...reducers);
+
+  return (state = defaultState, action) => reduction(state, action);
 }
