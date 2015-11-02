@@ -13,11 +13,11 @@ describe('handleAction()', () => {
 
       it('accepts single function as handler', () => {
         const reducer = handleAction(type, (state, action) => ({
-          counter: state.counter + action.payload
+          counter: state.counter + action.payload,
         }));
         expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
-            counter: 10
+            counter: 10,
           });
       });
     });
@@ -33,25 +33,53 @@ describe('handleAction()', () => {
       it('uses `next()` if action does not represent an error', () => {
         const reducer = handleAction(type, {
           next: (state, action) => ({
-            counter: state.counter + action.payload
-          })
+            counter: state.counter + action.payload,
+          }),
         });
         expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
-            counter: 10
+            counter: 10,
           });
       });
 
-      it('uses `throw()` if action represents an error', () => {
+      it('uses `error()` if action represents an error', () => {
         const reducer = handleAction(type, {
-          throw: (state, action) => ({
-            counter: state.counter + action.payload
-          })
+          error: (state, action) => ({
+            counter: state.counter + action.payload,
+          }),
         });
         expect(reducer(prevState, { type, payload: 7, error: true }))
           .to.deep.equal({
-            counter: 10
+            counter: 10,
           });
+      });
+
+      it('uses `first()` if action is first from an observer', () => {
+        const reducer = handleAction(type, {
+          first: (state, action) => ({
+            counter: state.counter + action.payload,
+          }),
+        });
+        expect(reducer(prevState, {
+          type, payload: 7,
+          meta: {sequence: 'first' },
+        })).to.deep.equal({
+          counter: 10,
+        });
+      });
+
+      it('uses `complete()` if action last from an observer', () => {
+        const reducer = handleAction(type, {
+          complete: (state, action) => ({
+            counter: state.counter + action.payload,
+          }),
+        });
+        expect(reducer(prevState, {
+          type,
+          payload: 7, meta: {sequence: 'complete' },
+        })).to.deep.equal({
+          counter: 10,
+        });
       });
 
       it('returns previous state if matching handler is not function', () => {

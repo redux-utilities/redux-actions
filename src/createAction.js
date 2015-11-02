@@ -1,19 +1,33 @@
-function identity(t) {
-  return t;
-}
+/* @flow */
+import identity from './identity';
 
-export default function createAction(type, actionCreator, metaCreator) {
+export type ActionType = string;
+export type Action = {
+  type: ActionType;
+  payload: any;
+  error?: bool;
+  meta?: any;
+};
+type ActionCreator = (...args: any) => Action;
+
+export default function createAction(
+  type: ActionType,
+  actionCreator: Function,
+  metaCreator?: Function
+): ActionCreator {
   const finalActionCreator = typeof actionCreator === 'function'
     ? actionCreator
     : identity;
 
   return (...args) => {
-    const action = {
+    const action: Action = {
       type,
-      payload: finalActionCreator(...args)
+      payload: finalActionCreator(...args),
     };
 
-    if (typeof metaCreator === 'function') action.meta = metaCreator(...args);
+    if (typeof metaCreator === 'function') {
+      action.meta = metaCreator(...args);
+    }
 
     return action;
   };
