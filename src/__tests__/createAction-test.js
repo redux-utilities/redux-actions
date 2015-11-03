@@ -25,7 +25,8 @@ describe('createAction()', () => {
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
+        meta: {}
       });
     });
 
@@ -35,12 +36,13 @@ describe('createAction()', () => {
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
         type,
-        payload: foobar
+        payload: foobar,
+        meta: {}
       });
     });
 
     it('accepts a second parameter for adding meta to object', () => {
-      const actionCreator = createAction(type, null, ({ cid }) => ({ cid }));
+      const actionCreator = createAction(type, undefined, ({ cid }) => ({ cid }));
       const foobar = { foo: 'bar', cid: 5 };
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
