@@ -27,6 +27,23 @@ expect(increment(42)).to.deep.equal({
 });
 ```
 
+If the payload is an instance of an [Error
+object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),
+redux-actions will automatically set ```action.error``` to true.
+
+Example:
+
+```js
+increment = createAction('INCREMENT');
+
+var error = new TypeError('not a number');
+expect(increment(error)).to.deep.equal({
+  type: 'INCREMENT',
+  payload: error,
+  error: true
+});
+```
+
 **NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
 
 Use the identity form to create one-off actions:

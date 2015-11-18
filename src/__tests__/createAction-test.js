@@ -51,5 +51,24 @@ describe('createAction()', () => {
         }
       });
     });
+
+    it('sets error to true if payload is an Error object', () => {
+      const actionCreator = createAction(type);
+      const errObj = new TypeError('this is an error');
+
+      const errAction = actionCreator(errObj);
+      expect(errAction).to.deep.equal({
+        type,
+        payload: errObj,
+        error: true
+      });
+
+      const foobar = { foo: 'bar', cid: 5 };
+      const noErrAction = actionCreator(foobar);
+      expect(noErrAction).to.deep.equal({
+        type,
+        payload: foobar
+      });
+    });
   });
 });
