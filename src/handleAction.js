@@ -13,7 +13,7 @@ export default function handleAction(type, reducers) {
 
     // If function is passed instead of map, use as reducer
     if (isFunction(reducers)) {
-      reducers.next = reducers;
+      reducers.next = reducers.throw = reducers;
     }
 
     // Otherwise, assume an action map was passed
