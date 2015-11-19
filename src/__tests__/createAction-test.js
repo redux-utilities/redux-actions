@@ -70,5 +70,20 @@ describe('createAction()', () => {
         payload: foobar
       });
     });
+
+    it('sets error to true when payloadCreator return an Error object', () => {
+      const errorMsg = 'this is an error';
+      const payloadCreator = (msg) => {
+        return new TypeError(msg);
+      };
+      const actionCreator = createAction(type, payloadCreator);
+
+      const errAction = actionCreator(errorMsg);
+      expect(errAction).to.deep.equal({
+        type,
+        payload: payloadCreator(errorMsg),
+        error: true
+      });
+    });
   });
 });
