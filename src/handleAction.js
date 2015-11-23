@@ -19,7 +19,7 @@ export default function handleAction(type, reducers) {
     // Otherwise, assume an action map was passed
     const reducer = reducers[handlerKey];
 
-    return isFunction(reducer)
+    return isFunction(reducer) && action.payload !== undefined
       ? reducer(state, action)
       : state;
   };
