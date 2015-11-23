@@ -9,6 +9,9 @@ redux-actions
 ```js
 npm install --save redux-actions
 ```
+```js
+import { createAction, handleAction, handleActions } from 'redux-actions';
+```
 
 ### `createAction(type, payloadCreator = Identity, ?metaCreator)`
 
@@ -34,9 +37,9 @@ redux-actions will automatically set ```action.error``` to true.
 Example:
 
 ```js
-increment = createAction('INCREMENT');
+const increment = createAction('INCREMENT');
 
-var error = new TypeError('not a number');
+const error = new TypeError('not a number');
 expect(increment(error)).to.deep.equal({
   type: 'INCREMENT',
   payload: error,
@@ -98,7 +101,7 @@ redux-actions is handy all by itself, however, its real power comes when you com
 The identity form of `createAction` is a great way to create a single action creator that handles multiple payload types. For example, using [redux-promise](https://github.com/acdlite/redux-promise) and [redux-rx](https://github.com/acdlite/redux-rx):
 
 ```js
-let addTodo = createAction('ADD_TODO');
+const addTodo = createAction('ADD_TODO');
 
 // A single reducer...
 handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
