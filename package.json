@@ -7,6 +7,10 @@
     "test": "make test",
     "prepublish": "make clean build"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "keywords": [
     "flux",
     "redux",
