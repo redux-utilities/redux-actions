@@ -70,5 +70,17 @@ describe('createAction()', () => {
         payload: foobar
       });
     });
+
+    it('sets payload only when defined', () => {
+      const action = createAction(type)();
+      expect(action).to.deep.equal({
+        type
+      });
+
+      const explictUndefinedAction = createAction(type)(undefined);
+      expect(explictUndefinedAction).to.deep.equal({
+        type
+      });
+    });
   });
 });
