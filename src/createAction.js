@@ -6,8 +6,7 @@ export default function createAction(type, actionCreator, metaCreator) {
   const finalActionCreator = typeof actionCreator === 'function'
     ? actionCreator
     : identity;
-
-  return (...args) => {
+  let actionHandler = (...args) => {
     const action = {
       type,
       payload: finalActionCreator(...args)
@@ -24,4 +23,8 @@ export default function createAction(type, actionCreator, metaCreator) {
 
     return action;
   };
+
+  actionHandler.toString = () => type;
+
+  return actionHandler;
 }
