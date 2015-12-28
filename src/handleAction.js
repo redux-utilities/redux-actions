@@ -20,7 +20,7 @@ export default function handleAction(type, reducers) {
     const reducer = reducers[handlerKey];
 
     return isFunction(reducer)
-      ? reducer(state, action.payload)
+      ? reducer(state, action.payload, action.meta)
       : state;
   };
 }
