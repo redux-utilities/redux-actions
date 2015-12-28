@@ -8,6 +8,6 @@ export default function handleActions(handlers, defaultState) {
   });
 
   return typeof defaultState !== 'undefined'
-    ? (state = defaultState, action) => reduceReducers(...reducers)(state, action)
+    ? (state = defaultState, action) => reduceReducers(...reducers)(state, action.payload)
     : reduceReducers(...reducers);
 }
