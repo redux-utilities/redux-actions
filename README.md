@@ -84,12 +84,12 @@ Example:
 
 ```js
 const reducer = handleActions({
-  INCREMENT: (state, action) => ({
-    counter: state.counter + action.payload
+  INCREMENT: (state, payload) => ({
+    counter: state.counter + payload
   }),
 
-  DECREMENT: (state, action) => ({
-    counter: state.counter - action.payload
+  DECREMENT: (state, payload) => ({
+    counter: state.counter - payload
   })
 }, { counter: 0 });
 ```
@@ -104,9 +104,9 @@ The identity form of `createAction` is a great way to create a single action cre
 const addTodo = createAction('ADD_TODO');
 
 // A single reducer...
-handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
+handleAction('ADD_TODO', (state = { todos: [] }, payload) => ({
   ...state,
-  todos: [...state.todos, action.payload]
+  todos: [...state.todos, payload]
 }));
 
 // ...that works with all of these forms:
