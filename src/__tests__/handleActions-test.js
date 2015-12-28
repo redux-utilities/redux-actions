@@ -3,11 +3,11 @@ import { handleActions } from '../';
 describe('handleActions', () => {
   it('create a single handler from a map of multiple action handlers', () => {
     const reducer = handleActions({
-      INCREMENT: ({ counter }, { payload: amount }) => ({
+      INCREMENT: ({ counter }, amount) => ({
         counter: counter + amount
       }),
 
-      DECREMENT: ({ counter }, { payload: amount }) => ({
+      DECREMENT: ({ counter }, amount) => ({
         counter: counter - amount
       })
     });
@@ -26,7 +26,7 @@ describe('handleActions', () => {
     const INCREMENT = Symbol();
 
     const reducer = handleActions({
-      [INCREMENT]: ({ counter }, { payload: amount }) => ({
+      [INCREMENT]: ({ counter }, amount) => ({
         counter: counter + amount
       })
     });
@@ -39,11 +39,11 @@ describe('handleActions', () => {
 
   it('accepts a default state as the second parameter', () => {
     const reducer = handleActions({
-      INCREMENT: ({ counter }, { payload: amount }) => ({
+      INCREMENT: ({ counter }, amount) => ({
         counter: counter + amount
       }),
 
-      DECREMENT: ({ counter }, { payload: amount }) => ({
+      DECREMENT: ({ counter }, amount) => ({
         counter: counter - amount
       })
     }, { counter: 3 });
