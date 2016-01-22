@@ -8,8 +8,7 @@
     "prepublish": "make clean build"
   },
   "files": [
-    "src",
-    "lib"
+    "lib/*.js"
   ],
   "keywords": [
     "flux",
