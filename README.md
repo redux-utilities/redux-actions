@@ -74,7 +74,7 @@ handleAction('FETCH_DATA', {
 
 ### `handleActions(reducerMap, ?defaultState)`
 
-Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are the passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
 The optional second parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
 
