@@ -59,7 +59,7 @@ createAction('ADD_TODO')('Use Redux');
 
 ### `handleAction(type, reducer | reducerMap)`
 
-Wraps a reducer so that only handles Flux Standard Actions of a certain type.
+Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
 If a single reducer is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
