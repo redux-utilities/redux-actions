@@ -12,8 +12,8 @@ describe('handleAction()', () => {
       });
 
       it('accepts single function as handler', () => {
-        const reducer = handleAction(type, (state, action) => ({
-          counter: state.counter + action.payload
+        const reducer = handleAction(type, (state, payload) => ({
+          counter: state.counter + payload
         }));
         expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
@@ -32,8 +32,8 @@ describe('handleAction()', () => {
 
       it('uses `next()` if action does not represent an error', () => {
         const reducer = handleAction(type, {
-          next: (state, action) => ({
-            counter: state.counter + action.payload
+          next: (state, payload) => ({
+            counter: state.counter + payload
           })
         });
         expect(reducer(prevState, { type, payload: 7 }))
@@ -44,8 +44,8 @@ describe('handleAction()', () => {
 
       it('uses `throw()` if action represents an error', () => {
         const reducer = handleAction(type, {
-          throw: (state, action) => ({
-            counter: state.counter + action.payload
+          throw: (state, payload) => ({
+            counter: state.counter + payload
           })
         });
         expect(reducer(prevState, { type, payload: 7, error: true }))
