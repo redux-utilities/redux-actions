@@ -12,6 +12,9 @@
     "no-use-before-define": [2, "nofunc"],
     "no-unused-expressions": 0,
     "no-reserved-keys": 0,
-    "space-infix-ops": 0
+    "space-infix-ops": 0,
+    "comma-dangle": 0,
+    "no-param-reassign": 0,
+    "arrow-body-style": 0
   }
 }
