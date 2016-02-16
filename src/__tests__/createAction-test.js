@@ -70,5 +70,17 @@ describe('createAction()', () => {
         payload: foobar
       });
     });
+
+    it('bypasses action and meta creators if payload is an Error object', () => {
+      const actionCreator = createAction(type, () => 'not this', () => 'not this either');
+      const errObj = new TypeError('this is an error');
+
+      const errAction = actionCreator(errObj);
+      expect(errAction).to.deep.equal({
+        type,
+        payload: errObj,
+        error: true
+      });
+    });
   });
 });
