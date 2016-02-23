@@ -55,13 +55,18 @@ describe('createAction()', () => {
     it('sets error to true if payload is an Error object', () => {
       const actionCreator = createAction(type);
       const errObj = new TypeError('this is an error');
-
-      const errAction = actionCreator(errObj);
-      expect(errAction).to.deep.equal({
+      const expectedErrorAction = {
         type,
         payload: errObj,
         error: true
-      });
+      };
+
+      const errAction = actionCreator(errObj);
+      expect(errAction).to.deep.equal(expectedErrorAction);
+
+      const originalActionContext = { query: { offset: 10, count: 5 } };
+      const otherErrAction = actionCreator(errObj, originalActionContext);
+      expect(otherErrAction).to.deep.equal(expectedErrorAction);
 
       const foobar = { foo: 'bar', cid: 5 };
       const noErrAction = actionCreator(foobar);
