@@ -1,5 +1,5 @@
 {
-  "extends": "eslint-config-airbnb",
+  "extends": "airbnb-base",
   "env": {
     "mocha": true,
     "node": true
@@ -8,9 +8,11 @@
     "expect": true
   },
   "rules": {
+    "comma-dangle": [2, "never"],
     "padded-blocks": 0,
     "no-use-before-define": [2, "nofunc"],
     "no-unused-expressions": 0,
+    "no-param-reassign": 0,
     "no-reserved-keys": 0,
     "space-infix-ops": 0
   }
