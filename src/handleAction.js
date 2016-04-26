@@ -1,5 +1,3 @@
-import { isError } from 'flux-standard-action';
-
 function isFunction(val) {
   return typeof val === 'function';
 }
@@ -9,7 +7,7 @@ export default function handleAction(type, reducers) {
     // If action type does not match, return previous state
     if (action.type !== type) return state;
 
-    const handlerKey = isError(action) ? 'throw' : 'next';
+    const handlerKey = action.error === true ? 'throw' : 'next';
 
     // If function is passed instead of map, use as reducer
     if (isFunction(reducers)) {
