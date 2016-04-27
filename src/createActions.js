@@ -4,7 +4,7 @@ import camelize from './camelize';
 
 // creates a map of camelized actionTypes to the corresponding actions
 export default function createActions (actionTypes, transform = camelize) {
-  return Object.keys(actionTypes)
+  return ownKeys(actionTypes)
     .reduce((acc, type) => ({
       ...acc, [transform(type)]: createAction(type)
     }), {});
