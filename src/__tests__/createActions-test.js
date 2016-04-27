@@ -1,4 +1,4 @@
-import { createAction, createActions } from '../';
+import { createActions } from '../';
 
 describe('createActions()', () => {
   describe('resulting action creator map', () => {
