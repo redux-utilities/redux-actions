@@ -1,9 +1,6 @@
 import ownKeys from './ownKeys';
 import createAction from './createAction';
-
-// MY_CONSTANT_NAME => myConstantName
-const camelize = s => s.toLowerCase()
-                       .replace(/_\w/g, x => x[1].toUpperCase());
+import camelize from './camelize';
 
 // creates a map of camelized actionTypes to the corresponding actions
 export default function createActions (actionTypes, transform = camelize) {
