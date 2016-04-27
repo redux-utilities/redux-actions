@@ -9,27 +9,21 @@ describe('createActions()', () => {
 
     it(`apply a default string transformation function to action types
         when mapping to action creators`, () => {
-      const actual = createActions(types);
-      const expected = {
-        action: createAction(types.ACTION),
-        myLongAction: createAction(types.MY_LONG_ACTION)
-      };
+      const actionCreators = createActions(types);
 
-      expect(actual).to.deep.equal(expected);
+      expect(actionCreators).to.have.property('action');
+      expect(actionCreators).to.have.property('myLongAction');
     });
 
     it(`may apply a string transformation function to action types
         when mapping to action creators`, () => {
       // upper snake case to kebab case
-      const kebabize = s => s.toLowerCase().replace('_', '-');
+      const kebabize = s => s.toLowerCase().replace(/_/g, '-');
 
-      const actual = createActions(types, kebabize);
-      const expected = {
-        action: createAction(types.ACTION),
-        'my-long-action': createAction(types.MY_LONG_ACTION)
-      };
+      const actionCreators = createActions(types, kebabize);
 
-      expect(actual).to.deep.equal(expected);
+      expect(actionCreators).to.have.property('action');
+      expect(actionCreators).to.have.property('my-long-action');
     });
   });
 });
