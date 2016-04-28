@@ -1,25 +1,18 @@
 import { createAction } from '../';
-import isPlainObject from 'lodash.isplainobject';
+import { isFSA } from 'flux-standard-action';
 
 describe('createAction()', () => {
   describe('resulting action creator', () => {
     const type = 'TYPE';
 
-    it('returns plain object', () => {
+    it('returns a valid FSA', () => {
       const actionCreator = createAction(type, b => b);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
-      expect(isPlainObject(action)).to.be.true;
+      expect(isFSA(action)).to.be.true;
     });
 
     it('uses return value as payload', () => {
-      const actionCreator = createAction(type, b => b);
-      const foobar = { foo: 'bar' };
-      const action = actionCreator(foobar);
-      expect(action.payload).to.equal(foobar);
-    });
-
-    it('has no extraneous keys', () => {
       const actionCreator = createAction(type, b => b);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
@@ -37,6 +30,7 @@ describe('createAction()', () => {
         type,
         payload: foobar
       });
+      expect(isFSA(action)).to.be.true;
     });
 
     it('accepts a second parameter for adding meta to object', () => {
@@ -50,6 +44,7 @@ describe('createAction()', () => {
           cid: 5
         }
       });
+      expect(isFSA(action)).to.be.true;
     });
 
     it('sets error to true if payload is an Error object', () => {
@@ -62,6 +57,7 @@ describe('createAction()', () => {
         payload: errObj,
         error: true
       });
+      expect(isFSA(errAction)).to.be.true;
 
       const foobar = { foo: 'bar', cid: 5 };
       const noErrAction = actionCreator(foobar);
@@ -69,6 +65,7 @@ describe('createAction()', () => {
         type,
         payload: foobar
       });
+      expect(isFSA(noErrAction)).to.be.true;
     });
   });
 });

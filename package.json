@@ -38,10 +38,10 @@
     "eslint-config-airbnb-base": "^1.0.3",
     "eslint-plugin-import": "^1.5.0",
     "lodash.isplainobject": "^3.2.0",
+    "flux-standard-action": "^0.6.0",
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "flux-standard-action": "^0.6.0",
     "reduce-reducers": "^0.1.0"
   }
 }
