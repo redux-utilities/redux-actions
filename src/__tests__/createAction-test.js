@@ -67,5 +67,10 @@ describe('createAction()', () => {
       });
       expect(isFSA(noErrAction)).to.be.true;
     });
+
+    it('contains the type in the "type" property', () => {
+      const actionCreator = createAction(type, b => b);
+      expect(actionCreator.type).to.equal(type);
+    })
   });
 });

@@ -7,7 +7,7 @@ export default function createAction(type, actionCreator, metaCreator) {
     ? actionCreator
     : identity;
 
-  return (...args) => {
+  const generatedActionCreator = (...args) => {
     const action = {
       type,
       payload: finalActionCreator(...args)
@@ -24,4 +24,9 @@ export default function createAction(type, actionCreator, metaCreator) {
 
     return action;
   };
+  Object.defineProperty(generatedActionCreator, 'type', {
+    value: type,
+    writable: false
+  });
+  return generatedActionCreator;
 }

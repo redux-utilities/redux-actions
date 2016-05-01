@@ -24,6 +24,7 @@ let increment = createAction('INCREMENT', amount => amount);
 // same as
 increment = createAction('INCREMENT');
 
+expect(increment.type).to.equal('INCREMENT')
 expect(increment(42)).to.deep.equal({
   type: 'INCREMENT',
   payload: 42
