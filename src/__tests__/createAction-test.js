@@ -67,5 +67,18 @@ describe('createAction()', () => {
       });
       expect(isFSA(noErrAction)).to.be.true;
     });
+
+    it('sets error to true if payload is an Error object and meta is provided', () => {
+      const actionCreator = createAction(type, null, (_, meta) => meta);
+      const errObj = new TypeError('this is an error');
+
+      const errAction = actionCreator(errObj, { foo: 'bar' });
+      expect(errAction).to.deep.equal({
+        type,
+        payload: errObj,
+        error: true,
+        meta: { foo: 'bar' }
+      });
+    });
   });
 });
