@@ -52,25 +52,6 @@ describe('createAction()', () => {
       });
     });
 
-    it('sets error to true if payload is an Error object', () => {
-      const actionCreator = createAction(type);
-      const errObj = new TypeError('this is an error');
-
-      const errAction = actionCreator(errObj);
-      expect(errAction).to.deep.equal({
-        type,
-        payload: errObj,
-        error: true
-      });
-
-      const foobar = { foo: 'bar', cid: 5 };
-      const noErrAction = actionCreator(foobar);
-      expect(noErrAction).to.deep.equal({
-        type,
-        payload: foobar
-      });
-    });
-
     it('sets payload only when defined', () => {
       const action = createAction(type)();
       expect(action).to.deep.equal({
@@ -80,6 +61,20 @@ describe('createAction()', () => {
       const explictUndefinedAction = createAction(type)(undefined);
       expect(explictUndefinedAction).to.deep.equal({
         type
+      });
+
+      const explictNullAction = createAction(type)(null);
+      expect(explictNullAction).to.deep.equal({
+        type
+      });
+
+      let baz = '1';
+      const actionCreator = createAction(type, null, () => ({bar: baz}));
+      expect(actionCreator()).to.deep.equal({
+        type,
+        meta: {
+          bar: '1'
+        }
       });
     });
   });
