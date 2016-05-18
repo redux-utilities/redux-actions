@@ -57,9 +57,9 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
-### `handleAction(type, reducer | reducerMap)`
+### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
-Wraps a reducer so that only handles Flux Standard Actions of a certain type.
+Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
 If a single reducer is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
@@ -72,9 +72,11 @@ handleAction('FETCH_DATA', {
 });
 ```
 
+The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+
 ### `handleActions(reducerMap, ?defaultState)`
 
-Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are the passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
 The optional second parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
 
