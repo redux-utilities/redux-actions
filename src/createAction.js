@@ -13,7 +13,7 @@ export default function createAction(type, actionCreator, metaCreator) {
     };
 
     const payload = finalActionCreator(...args);
-    if (payload) {
+    if (!(payload === null || payload === undefined)) {
       action.payload = payload;
     }
 

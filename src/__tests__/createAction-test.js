@@ -105,6 +105,16 @@ describe('createAction()', () => {
           bar: '1'
         }
       });
+
+      const validPayload = [false, 0, ''];
+      for (let i = 0; i < validPayload.length; i++) {
+        const validValue = validPayload[i];
+        const expectPayload = createAction(type)(validValue);
+        expect(expectPayload).to.deep.equal({
+          type,
+          payload: validValue
+        });
+      }
     });
   });
 });
