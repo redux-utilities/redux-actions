@@ -6,7 +6,7 @@ export default function createAction(type, actionCreator, metaCreator) {
   const finalActionCreator = typeof actionCreator === 'function'
     ? actionCreator
     : identity;
-  let actionHandler = (...args) => {
+  const actionHandler = (...args) => {
     const action = {
       type,
       payload: finalActionCreator(...args)
