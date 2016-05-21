@@ -12,7 +12,7 @@ export default function createAction(type, actionCreator, metaCreator) {
       payload: finalActionCreator(...args)
     };
 
-    if (args.length === 1 && args[0] instanceof Error) {
+    if (action.payload instanceof Error) {
       // Handle FSA errors where the payload is an Error object. Set error.
       action.error = true;
     }
