@@ -40,7 +40,7 @@ describe('handleAction()', () => {
             counter: 10
           });
       });
-      
+
       it('accepts single function as handler and a default state', () => {
         const reducer = handleAction(type, (state, action) => ({
           counter: state.counter + action.payload
