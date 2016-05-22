@@ -3,9 +3,13 @@ function isFunction(val) {
 }
 
 export default function handleAction(type, reducers, defaultState) {
+  const typeValue = isFunction(type)
+    ? type.toString()
+    : type;
+
   return (state = defaultState, action) => {
     // If action type does not match, return previous state
-    if (action.type !== type) return state;
+    if (action.type !== typeValue) return state;
 
     const handlerKey = action.error === true ? 'throw' : 'next';
 

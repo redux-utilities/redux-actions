@@ -6,8 +6,7 @@ export default function createAction(type, actionCreator, metaCreator) {
   const finalActionCreator = typeof actionCreator === 'function'
     ? actionCreator
     : identity;
-
-  return (...args) => {
+  const actionHandler = (...args) => {
     const action = {
       type
     };
@@ -28,4 +27,8 @@ export default function createAction(type, actionCreator, metaCreator) {
 
     return action;
   };
+
+  actionHandler.toString = () => type;
+
+  return actionHandler;
 }
