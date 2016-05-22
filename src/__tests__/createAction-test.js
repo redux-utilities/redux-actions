@@ -80,5 +80,41 @@ describe('createAction()', () => {
         meta: { foo: 'bar' }
       });
     });
+
+    it('sets payload only when defined', () => {
+      const action = createAction(type)();
+      expect(action).to.deep.equal({
+        type
+      });
+
+      const explictUndefinedAction = createAction(type)(undefined);
+      expect(explictUndefinedAction).to.deep.equal({
+        type
+      });
+
+      const explictNullAction = createAction(type)(null);
+      expect(explictNullAction).to.deep.equal({
+        type
+      });
+
+      const baz = '1';
+      const actionCreator = createAction(type, null, () => ({ bar: baz }));
+      expect(actionCreator()).to.deep.equal({
+        type,
+        meta: {
+          bar: '1'
+        }
+      });
+
+      const validPayload = [false, 0, ''];
+      for (let i = 0; i < validPayload.length; i++) {
+        const validValue = validPayload[i];
+        const expectPayload = createAction(type)(validValue);
+        expect(expectPayload).to.deep.equal({
+          type,
+          payload: validValue
+        });
+      }
+    });
   });
 });

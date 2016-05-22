@@ -9,9 +9,13 @@ export default function createAction(type, actionCreator, metaCreator) {
 
   return (...args) => {
     const action = {
-      type,
-      payload: finalActionCreator(...args)
+      type
     };
+
+    const payload = finalActionCreator(...args);
+    if (!(payload === null || payload === undefined)) {
+      action.payload = payload;
+    }
 
     if (action.payload instanceof Error) {
       // Handle FSA errors where the payload is an Error object. Set error.
