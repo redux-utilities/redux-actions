@@ -7,20 +7,31 @@ export default function createAction(type, actionCreator, metaCreator) {
     ? actionCreator
     : identity;
 
-  return (...args) => {
-    const hasError = args.length === 1 && args[0] instanceof Error;
+  const actionHandler = (...args) => {
+    const hasError = args[0] instanceof Error;
 
     const action = {
-      type,
-      payload: hasError ? args[0] : finalActionCreator(...args)
+      type
     };
 
+    const payload = hasError ? args[0] : finalActionCreator(...args);
+    if (!(payload === null || payload === undefined)) {
+      action.payload = payload;
+    }
+
     if (hasError) {
+      // Handle FSA errors where the payload is an Error object. Set error.
       action.error = true;
-    } else if (typeof metaCreator === 'function') {
+    }
+
+    if (typeof metaCreator === 'function') {
       action.meta = metaCreator(...args);
     }
 
     return action;
   };
+
+  actionHandler.toString = () => type;
+
+  return actionHandler;
 }

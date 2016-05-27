@@ -1,4 +1,4 @@
-import { handleAction } from '../';
+import { handleAction, createAction } from '../';
 
 describe('handleAction()', () => {
   const type = 'TYPE';
@@ -11,11 +11,41 @@ describe('handleAction()', () => {
         expect(reducer(prevState, { type })).to.equal(prevState);
       });
 
+      it('returns default state if type does not match', () => {
+        const reducer = handleAction('NOTTYPE', () => null, { counter: 7 });
+        expect(reducer(undefined, { type }))
+          .to.deep.equal({
+            counter: 7
+          });
+      });
+
       it('accepts single function as handler', () => {
         const reducer = handleAction(type, (state, action) => ({
           counter: state.counter + action.payload
         }));
         expect(reducer(prevState, { type, payload: 7 }))
+          .to.deep.equal({
+            counter: 10
+          });
+      });
+
+      it('accepts action function as action type', () => {
+        const incrementAction = createAction(type);
+        const reducer = handleAction(incrementAction, (state, action) => ({
+          counter: state.counter + action.payload
+        }));
+
+        expect(reducer(prevState, incrementAction(7)))
+          .to.deep.equal({
+            counter: 10
+          });
+      });
+
+      it('accepts single function as handler and a default state', () => {
+        const reducer = handleAction(type, (state, action) => ({
+          counter: state.counter + action.payload
+        }), { counter: 3 });
+        expect(reducer(undefined, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
