@@ -47,6 +47,27 @@ expect(increment(error)).to.deep.equal({
 });
 ```
 
+`createAction` also returns its `type` when used as type in `handleAction` or `handleActions`.
+
+Example:
+
+```js
+const increment = createAction('INCREMENT');
+
+// As parameter in handleAction:
+handleAction(increment, {
+  next(state, action) {...}
+  throw(state, action) {...}
+});
+
+// As object key in handleActions:
+const reducer = handleActions({
+  [increment]: (state, action) => ({
+    counter: state.counter + action.payload
+  })
+}, { counter: 0 });
+```
+
 **NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
 
 Use the identity form to create one-off actions:
