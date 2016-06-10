@@ -143,6 +143,30 @@ addTodo(Observable.of(
 )).subscribe();
 ```
 
+
+## Note
+
+If you use Redux Actions in CommonJS environment, **don’t forget to add `.default` to your import**.
+
+```diff
+- var ReduxActions = require('redux-actions')
++ var ReduxActions = require('redux-actions').default
+```
+
+If your environment support es modules just go by:
+
+```js
+import ReduxActions from 'redux-actions';
+```
+
+We are also supporting UMD build:
+
+```js
+var ReduxActions = window.ReduxActions.default;
+```
+
+**once again `.default` is required.**
+
 ## See also
 
 Use redux-actions in combination with FSA-compliant libraries.
