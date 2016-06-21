@@ -116,5 +116,18 @@ describe('createAction()', () => {
         });
       }
     });
+
+    it('bypasses action creators if payload is an Error object', () => {
+      const actionCreator = createAction(type, () => 'not this', (_, meta) => meta);
+      const errObj = new TypeError('this is an error');
+
+      const errAction = actionCreator(errObj, { foo: 'bar' });
+      expect(errAction).to.deep.equal({
+        type,
+        payload: errObj,
+        error: true,
+        meta: { foo: 'bar' }
+      });
+    });
   });
 });
