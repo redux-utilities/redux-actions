@@ -13,7 +13,7 @@ npm install --save redux-actions
 import { createAction, handleAction, handleActions } from 'redux-actions';
 ```
 
-## Note
+### Note
 
 We are also supporting a UMD build:
 
