@@ -56,7 +56,7 @@ const increment = createAction('INCREMENT');
 
 // As parameter in handleAction:
 handleAction(increment, {
-  next(state, action) {...}
+  next(state, action) {...},
   throw(state, action) {...}
 });
 
@@ -88,7 +88,7 @@ Otherwise, you can specify separate reducers for `next()` and `throw()`. This AP
 
 ```js
 handleAction('FETCH_DATA', {
-  next(state, action) {...}
+  next(state, action) {...},
   throw(state, action) {...}
 });
 ```
