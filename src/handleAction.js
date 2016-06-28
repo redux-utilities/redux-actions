@@ -7,19 +7,14 @@ export default function handleAction(type, reducers, defaultState) {
     ? type.toString()
     : type;
 
+  const nextReducer = isFunction(reducers) ? reducers : reducers.next;
+  const throwReducer = isFunction(reducers) ? reducers : reducers.throw;
+
   return (state = defaultState, action) => {
     // If action type does not match, return previous state
     if (action.type !== typeValue) return state;
 
-    const handlerKey = action.error === true ? 'throw' : 'next';
-
-    // If function is passed instead of map, use as reducer
-    if (isFunction(reducers)) {
-      reducers.next = reducers.throw = reducers;
-    }
-
-    // Otherwise, assume an action map was passed
-    const reducer = reducers[handlerKey];
+    const reducer = action.error === true ? throwReducer : nextReducer;
 
     return isFunction(reducer)
       ? reducer(state, action)
