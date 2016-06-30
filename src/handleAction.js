@@ -12,7 +12,9 @@ export default function handleAction(type, reducers, defaultState) {
     : [reducers.next, reducers.throw];
 
   if (nextReducer === undefined || throwReducer === undefined) {
-    throw TypeError("reducers argument must be either a function or an object of shape {next, throw}");
+    throw new TypeError(
+      'reducers argument must be either a function or an object of shape {next, throw}'
+    );
   }
 
   return (state = defaultState, action) => {
