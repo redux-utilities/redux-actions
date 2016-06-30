@@ -7,8 +7,9 @@ export default function handleAction(type, reducers, defaultState) {
     ? type.toString()
     : type;
 
-  const nextReducer = isFunction(reducers) ? reducers : reducers.next;
-  const throwReducer = isFunction(reducers) ? reducers : reducers.throw;
+  const [nextReducer, throwReducer] = isFunction(reducers)
+    ? [reducers, reducers]
+    : [reducers.next, reducers.throw];
 
   return (state = defaultState, action) => {
     // If action type does not match, return previous state
