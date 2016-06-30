@@ -5,11 +5,13 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "make test",
+    "test-typings": "make test-typings",
     "prepublish": "make clean build"
   },
   "files": [
     "lib/*.js"
   ],
+  "typings": "./redux-actions.d.ts",
   "keywords": [
     "flux",
     "redux",

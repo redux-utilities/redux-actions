@@ -15,6 +15,10 @@ clean:
 test: lint
 	NODE_ENV=test $(BIN)/mocha $(MOCHA_ARGS) $(MOCHA_TARGET)
 
+test-typings:
+	if [ ! -f $(BIN)/tsc ]; then npm install typescript; fi
+	$(BIN)/tsc --noEmit --noImplicitAny src/__tests__/typescript-typings-test.ts
+
 test-watch: lint
 	NODE_ENV=test $(BIN)/mocha $(MOCHA_ARGS) -w $(MOCHA_TARGET)
 
