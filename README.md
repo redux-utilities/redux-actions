@@ -93,6 +93,15 @@ handleAction('FETCH_DATA', {
 });
 ```
 
+If you leave either reducer unspecified, the wrapped reducer will treat that reducer as a no-op, returning the state unchanged.
+
+```js
+handleAction('FETCH_DATA', {
+  next(state, action) {...}
+  // State will be unchanged in the event of an error
+});
+```
+
 The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
 
 ### `handleActions(reducerMap, ?defaultState)`
