@@ -2,6 +2,10 @@ function isFunction(val) {
   return typeof val === 'function';
 }
 
+function coerceReducer(reducer) {
+  return isFunction(reducer) ? reducer : (state, action) => state
+}
+
 export default function handleAction(type, reducers, defaultState) {
   const typeValue = isFunction(type)
     ? type.toString()
@@ -9,13 +13,8 @@ export default function handleAction(type, reducers, defaultState) {
 
   const [nextReducer, throwReducer] = isFunction(reducers)
     ? [reducers, reducers]
-    : [reducers.next, reducers.throw];
-
-  if (nextReducer === undefined || throwReducer === undefined) {
-    throw new TypeError(
-      'reducers argument must be either a function or an object of shape {next, throw}'
-    );
-  }
+    : [reducers.next, reducers.throw].map(coerceReducer);
+  // TODO: warn if both reducers are not functions; that would make this a no-op reducer.
 
   return (state = defaultState, action) => {
     // If action type does not match, return previous state
@@ -23,8 +22,6 @@ export default function handleAction(type, reducers, defaultState) {
 
     const reducer = action.error === true ? throwReducer : nextReducer;
 
-    return isFunction(reducer)
-      ? reducer(state, action)
-      : state;
+    return reducer(state, action)
   };
 }
