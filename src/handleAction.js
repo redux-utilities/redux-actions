@@ -3,7 +3,7 @@ function isFunction(val) {
 }
 
 function coerceReducer(reducer) {
-  return isFunction(reducer) ? reducer : (state, action) => state
+  return isFunction(reducer) ? reducer : state => state;
 }
 
 export default function handleAction(type, reducers, defaultState) {
@@ -22,6 +22,6 @@ export default function handleAction(type, reducers, defaultState) {
 
     const reducer = action.error === true ? throwReducer : nextReducer;
 
-    return reducer(state, action)
+    return reducer(state, action);
   };
 }
