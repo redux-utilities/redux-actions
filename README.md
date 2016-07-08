@@ -82,15 +82,15 @@ createAction('ADD_TODO')('Use Redux');
 
 Create multiple actions and return an object mapping from the type to the actionCreator. This eliminates some of the repetitiveness when creating many actions.
 
-If actionMap is provided as first argument, an action will be created for each item in the map. The key will be used for the type. The value will be treated as follows:
+If `actionMap` is provided as first argument, an action will be created for each item in the map. The key will be used for the type. The value will be treated as follows:
 
  - if value is a function then it will be assumed to be the payloadCreator function
  - if value is an object then it will accept as its keys payload and meta, both of which are functions that will serve as they payloadCreator and/or metaCreator. If payloadCreator is missing the default payloadCreator is used. If metaCreator is missing then it will not use one.
  - otherwise create a default actionCreator for the key type
 
-If an array of string is provided as arrayDefTypes it will be used to create default actionCreators using the string for the action type.
+If an array of string is provided as `arrayDefTypes` it will be used to create default actionCreators using the string for the action type.
 
-If an optionMap object is supplied as last argument then it will adjust the options createActions uses in operation:
+If an `optionMap` object is supplied as last argument then it will adjust the options createActions uses in operation:
 
  - `prefix` - string, prefix all action types with this prefix, default ''
 
