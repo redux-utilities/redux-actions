@@ -2,9 +2,9 @@ function identity(t) {
   return t;
 }
 
-export default function createAction(type, actionCreator, metaCreator) {
-  const finalActionCreator = typeof actionCreator === 'function'
-    ? actionCreator
+export default function createAction(type, payloadCreator, metaCreator) {
+  const finalPayloadCreator = typeof payloadCreator === 'function'
+    ? payloadCreator
     : identity;
 
   const actionHandler = (...args) => {
@@ -14,7 +14,7 @@ export default function createAction(type, actionCreator, metaCreator) {
       type
     };
 
-    const payload = hasError ? args[0] : finalActionCreator(...args);
+    const payload = hasError ? args[0] : finalPayloadCreator(...args);
     if (!(payload === null || payload === undefined)) {
       action.payload = payload;
     }

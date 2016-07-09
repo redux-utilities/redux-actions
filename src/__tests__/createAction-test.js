@@ -22,7 +22,7 @@ describe('createAction()', () => {
       });
     });
 
-    it('uses identity function if actionCreator is not a function', () => {
+    it('uses identity function if payloadCreator is not a function', () => {
       const actionCreator = createAction(type);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
@@ -117,7 +117,7 @@ describe('createAction()', () => {
       }
     });
 
-    it('bypasses action creators if payload is an Error object', () => {
+    it('bypasses payloadCreator if payload is an Error object', () => {
       const actionCreator = createAction(type, () => 'not this', (_, meta) => meta);
       const errObj = new TypeError('this is an error');
 
