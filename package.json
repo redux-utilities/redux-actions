@@ -9,7 +9,7 @@
     "lint": "esw . --color",
     "lint:watch": "npm run lint -- --watch",
     "prepublish": "npm run lint && npm run test && npm run build",
-    "test": "mocha --compilers js:babel-register --require test/init.js src/**/*-test.js",
+    "test": "mocha --compilers js:babel-register src/**/*-test.js",
     "test:watch": "npm run test -- --watch src/**/*-test.js"
   },
   "files": [

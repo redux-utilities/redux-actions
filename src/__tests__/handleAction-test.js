@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { handleAction, createAction } from '../';
 
 describe('handleAction()', () => {
