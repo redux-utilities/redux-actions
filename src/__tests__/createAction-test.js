@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { createAction } from '../';
 import { isFSA } from 'flux-standard-action';
 
