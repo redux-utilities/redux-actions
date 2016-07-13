@@ -16,15 +16,15 @@ export default function handleAction(type, reducers, defaultState) {
     : [reducers.next, reducers.throw];
   // TODO: warn if both reducers are undefined or identity; that would make this a no-op reducer.
 
-  // TODO: relace this kludge with flow or some other proper type checker. 
+  // TODO: relace this kludge with flow or some other proper type checker.
   if (!isFunction(nextReducer)) {
     throw new TypeError(
-      "If given, reducers or reducers.next must be a function (got " + nextReducer + ")"
+      `If given, reducers or reducers.next must be a function (got ${nextReducer})`
     );
   }
   if (!isFunction(throwReducer)) {
     throw new TypeError(
-      "If given, reducers or reducers.throw must be a function (got " + throwReducer + ")"
+      `If given, reducers or reducers.throw must be a function (got ${throwReducer})`
     );
   }
 
