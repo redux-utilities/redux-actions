@@ -93,6 +93,8 @@ handleAction('FETCH_DATA', {
 });
 ```
 
+If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer.
+
 The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
 
 ### `handleActions(reducerMap, ?defaultState)`
