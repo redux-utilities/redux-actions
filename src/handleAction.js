@@ -1,7 +1,7 @@
-import isFunction from 'lodash/isfunction';
+import isFunction from 'lodash/isFunction';
 import identity from 'lodash/identity';
-import isNil from 'lodash/isnil';
-import isSymbol from 'lodash/issymbol';
+import isNil from 'lodash/isNil';
+import isSymbol from 'lodash/isSymbol';
 
 export default function handleAction(type, reducers, defaultState) {
   const typeValue = isSymbol(type)
