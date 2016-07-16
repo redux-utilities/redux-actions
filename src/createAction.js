@@ -1,4 +1,4 @@
-import identity from 'lodash.identity';
+import identity from 'lodash/identity';
 
 export default function createAction(type, payloadCreator, metaCreator) {
   const finalPayloadCreator = typeof payloadCreator === 'function'
