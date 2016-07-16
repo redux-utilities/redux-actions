@@ -15,7 +15,7 @@ import { createAction, handleAction, handleActions } from 'redux-actions';
 
 ### Note
 
-We are also supporting a UMD build:
+We are also supporting a [UMD build](https://npmcdn.com/redux-actions/dist/redux-actions.min.js)
 
 ```js
 var createAction = window.ReduxActions.createAction;
