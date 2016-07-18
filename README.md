@@ -10,7 +10,7 @@ redux-actions
 npm install --save redux-actions
 ```
 ```js
-import { createAction, handleAction, handleActions } from 'redux-actions';
+import { createAction, createActions, handleAction, handleActions } from 'redux-actions';
 ```
 
 ### `createAction(type, payloadCreator = Identity, ?metaCreator)`
@@ -77,6 +77,117 @@ createAction('ADD_TODO')('Use Redux');
 ```
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
+
+### `createActions(?actionMap, ?arrayDefTypes, ?optionMap)`
+
+Create multiple actions and return an object mapping from the type to the actionCreator. This eliminates some of the repetitiveness when creating many actions.
+
+If `actionMap` is provided as first argument, an action will be created for each item in the map. The key will be used for the type. The value will be treated as follows:
+
+ - if value is a function then it will be assumed to be the payloadCreator function
+ - if value is an object then it will accept as its keys, `payload` and `meta`, both of which are functions that will serve as the payloadCreator and/or metaCreator. If payloadCreator is missing the default payloadCreator is used. If metaCreator is missing then it will not use one.
+ - otherwise create a default actionCreator for the key type
+
+If an array of string is provided as `arrayDefTypes` it will be used to create default actionCreators using the string for the action type.
+
+If an `optionMap` object is supplied as last argument then it will adjust the options createActions uses in operation:
+
+ - `prefix` - string, prefix all action types with this prefix, default ''
+
+#### Example: simple default actions
+
+```js
+import { createActions } from 'redux-actions';
+const a = createActions(['ONE', 'TWO', 'THREE']);
+
+// is equivalent to
+const a = {
+  ONE: createAction('ONE'),
+  TWO: createAction('TWO'),
+  THREE: createAction('THREE')
+;}
+```
+
+#### Example: simple default actions with prefix
+
+```js
+import { createActions } from 'redux-actions';
+const a = createActions(['ONE', 'TWO', 'THREE'], { prefix: 'ns/');
+
+// is equivalent to
+const a = {
+  ONE: createAction('ns/ONE'),
+  TWO: createAction('ns/TWO'),
+  THREE: createAction('ns/THREE')
+;}
+```
+
+#### Example: using actionMap
+
+```js
+import { createActions } from 'redux-actions';
+const a = createActions({
+  ONE: (b, c) => ({ bar: b, cat: c }),  // payload creator
+  TWO: {
+    payload: (d, e) => [d, e]            // payload creator
+    meta: (d, e) => ({ time: Date.now() }) // meta creator
+  },
+  THREE: {
+    meta: f => ({ id: shortid() })
+  }
+});
+
+
+// is equivalent to
+const a = {
+  ONE: createAction('ONE', (b, c) => ({ bar: b, cat: c })),
+  TWO: createAction('TWO',
+                    (d, e) => [d, e],
+                    (d, e) => ({ time: Date.now() })),
+  THREE: createAction('THREE',
+                      undefined,  // used default payload creator
+                      f => ({ id: shortid() }))
+});
+```
+
+#### Example full createActions functionality
+
+```js
+import { createActions } from 'redux-actions';
+const a = createActions(
+  {
+    ONE: (b, c) => ({ bar: b, cat: c }),  // payload creator
+    TWO: {
+      payload: (d, e) => [d, e]            // payload creator
+      meta: (d, e) => ({ time: Date.now() }) // meta creator
+    },
+    THREE: {
+      meta: f => ({ id: shortid() })
+    }
+  }, [ // arrayDefTypes creates defaultActions
+    'FOUR',
+    'FIVE',
+    'SIX'
+  ], {  // options
+    prefix: 'ns/'
+  }
+);
+
+// is equivalent to
+const a = {
+  ONE: createAction('ns/ONE', (b, c) => ({ bar: b, cat: c })),
+  TWO: createAction('ns/TWO',
+                    (d, e) => [d, e],
+                    (d, e) => ({ time: Date.now() })),
+  THREE: createAction('ns/THREE',
+                      undefined,  // used default payload creator
+                      f => ({ id: shortid() })),
+  FOUR: createAction('ns/FOUR'),
+  FIVE: createAction('ns/FIVE'),
+  SIX: createAction('ns/SIX')
+};
+```
+
 
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
