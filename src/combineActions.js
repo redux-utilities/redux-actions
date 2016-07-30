@@ -1,6 +1,7 @@
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import isEmpty from 'lodash/isEmpty';
+import toString from 'lodash/toString';
 
 export const FSA_TYPE_DELIMITER = '|fsa-type-delimiter|';
 
@@ -9,7 +10,7 @@ export default function combineActions(...actions) {
     throw new TypeError('Expected each argument to be a string action type or an action creator');
   }
 
-  const combinedActionsString = actions.map(type => type.toString()).join(FSA_TYPE_DELIMITER);
+  const combinedActionsString = actions.map(toString).join(FSA_TYPE_DELIMITER);
 
   return Object.create(null, {
     toString: {
