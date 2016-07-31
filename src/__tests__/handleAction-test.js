@@ -147,7 +147,7 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 0, threw: true })
     })
     
-    it('should return the previous state if the action type is not any of the combined actions', () => {
+    it('should return previous state if action is not one of the combined actions', () => {
       const reducer = handleAction(
         combineActions('ACTION_1', 'ACTION_2'),
         (state, { payload }) => ({ ...state, state: payload }),
@@ -177,9 +177,12 @@ describe('handleAction()', () => {
         (state, action) => ({ ...state, number: action.payload })
       )
     
-      expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 })
-      expect(reducer({ number: 0 }, { type: action2, payload: 2 })).to.deep.equal({ number: 2 })
-      expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 })).to.deep.equal({ number: 3 })
+      expect(reducer({ number: 0 }, action1(1)))
+        .to.deep.equal({ number: 1 })
+      expect(reducer({ number: 0 }, { type: action2, payload: 2 }))
+        .to.deep.equal({ number: 2 })
+      expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
+        .to.deep.equal({ number: 3 })
     })
   })
 });
