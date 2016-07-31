@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { handleActions, createAction } from '../';
+import { handleActions, createAction, combineActions } from '../';
 
 describe('handleActions', () => {
   it('create a single handler from a map of multiple action handlers', () => {
@@ -68,4 +68,52 @@ describe('handleActions', () => {
         counter: 10
       });
   });
+  
+  it('should accept combined actions as action types in unified reducer form', () => {
+    const increment = createAction('INCREMENT', amount => ({ amount }))
+    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
+    
+    const reducer = handleActions({
+      [combineActions(increment, decrement)](state, { payload: { amount } }) {
+        return { ...state, counter: state.counter + amount }
+      },
+    }, { counter: -10 })
+    
+    expect(reducer({ counter: 10 }, increment(5))).to.deep.equal({ counter: 15 })
+    expect(reducer({ counter: 10 }, decrement(5))).to.deep.equal({ counter: 5 })
+    expect(reducer({ counter: 10 }, { type: 'NOT_TYPE', payload: 1000 })).to.deep.equal({ counter: 10 })
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: -5 })
+  })
+  
+  it('should accept combined actions as action types in the next/throw form', () => {
+    const increment = createAction('INCREMENT', amount => ({ amount }))
+    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
+    
+    const reducer = handleActions({
+      [combineActions(increment, decrement)]: {
+        next(state, { payload: { amount } }) {
+          return { ...state, counter: state.counter + amount }
+        },
+        
+        throw(state) {
+          return { ...state, counter: 0 }
+        },
+      },
+    }, { counter: -10 })
+    const error = new Error
+    
+    // non-errors
+    expect(reducer({ counter: 10 }, increment(5))).to.deep.equal({ counter: 15 })
+    expect(reducer({ counter: 10 }, decrement(5))).to.deep.equal({ counter: 5 })
+    expect(reducer({ counter: 10 }, { type: 'NOT_TYPE', payload: 1000 })).to.deep.equal({ counter: 10 })
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: -5 })
+    
+    // errors
+    expect(
+      reducer({ counter: 10 }, { type: 'INCREMENT', payload: error, error: true })
+    ).to.deep.equal({ counter: 0 })
+    expect(
+      reducer({ counter: 10 }, decrement(error))
+    ).to.deep.equal({ counter: 0 })
+  })
 });
