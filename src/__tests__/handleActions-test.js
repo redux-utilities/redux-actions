@@ -68,56 +68,56 @@ describe('handleActions', () => {
         counter: 10
       });
   });
-  
+
   it('should accept combined actions as action types in single reducer form', () => {
-    const increment = createAction('INCREMENT', amount => ({ amount }))
-    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
-    
-    const initialState = { counter: 10 }
-    
+    const increment = createAction('INCREMENT', amount => ({ amount }));
+    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }));
+
+    const initialState = { counter: 10 };
+
     const reducer = handleActions({
       [combineActions(increment, decrement)](state, { payload: { amount } }) {
-        return { ...state, counter: state.counter + amount }
-      },
-    }, initialState)
-    
-    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 })
-    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 })
-    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState)
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 })
-  })
-  
+        return { ...state, counter: state.counter + amount };
+      }
+    }, initialState);
+
+    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
+    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
+    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+  });
+
   it('should accept combined actions as action types in the next/throw form', () => {
-    const increment = createAction('INCREMENT', amount => ({ amount }))
-    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
-    
-    const initialState = { counter: 10 }
-    
+    const increment = createAction('INCREMENT', amount => ({ amount }));
+    const decrement = createAction('DECREMENT', amount => ({ amount: -amount }));
+
+    const initialState = { counter: 10 };
+
     const reducer = handleActions({
       [combineActions(increment, decrement)]: {
         next(state, { payload: { amount } }) {
-          return { ...state, counter: state.counter + amount }
+          return { ...state, counter: state.counter + amount };
         },
-        
+
         throw(state) {
-          return { ...state, counter: 0 }
-        },
-      },
-    }, initialState)
-    const error = new Error
-    
+          return { ...state, counter: 0 };
+        }
+      }
+    }, initialState);
+    const error = new Error;
+
     // non-errors
-    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 })
-    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 })
-    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState)
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 })
-    
+    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
+    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
+    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+
     // errors
     expect(
       reducer(initialState, { type: 'INCREMENT', payload: error, error: true })
-    ).to.deep.equal({ counter: 0 })
+    ).to.deep.equal({ counter: 0 });
     expect(
       reducer(initialState, decrement(error))
-    ).to.deep.equal({ counter: 0 })
-  })
+    ).to.deep.equal({ counter: 0 });
+  });
 });

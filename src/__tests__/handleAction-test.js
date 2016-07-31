@@ -93,100 +93,100 @@ describe('handleAction()', () => {
       });
     });
   });
-  
+
   describe('with combined actions', () => {
     it('should handle combined actions in single reducer form', () => {
-      const action1 = createAction('ACTION_1')
+      const action1 = createAction('ACTION_1');
       const reducer = handleAction(
         combineActions(action1, 'ACTION_2', 'ACTION_3'),
         (state, action) => ({ ...state, number: action.payload })
-      )
-      
-      expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 })
-      expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: 2 })).to.deep.equal({ number: 2 })
-      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 3 })).to.deep.equal({ number: 3 })
-    })
-    
+      );
+
+      expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 });
+      expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: 2 })).to.deep.equal({ number: 2 });
+      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 3 })).to.deep.equal({ number: 3 });
+    });
+
     it('should handle combined actions in next/throw form', () => {
-      const action1 = createAction('ACTION_1')
+      const action1 = createAction('ACTION_1');
       const reducer = handleAction(
         combineActions(action1, 'ACTION_2', 'ACTION_3'),
         {
           next(state, action) {
-            return { ...state, number: action.payload }
-          },
+            return { ...state, number: action.payload };
+          }
         },
-      )
-      
-      expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 })
-      expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: 2 })).to.deep.equal({ number: 2 })
-      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 3 })).to.deep.equal({ number: 3 })
-    })
-    
+      );
+
+      expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 });
+      expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: 2 })).to.deep.equal({ number: 2 });
+      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 3 })).to.deep.equal({ number: 3 });
+    });
+
     it('should handle combined error actions', () => {
-      const action1 = createAction('ACTION_1')
+      const action1 = createAction('ACTION_1');
       const reducer = handleAction(
         combineActions(action1, 'ACTION_2', 'ACTION_3'),
         {
           next(state, action) {
-            return { ...state, payload: action.payload }
+            return { ...state, payload: action.payload };
           },
-          
+
           throw(state) {
-            return { ...state, threw: true }
-          },
+            return { ...state, threw: true };
+          }
         },
-      )
-      const error = new Error
-      
+      );
+      const error = new Error;
+
       expect(reducer({ number: 0 }, action1(error)))
-        .to.deep.equal({ number: 0, threw: true })
+        .to.deep.equal({ number: 0, threw: true });
       expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: error, error: true }))
-        .to.deep.equal({ number: 0, threw: true })
+        .to.deep.equal({ number: 0, threw: true });
       expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: error, error: true }))
-        .to.deep.equal({ number: 0, threw: true })
-    })
-    
+        .to.deep.equal({ number: 0, threw: true });
+    });
+
     it('should return previous state if action is not one of the combined actions', () => {
       const reducer = handleAction(
         combineActions('ACTION_1', 'ACTION_2'),
         (state, { payload }) => ({ ...state, state: payload }),
-      )
-      
-      const state = { number: 0 }
-      
-      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state)
-      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state)
-    })
-    
+      );
+
+      const state = { number: 0 };
+
+      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state);
+      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state);
+    });
+
     it('should use the default state if the initial state is undefined', () => {
       const reducer = handleAction(
         combineActions('INCREMENT', 'DECREMENT'),
         (state, { payload }) => ({ ...state, counter: state.counter + payload }),
         { counter: 10 }
-      )
-      
-      expect(reducer(undefined, { type: 'INCREMENT', payload: +1 })).to.deep.equal({ counter: 11 })
-      expect(reducer(undefined, { type: 'DECREMENT', payload: -1 })).to.deep.equal({ counter: 9 })
-    })
-  
+      );
+
+      expect(reducer(undefined, { type: 'INCREMENT', payload: +1 })).to.deep.equal({ counter: 11 });
+      expect(reducer(undefined, { type: 'DECREMENT', payload: -1 })).to.deep.equal({ counter: 9 });
+    });
+
     it('should handle combined actions with symbols', () => {
-      const action1 = createAction('ACTION_1')
-      const action2 = Symbol('ACTION_2')
-      const action3 = createAction(Symbol('ACTION_3'))
+      const action1 = createAction('ACTION_1');
+      const action2 = Symbol('ACTION_2');
+      const action3 = createAction(Symbol('ACTION_3'));
       const reducer = handleAction(
         combineActions(action1, action2, action3),
         (state, action) => ({ ...state, number: action.payload })
-      )
-    
+      );
+
       expect(reducer({ number: 0 }, action1(1)))
-        .to.deep.equal({ number: 1 })
+        .to.deep.equal({ number: 1 });
       expect(reducer({ number: 0 }, { type: action2, payload: 2 }))
-        .to.deep.equal({ number: 2 })
+        .to.deep.equal({ number: 2 });
       // note that reference-checking here would produce false, since
       // Symbols are immutable, but this quirk should be harmless
       expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
-        .to.deep.equal({ number: 3 })
-    })
-  })
+        .to.deep.equal({ number: 3 });
+    });
+  });
 });
