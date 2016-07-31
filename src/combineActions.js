@@ -6,19 +6,22 @@ import isSymbol from 'lodash/isSymbol';
 
 export const ACTION_TYPE_DELIMITER = '|redux-action-delimiter|';
 
-export default function combineActions(...actions) {
-  if (isEmpty(actions) || !actions.every(isValidActionType)) {
-    throw new TypeError('Expected actions to be strings, symbols, or action creators');
+export default function combineActions(...actionsTypes) {
+  if (!isValidActionTypes(actionsTypes)) {
+    throw new TypeError('Expected action types to be strings, symbols, or action creators');
   }
 
-  const combinedActionsString = actions.map(toString).join(ACTION_TYPE_DELIMITER);
+  const combinedActionType = actionsTypes.map(toString).join(ACTION_TYPE_DELIMITER);
 
   return Object.create(null, {
-    toString: { enumerable: true, value: () => combinedActionsString }
+    toString: { enumerable: true, value: () => combinedActionType }
   });
 }
 
-function isValidActionType(action) {
-  return isString(action) || isFunction(action) || isSymbol(action);
+function isValidActionTypes(actionTypes) {
+  if (isEmpty(actionTypes)) {
+    return false
+  }
+  return actionTypes.every(actionType => isString(actionType) || isFunction(actionType) || isSymbol(actionType));
 }
 
