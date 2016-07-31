@@ -20,6 +20,9 @@ function isValidActionTypes(actionTypes) {
   if (isEmpty(actionTypes)) {
     return false
   }
-  return actionTypes.every(actionType => isString(actionType) || isFunction(actionType) || isSymbol(actionType));
+  return actionTypes.every(isValidActionType);
 }
 
+function isValidActionType(actionType) {
+  return isString(actionType) || isFunction(actionType) || isSymbol(actionType);
+}
