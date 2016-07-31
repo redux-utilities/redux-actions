@@ -24,7 +24,7 @@ function fromActionsMap(actionsMap) {
     }
     let actionCreator;
     if (isPlainObject(actionsMapValue)) {
-      const { payload = identity, meta } = actionsMapValue
+      const { payload = identity, meta } = actionsMapValue;
       actionCreator = createAction(type, payload, meta);
     } else {
       actionCreator = createAction(type, actionsMapValue);
