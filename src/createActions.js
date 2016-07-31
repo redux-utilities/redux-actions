@@ -10,7 +10,7 @@ function isValidActionsMapValue(actionsMapValue) {
   if (isFunction(actionsMapValue)) {
     return true;
   } else if (isPlainObject(actionsMapValue)) {
-    const { payload, meta } = actionsMapValue;
+    const { payload = identity, meta } = actionsMapValue;
     return isFunction(payload) && isFunction(meta);
   }
   return false;

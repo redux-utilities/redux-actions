@@ -84,8 +84,9 @@ Returns an object mapping action types to action creators. The keys of this obje
 
 `actionsMap` is an optional object with action types as keys, and whose values can be
 
-- an object with `payload` and `meta` keys, mapping to payload and meta creators
 - a function, which is the payload creator for that action
+- an object with `payload` and `meta` keys, mapping to payload and meta creators
+    - `meta` is **required** in this case to distinguish it meaningfully from the function form above
 
 `actionTypes` is an optional list of positional arguments that are action type strings; these action types will use the identity payload creator.
 
@@ -100,7 +101,7 @@ const { actionOne, actionTwo, actionThree } = createActions({
       return [ first, second ];
     }
     meta(first, second) {
-      return first + '  ' + second;
+      return { first, second };
     }
   },
 
@@ -114,7 +115,7 @@ expect(actionOne('key', 1)).to.deep.equal({
 expect(actionTwo('first', 'second')).to.deep.equal({
   type: 'ACTION_TWO',
   payload: ['first', 'second'],
-  meta: 'first second'
+  meta: { first: 'first', second: 'second' }
 });
 
 expect(actionThree(3)).to.deep.equal({
