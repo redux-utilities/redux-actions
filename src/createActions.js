@@ -33,9 +33,9 @@ function fromActionsMap(actionsMap) {
   }, {});
 }
 
-function fromActionTypeStrings(...types) {
+function fromActionTypeStrings(...actionTypes) {
   return fromActionsMap(
-    types.reduce((actionsMap, action) => ({ ...actionsMap, [action]: undefined }), {})
+    actionTypes.reduce((actionsMap, actionType) => ({ ...actionsMap, [actionType]: undefined }), {})
   );
 }
 
