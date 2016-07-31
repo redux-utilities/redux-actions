@@ -14,14 +14,7 @@ export default function combineActions(...actions) {
   const combinedActionsString = actions.map(toString).join(ACTION_DELIMITER);
 
   return Object.create(null, {
-    toString: {
-      enumerable: true,
-      writable: false,
-      configurable: false,
-      value() {
-        return combinedActionsString;
-      }
-    }
+    toString: { enumerable: true, value: () => combinedActionsString }
   });
 }
 
