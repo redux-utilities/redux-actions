@@ -3,13 +3,11 @@ import { expect } from 'chai'
 
 describe('combineActions', () => {
   it('should throw an error if any action is not a function or string', () => {
-    expect(
-      () => combineActions(1, 'ACTION_2')
-    ).to.throw(TypeError, 'Expected actions to be strings, symbols, or action creators');
+    expect(() => combineActions(1, 'ACTION_2'))
+      .to.throw(TypeError, 'Expected actions to be strings, symbols, or action creators');
 
-    expect(
-      () => combineActions('ACTION_1', () => {}, null)
-    ).to.throw(TypeError, 'Expected actions to be strings, symbols, or action creators');
+    expect(() => combineActions('ACTION_1', () => {}, null))
+      .to.throw(TypeError, 'Expected actions to be strings, symbols, or action creators');
   });
 
   it('should accept action creators and action type strings', () => {
