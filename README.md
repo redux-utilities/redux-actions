@@ -78,6 +78,42 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
+### `combineActions(...actionTypes)`
+
+Combine any number of action types or action creators.
+
+`actionTypes` is a variadic list of arguments which can be action type strings or action creators.
+
+This method exists because while action type strings can be joined with a conventional delimiter, there is no obvious way for a library user to combine action creators.
+
+The return value of this method is meant solely for use as action types in `handleAction` and `handleActions`.
+
+```js
+const increment = createAction('INCREMENT', amount => ({ amount }))
+const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
+
+const reducer = handleAction(
+  combineActions(increment, decrement),
+  {
+    next(state, { payload: { amount } }) {
+      return { ...state, counter: state.counter + amount }
+    },
+
+    throw(state) {
+      return { ...state, counter: 0 }
+    },
+  },
+  { counter: 10 }
+)
+
+expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
+expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
+expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
+expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
+```
+
+This also works in when declaring reducers with the `next`/`throw` object format in `handleAction` and `handleActions`.
+
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
