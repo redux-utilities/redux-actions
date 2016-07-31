@@ -15,6 +15,7 @@ export default function handleAction(type, reducers, defaultState) {
     if (!includes(typeValue, action.type.toString())) {
       return state;
     }
+
     return (action.error === true ? throwReducer : nextReducer)(state, action);
   };
 }
