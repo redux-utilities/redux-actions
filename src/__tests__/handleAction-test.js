@@ -156,7 +156,6 @@ describe('handleAction()', () => {
       const state = { number: 0 };
 
       expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state);
-      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.equal(state);
     });
 
     it('should use the default state if the initial state is undefined', () => {

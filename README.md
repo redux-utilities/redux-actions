@@ -84,9 +84,7 @@ Combine any number of action types or action creators.
 
 `actionTypes` is a variadic list of arguments which can be action type strings or action creators.
 
-This method exists because while action type strings can be joined with a conventional delimiter, there is no obvious way for a library user to combine action creators.
-
-The return value of this method is meant solely for use as action types in `handleAction` and `handleActions`.
+This function exists because while action type strings can be joined with a conventional delimiter, there is no obvious way for a library user to combine action creators.
 
 ```js
 const increment = createAction('INCREMENT', amount => ({ amount }))
