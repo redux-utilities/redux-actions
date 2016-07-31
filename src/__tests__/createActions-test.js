@@ -15,7 +15,7 @@ describe('createActions', () => {
       () => createActions({ ACTION_1: [] })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta keys, or undefined for ACTION_1'
+      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
     );
 
     expect(
@@ -25,10 +25,10 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta keys, or undefined for ACTION_2'
+      'Expected function, plain object with payload and meta functions, or undefined for ACTION_2'
     );
   });
-  
+
   it('should throw an error when given a bad payload or meta creator ', () => {
     expect(
       () => createActions({
@@ -39,9 +39,9 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta keys, or undefined for ACTION_1'
+      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
     );
-    
+
     expect(
       () => createActions({
         ACTION_1: {
@@ -55,20 +55,20 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta keys, or undefined for ACTION_2'
+      'Expected function, plain object with payload and meta functions, or undefined for ACTION_2'
     );
   });
-  
+
   it('should throw an error when no meta creator is given in object form', () => {
     expect(
       () => createActions({
         ACTION_1: {
-          payload: [],
+          payload: []
         }
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta keys, or undefined for ACTION_1'
+      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
     );
   });
 
@@ -108,66 +108,66 @@ describe('createActions', () => {
       payload: { from: 2 }
     });
   });
-  
+
   it('should use the identity if the payload value is undefined in object form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: {
         meta(meta1) {
-          return { meta1 }
+          return { meta1 };
         }
       },
       ACTION_2: {
         meta({ from }) {
-          return { meta2: from }
+          return { meta2: from };
         }
-      },
+      }
     });
-    
+
     expect(action1(1)).to.deep.equal({
       type: 'ACTION_1',
       payload: 1,
       meta: { meta1: 1 }
     });
-    
+
     expect(action2({ from: 2 })).to.deep.equal({
       type: 'ACTION_2',
       payload: { from: 2 },
       meta: { meta2: 2 }
     });
   });
-  
+
   it('should use the meta creator if the meta value is a function in object form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: {
         payload(value) {
-          return { value }
+          return { value };
         },
         meta(meta1) {
-          return { meta1 }
+          return { meta1 };
         }
       },
       ACTION_2: {
         payload({ from }) {
-          return from
+          return from;
         },
         meta({ from }) {
-          return { meta2: from }
+          return { meta2: from };
         }
-      },
+      }
     });
-  
+
     expect(action1(1)).to.deep.equal({
       type: 'ACTION_1',
       payload: { value: 1 },
       meta: { meta1: 1 }
     });
-  
+
     expect(action2({ from: 2 })).to.deep.equal({
       type: 'ACTION_2',
       payload: 2,
       meta: { meta2: 2 }
     });
-  })
+  });
 
   it('should use identity payload creators for trailing string action types', () => {
     const { action1, action2 } = createActions('ACTION_1', 'ACTION_2');
@@ -193,7 +193,7 @@ describe('createActions', () => {
           return [first, second];
         },
         meta(first, second) {
-          return { first, second }
+          return { first, second };
         }
       }
     }, 'ACTION_3', 'ACTION_4');
@@ -205,7 +205,7 @@ describe('createActions', () => {
     expect(action2('from', 2)).to.deep.equal({
       type: 'ACTION_2',
       payload: ['from', 2],
-      meta: { first: 'from', second: 2 },
+      meta: { first: 'from', second: 2 }
     });
     expect(action3(3)).to.deep.equal({
       type: 'ACTION_3',
