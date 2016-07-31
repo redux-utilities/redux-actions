@@ -109,7 +109,7 @@ describe('createActions', () => {
     });
   });
   
-  it('should use the identity payload creator if the payload value is undefined in object form', () => {
+  it('should use the identity if the payload value is undefined in object form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: {
         meta(meta1) {
