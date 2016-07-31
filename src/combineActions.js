@@ -13,9 +13,7 @@ export default function combineActions(...actionsTypes) {
 
   const combinedActionType = actionsTypes.map(toString).join(ACTION_TYPE_DELIMITER);
 
-  return Object.create(null, {
-    toString: { enumerable: true, value: () => combinedActionType }
-  });
+  return { toString: () => combinedActionType };
 }
 
 function isValidActionTypes(actionTypes) {
