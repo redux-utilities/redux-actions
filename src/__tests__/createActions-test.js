@@ -15,7 +15,8 @@ describe('createActions', () => {
       () => createActions({ ACTION_1: [] })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
+      'Expected function, undefined, or object with meta ' +
+      'and optional payload functions for ACTION_1'
     );
 
     expect(
@@ -25,7 +26,8 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta functions, or undefined for ACTION_2'
+      'Expected function, undefined, or object with meta ' +
+      'and optional payload functions for ACTION_2'
     );
   });
 
@@ -39,7 +41,8 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
+      'Expected function, undefined, or object with meta ' +
+      'and optional payload functions for ACTION_1'
     );
 
     expect(
@@ -55,7 +58,8 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta functions, or undefined for ACTION_2'
+      'Expected function, undefined, or object with meta ' +
+      'and optional payload functions for ACTION_2'
     );
   });
 
@@ -68,7 +72,8 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, plain object with payload and meta functions, or undefined for ACTION_1'
+      'Expected function, undefined, or object with meta ' +
+      'and optional payload functions for ACTION_1'
     );
   });
 

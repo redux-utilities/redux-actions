@@ -19,8 +19,9 @@ function isValidActionsMapValue(actionsMapValue) {
 function fromActionsMap(actionsMap) {
   return reduce(actionsMap, (actionCreatorsMap, actionsMapValue = identity, type) => {
     if (!isValidActionsMapValue(actionsMapValue)) {
-      throw new TypeError(`
-        Expected function, plain object with payload and meta functions, or undefined for ${type}`);
+      throw new TypeError(
+        'Expected function, undefined, or object with meta and optional ' +
+        `payload functions for ${type}`);
     }
     let actionCreator;
     if (isPlainObject(actionsMapValue)) {
