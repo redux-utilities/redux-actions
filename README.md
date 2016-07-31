@@ -78,6 +78,51 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
+##### `createActions(?actionsMap, ?...actionTypes)`
+
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap`; the values are the action creators.
+
+`actionsMap` is an optional object with action types as keys, and whose values can be
+
+- an object with `payload` and `meta` keys, mapping to payload and meta creators
+- a function, which is the payload creator for that action
+
+`actionTypes` is an optional list of positional arguments that are action type strings; these action types will use the identity payload creator.
+
+```js
+const { actionOne, actionTwo, actionThree } = createActions({
+  ACTION_ONE(key, value) {
+    return { [key]: value };
+  },
+
+  ACTION_TWO: {
+    payload(first, second) {
+      return [ first, second ];
+    }
+    meta(first, second) {
+      return first + '  ' + second;
+    }
+  },
+
+}, 'ACTION_THREE');
+
+expect(actionOne('key', 1)).to.deep.equal({
+  type: 'ACTION_ONE',
+  payload: { key: 1 }
+});
+
+expect(actionTwo('first', 'second')).to.deep.equal({
+  type: 'ACTION_TWO',
+  payload: ['first', 'second'],
+  meta: 'first second'
+});
+
+expect(actionThree(3)).to.deep.equal({
+  type: 'ACTION_THREE',
+  payload: 3,
+});
+```
+
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
