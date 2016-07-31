@@ -184,7 +184,7 @@ describe('handleAction()', () => {
       expect(reducer({ number: 0 }, { type: action2, payload: 2 }))
         .to.deep.equal({ number: 2 })
       // note that reference-checking here would produce false, since
-      // Symbols are immutable, but this point should be harmless
+      // Symbols are immutable, but this quirk should be harmless
       expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
         .to.deep.equal({ number: 3 })
     })
