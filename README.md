@@ -104,7 +104,6 @@ const { actionOne, actionTwo, actionThree } = createActions({
       return { first, second };
     }
   },
-
 }, 'ACTION_THREE');
 
 expect(actionOne('key', 1)).to.deep.equal({

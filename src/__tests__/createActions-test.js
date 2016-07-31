@@ -31,7 +31,7 @@ describe('createActions', () => {
     );
   });
 
-  it('should throw an error when given a bad payload or meta creator ', () => {
+  it('should throw an error when given a bad payload or meta creator in object form', () => {
     expect(
       () => createActions({
         ACTION_1: {
@@ -87,13 +87,13 @@ describe('createActions', () => {
       }
     });
 
-    expect(actionOne('from', 1)).to.deep.equal({
+    expect(actionOne('value', 1)).to.deep.equal({
       type: 'ACTION_ONE',
-      payload: { from: 1 }
+      payload: { value: 1 }
     });
-    expect(actionTwo('from', 2)).to.deep.equal({
+    expect(actionTwo('value', 2)).to.deep.equal({
       type: 'ACTION_TWO',
-      payload: ['from', 2]
+      payload: ['value', 2]
     });
   });
 
@@ -108,13 +108,13 @@ describe('createActions', () => {
       payload: 1
     });
 
-    expect(action2({ from: 2 })).to.deep.equal({
+    expect(action2({ value: 2 })).to.deep.equal({
       type: 'ACTION_2',
-      payload: { from: 2 }
+      payload: { value: 2 }
     });
   });
 
-  it('should use the identity if the payload value is undefined in object form', () => {
+  it('should use the identity if the payload creator is undefined in object form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: {
         meta(meta1) {
@@ -122,8 +122,8 @@ describe('createActions', () => {
         }
       },
       ACTION_2: {
-        meta({ from }) {
-          return { meta2: from };
+        meta({ value }) {
+          return { meta2: value };
         }
       }
     });
@@ -134,9 +134,9 @@ describe('createActions', () => {
       meta: { meta1: 1 }
     });
 
-    expect(action2({ from: 2 })).to.deep.equal({
+    expect(action2({ value: 2 })).to.deep.equal({
       type: 'ACTION_2',
-      payload: { from: 2 },
+      payload: { value: 2 },
       meta: { meta2: 2 }
     });
   });
@@ -152,11 +152,11 @@ describe('createActions', () => {
         }
       },
       ACTION_2: {
-        payload({ from }) {
-          return from;
+        payload({ value }) {
+          return value;
         },
-        meta({ from }) {
-          return { meta2: from };
+        meta({ value }) {
+          return { meta2: value };
         }
       }
     });
@@ -167,7 +167,7 @@ describe('createActions', () => {
       meta: { meta1: 1 }
     });
 
-    expect(action2({ from: 2 })).to.deep.equal({
+    expect(action2({ value: 2 })).to.deep.equal({
       type: 'ACTION_2',
       payload: 2,
       meta: { meta2: 2 }
@@ -203,14 +203,14 @@ describe('createActions', () => {
       }
     }, 'ACTION_3', 'ACTION_4');
 
-    expect(action1('from', 1)).to.deep.equal({
+    expect(action1('value', 1)).to.deep.equal({
       type: 'ACTION_1',
-      payload: { from: 1 }
+      payload: { value: 1 }
     });
-    expect(action2('from', 2)).to.deep.equal({
+    expect(action2('value', 2)).to.deep.equal({
       type: 'ACTION_2',
-      payload: ['from', 2],
-      meta: { first: 'from', second: 2 }
+      payload: ['value', 2],
+      meta: { first: 'value', second: 2 }
     });
     expect(action3(3)).to.deep.equal({
       type: 'ACTION_3',
