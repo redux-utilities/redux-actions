@@ -153,8 +153,10 @@ describe('handleAction()', () => {
         (state, { payload }) => ({ ...state, state: payload }),
       )
       
-      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 1 })).to.deep.equal({ number: 0 })
-      expect(reducer({ number: 0 }, { type: 'ACTION_3', payload: 1 })).to.deep.equal({ number: 0 })
+      const state = { number: 0 }
+      
+      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.deep.equal(state)
+      expect(reducer(state, { type: 'ACTION_3', payload: 1 })).to.deep.equal(state)
     })
     
     it('should use the default state if the initial state is undefined', () => {
@@ -168,7 +170,7 @@ describe('handleAction()', () => {
       expect(reducer(undefined, { type: 'DECREMENT', payload: -1 })).to.deep.equal({ counter: 9 })
     })
   
-    it('should handle combined symbols', () => {
+    it('should handle combined actions with symbols', () => {
       const action1 = createAction('ACTION_1')
       const action2 = Symbol('ACTION_2')
       const action3 = createAction(Symbol('ACTION_3'))
@@ -181,6 +183,8 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 1 })
       expect(reducer({ number: 0 }, { type: action2, payload: 2 }))
         .to.deep.equal({ number: 2 })
+      // note that reference-checking here would produce false, since
+      // Symbols are immutable, but this point should be harmless
       expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
         .to.deep.equal({ number: 3 })
     })
