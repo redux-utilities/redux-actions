@@ -95,11 +95,12 @@ describe('createAction()', () => {
 
       const explictNullAction = createAction(type)(null);
       expect(explictNullAction).to.deep.equal({
-        type
+        type,
+        payload: null
       });
 
       const baz = '1';
-      const actionCreator = createAction(type, null, () => ({ bar: baz }));
+      const actionCreator = createAction(type, undefined, () => ({ bar: baz }));
       expect(actionCreator()).to.deep.equal({
         type,
         meta: {
