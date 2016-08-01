@@ -13,7 +13,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
     };
 
     const payload = hasError ? args[0] : finalPayloadCreator(...args);
-    if (!(payload === null || payload === undefined)) {
+    if (payload !== undefined) {
       action.payload = payload;
     }
 
