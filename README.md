@@ -78,7 +78,7 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
-##### `createActions(?actionsMap, ?...actionTypes)`
+### `createActions(?actionsMap, ?...actionTypes)`
 
 Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap`; the values are the action creators.
 
