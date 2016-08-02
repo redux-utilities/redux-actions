@@ -97,12 +97,8 @@ const { actionOne, actionTwo, actionThree } = createActions({
   },
 
   ACTION_TWO: {
-    payload(first, second) {
-      return [ first, second ];
-    }
-    meta(first, second) {
-      return { first, second };
-    }
+    payload: (first, second) => [first, second],
+    meta: (first, second) => {first, second},
   },
 }, 'ACTION_THREE');
 
