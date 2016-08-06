@@ -12,7 +12,10 @@ export default function createActions(actionsMap, ...identityActions) {
     if (isString(actionsMap)) {
       return fromIdentityActions([actionsMap, ...identityActions]);
     } else if (isPlainObject(actionsMap)) {
-      return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
+      return {
+        ...fromActionsMap(actionsMap),
+        ...fromIdentityActions(identityActions)
+      };
     }
   }
   throw new TypeError('Expected optional object followed by string action types');
