@@ -85,21 +85,24 @@ Returns an object mapping action types to action creators. The keys of this obje
 `actionsMap` is an optional object with action types as keys, and whose values can be
 
 - a function, which is the payload creator for that action
-- an object with `payload` and `meta` keys, mapping to payload and meta creators
-    - `meta` is **required** in this case to distinguish it meaningfully from the function form above
+- an array with `payload` and `meta` functions, orders as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
+    - `meta` is **required** in this case (otherwise use the function form above)
 
 `actionTypes` is an optional list of positional arguments that are action type strings; these action types will use the identity payload creator.
 
 ```js
 const { actionOne, actionTwo, actionThree } = createActions({
+  // function form
   ACTION_ONE(key, value) {
     return { [key]: value };
   },
-
-  ACTION_TWO: {
-    payload: (first, second) => [first, second],
-    meta: (first, second) => {first, second},
-  },
+  
+  // array form
+  ACTION_TWO: [
+    (first, second) => [first, second],  // payload
+    (first, second) => { first, second } // meta
+  ],
+  // trailing action type string form
 }, 'ACTION_THREE');
 
 expect(actionOne('key', 1)).to.deep.equal({
