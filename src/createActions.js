@@ -35,12 +35,9 @@ function fromActionsMap(actionsMap) {
         'Expected function, undefined, or array with payload and meta ' +
         `functions for ${type}`);
     }
-    let actionCreator;
-    if (isArray(actionsMapValue)) {
-      actionCreator = createAction(type, ...actionsMapValue);
-    } else {
-      actionCreator = createAction(type, actionsMapValue);
-    }
+    const actionCreator = isArray(actionsMapValue)
+      ? createAction(type, ...actionsMapValue)
+      : createAction(type, actionsMapValue);
     return { ...actionCreatorsMap, [camelCase(type)]: actionCreator };
   }, {});
 }
