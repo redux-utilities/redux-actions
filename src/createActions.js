@@ -48,5 +48,5 @@ export default function createActions(actionsMap, ...actionTypes) {
       return { ...fromActionsMap(actionsMap), ...fromActionTypes(...actionTypes) };
     }
   }
-  throw new TypeError('Expected (optional) object followed by string action types');
+  throw new TypeError('Expected optional object followed by string action types');
 }

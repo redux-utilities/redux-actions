@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 describe('createActions', () => {
   it('should throw an error when given arguments that contain a non-string', () => {
-    const expectedError = 'Expected (optional) object followed by string action types';
+    const expectedError = 'Expected optional object followed by string action types';
 
     expect(() => createActions(1)).to.throw(TypeError, expectedError);
     expect(() => createActions({ ACTION_1: undefined }, [])).to.throw(TypeError, expectedError);
