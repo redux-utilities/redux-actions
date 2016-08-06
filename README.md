@@ -80,7 +80,7 @@ createAction('ADD_TODO')('Use Redux');
 
 ### `createActions(?actionsMap, ?...actionTypes)`
 
-Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap`; the values are the action creators.
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the values of the `actionTypes` arguments; the values are the action creators.
 
 `actionsMap` is an optional object with action types as keys, and whose values can be
 
