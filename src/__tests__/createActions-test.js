@@ -20,7 +20,7 @@ describe('createActions', () => {
 
     expect(
       () => createActions({
-        ACTION_1: undefined,
+        ACTION_1: () => {},
         ACTION_2: 'string'
       })
     ).to.throw(
@@ -59,6 +59,25 @@ describe('createActions', () => {
     );
   });
 
+  it('should throw an error if the reducer value is undefined in object form', () => {
+    expect(
+      () => createActions({ ACTION_1: undefined }, 'ACTION_2')
+    ).to.throw(
+      TypeError,
+      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
+    );
+
+    expect(
+      () => createActions({
+        ACTION_1: () => {},
+        ACTION_2: undefined
+      })
+    ).to.throw(
+      TypeError,
+      'Expected function, undefined, or array with payload and meta functions for ACTION_2'
+    );
+  });
+
   it('should throw an error when no meta creator is given in array form', () => {
     expect(
       () => createActions({
@@ -87,23 +106,6 @@ describe('createActions', () => {
     expect(actionTwo('value', 2)).to.deep.equal({
       type: 'ACTION_TWO',
       payload: ['value', 2]
-    });
-  });
-
-  it('should use the identity payload creator if the reducer value is undefined', () => {
-    const { action1, action2 } = createActions({
-      ACTION_1: undefined,
-      ACTION_2: undefined
-    });
-
-    expect(action1(1)).to.deep.equal({
-      type: 'ACTION_1',
-      payload: 1
-    });
-
-    expect(action2({ value: 2 })).to.deep.equal({
-      type: 'ACTION_2',
-      payload: { value: 2 }
     });
   });
 

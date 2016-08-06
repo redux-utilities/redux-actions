@@ -78,17 +78,17 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
-### `createActions(?actionsMap, ?...actionTypes)`
+### `createActions(?actionsMap, ?...identityActions)`
 
-Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the values of the `actionTypes` arguments; the values are the action creators.
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the string literals of `identityActions`; the values are the action creators.
 
-`actionsMap` is an optional object with action types as keys, and whose values can be
+`actionsMap` is an optional object with action types as keys, and whose values **must** be either
 
 - a function, which is the payload creator for that action
 - an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
     - `meta` is **required** in this case (otherwise use the function form above)
 
-`actionTypes` is an optional list of positional arguments that are action type strings; these action types will use the identity payload creator.
+`identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
 
 ```js
 const { actionOne, actionTwo, actionThree } = createActions({

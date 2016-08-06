@@ -7,12 +7,12 @@ import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 
-export default function createActions(actionsMap, ...actionTypes) {
-  if (actionTypes.every(isString)) {
+export default function createActions(actionsMap, ...identityActions) {
+  if (identityActions.every(isString)) {
     if (isString(actionsMap)) {
-      return fromActionTypes([actionsMap, ...actionTypes]);
+      return fromIdentityActions([actionsMap, ...identityActions]);
     } else if (isPlainObject(actionsMap)) {
-      return { ...fromActionsMap(actionsMap), ...fromActionTypes(actionTypes) };
+      return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
     }
   }
   throw new TypeError('Expected optional object followed by string action types');
@@ -29,7 +29,7 @@ function isValidActionsMapValue(actionsMapValue) {
 }
 
 function fromActionsMap(actionsMap) {
-  return reduce(actionsMap, (actionCreatorsMap, actionsMapValue = identity, type) => {
+  return reduce(actionsMap, (actionCreatorsMap, actionsMapValue, type) => {
     if (!isValidActionsMapValue(actionsMapValue)) {
       throw new TypeError(
         'Expected function, undefined, or array with payload and meta ' +
@@ -44,8 +44,10 @@ function fromActionsMap(actionsMap) {
   }, {});
 }
 
-function fromActionTypes(actionTypes) {
+function fromIdentityActions(identityActions) {
   return fromActionsMap(
-    actionTypes.reduce((actionsMap, actionType) => ({ ...actionsMap, [actionType]: undefined }), {})
+    identityActions.reduce(
+      (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity }), {}
+    )
   );
 }
