@@ -93,14 +93,12 @@ Returns an object mapping action types to action creators. The keys of this obje
 ```js
 const { actionOne, actionTwo, actionThree } = createActions({
   // function form; payload creator defined inline
-  ACTION_ONE(key, value) {
-    return { [key]: value };
-  },
+  ACTION_ONE: (key, value) => ({ [key]: value }),
   
   // array form
   ACTION_TWO: [
-    (first, second) => [first, second],  // payload
-    (first, second) => { first, second } // meta
+    (first) => first,               // payload
+    (first, second) => ({ second }) // meta
   ],
 
   // trailing action type string form; payload creator is the identity
@@ -113,8 +111,8 @@ expect(actionOne('key', 1)).to.deep.equal({
 
 expect(actionTwo('first', 'second')).to.deep.equal({
   type: 'ACTION_TWO',
-  payload: ['first', 'second'],
-  meta: { first: 'first', second: 'second' }
+  payload: ['first'],
+  meta: { second: 'second' }
 });
 
 expect(actionThree(3)).to.deep.equal({
