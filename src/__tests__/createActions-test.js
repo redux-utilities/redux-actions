@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 describe('createActions', () => {
   it('should throw an error when given arguments that contain a non-string', () => {
-    const expectedError = 'Expected (optional) array followed by string action types';
+    const expectedError = 'Expected (optional) object followed by string action types';
 
     expect(() => createActions(1)).to.throw(TypeError, expectedError);
     expect(() => createActions({ ACTION_1: undefined }, [])).to.throw(TypeError, expectedError);
@@ -15,9 +15,7 @@ describe('createActions', () => {
       () => createActions({ ACTION_1: {} })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or array with meta ' +
-      'and optional payload functions for ACTION_1'
-    );
+      'Expected function, undefined, or array with payload and meta functions for ACTION_1');
 
     expect(
       () => createActions({
@@ -26,9 +24,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or array with meta ' +
-      'and optional payload functions for ACTION_2'
-    );
+      'Expected function, undefined, or array with payload and meta functions for ACTION_2');
   });
 
   it('should throw an error when given a bad payload or meta creator in array form', () => {
@@ -41,9 +37,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or array with meta ' +
-      'and optional payload functions for ACTION_1'
-    );
+      'Expected function, undefined, or array with payload and meta functions for ACTION_1');
 
     expect(
       () => createActions({
@@ -58,8 +52,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or array with meta ' +
-      'and optional payload functions for ACTION_2'
+      'Expected function, undefined, or array with payload and meta functions for ACTION_2'
     );
   });
 
@@ -70,8 +63,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or array with meta ' +
-      'and optional payload functions for ACTION_1'
+      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
   });
 
@@ -114,16 +106,8 @@ describe('createActions', () => {
 
   it('should use the identity if the payload creator is undefined in array form', () => {
     const { action1, action2 } = createActions({
-      ACTION_1: {
-        meta(meta1) {
-          return { meta1 };
-        }
-      },
-      ACTION_2: {
-        meta({ value }) {
-          return { meta2: value };
-        }
-      }
+      ACTION_1: [undefined, meta1 => ({ meta1 })],
+      ACTION_2: [undefined, ({ value }) => ({ meta2: value })],
     });
 
     expect(action1(1)).to.deep.equal({
@@ -141,22 +125,8 @@ describe('createActions', () => {
 
   it('should use the meta creator if the meta value is a function in array form', () => {
     const { action1, action2 } = createActions({
-      ACTION_1: {
-        payload(value) {
-          return { value };
-        },
-        meta(meta1) {
-          return { meta1 };
-        }
-      },
-      ACTION_2: {
-        payload({ value }) {
-          return value;
-        },
-        meta({ value }) {
-          return { meta2: value };
-        }
-      }
+      ACTION_1: [value => ({ value }), meta1 => ({ meta1 })],
+      ACTION_2: [({ value })=> value, ({ value }) => ({ meta2: value })],
     });
 
     expect(action1(1)).to.deep.equal({
@@ -191,14 +161,7 @@ describe('createActions', () => {
       ACTION_1(key, value) {
         return { [key]: value };
       },
-      ACTION_2: {
-        payload(first, second) {
-          return [first, second];
-        },
-        meta(first, second) {
-          return { first, second };
-        }
-      }
+      ACTION_2: [(first, second) => [first, second], (first, second) => ({ first, second })],
     }, 'ACTION_3', 'ACTION_4');
 
     expect(action1('value', 1)).to.deep.equal({
