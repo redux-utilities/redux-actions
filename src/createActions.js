@@ -7,6 +7,17 @@ import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 
+export default function createActions(actionsMap, ...actionTypes) {
+  if (actionTypes.every(isString)) {
+    if (isString(actionsMap)) {
+      return fromActionTypes([actionsMap, ...actionTypes]);
+    } else if (isPlainObject(actionsMap)) {
+      return { ...fromActionsMap(actionsMap), ...fromActionTypes(actionTypes) };
+    }
+  }
+  throw new TypeError('Expected optional object followed by string action types');
+}
+
 function isValidActionsMapValue(actionsMapValue) {
   if (isFunction(actionsMapValue)) {
     return true;
@@ -38,15 +49,4 @@ function fromActionTypes(actionTypes) {
   return fromActionsMap(
     actionTypes.reduce((actionsMap, actionType) => ({ ...actionsMap, [actionType]: undefined }), {})
   );
-}
-
-export default function createActions(actionsMap, ...actionTypes) {
-  if (actionTypes.every(isString)) {
-    if (isString(actionsMap)) {
-      return fromActionTypes([actionsMap, ...actionTypes]);
-    } else if (isPlainObject(actionsMap)) {
-      return { ...fromActionsMap(actionsMap), ...fromActionTypes(actionTypes) };
-    }
-  }
-  throw new TypeError('Expected optional object followed by string action types');
 }
