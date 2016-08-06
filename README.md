@@ -102,6 +102,7 @@ const { actionOne, actionTwo, actionThree } = createActions({
     (first, second) => [first, second],  // payload
     (first, second) => { first, second } // meta
   ],
+
   // trailing action type string form; payload creator is the identity
 }, 'ACTION_THREE');
 
