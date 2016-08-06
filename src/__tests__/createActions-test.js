@@ -17,7 +17,7 @@ describe('createActions', () => {
       TypeError,
       'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
-    
+
     expect(
       () => createActions({
         ACTION_1: undefined,
@@ -110,7 +110,7 @@ describe('createActions', () => {
   it('should use the identity if the payload creator is undefined in array form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: [undefined, meta1 => ({ meta1 })],
-      ACTION_2: [undefined, ({ value }) => ({ meta2: value })],
+      ACTION_2: [undefined, ({ value }) => ({ meta2: value })]
     });
 
     expect(action1(1)).to.deep.equal({
@@ -129,7 +129,7 @@ describe('createActions', () => {
   it('should use the identity and meta creators in array form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: [value => ({ value }), meta1 => ({ meta1 })],
-      ACTION_2: [({ value })=> value, ({ value }) => ({ meta2: value })],
+      ACTION_2: [({ value }) => value, ({ value }) => ({ meta2: value })]
     });
 
     expect(action1(1)).to.deep.equal({
@@ -164,7 +164,7 @@ describe('createActions', () => {
       ACTION_1(key, value) {
         return { [key]: value };
       },
-      ACTION_2: [(first, second) => [first, second], (first, second) => ({ first, second })],
+      ACTION_2: [(first, second) => [first, second], (first, second) => ({ first, second })]
     }, 'ACTION_3', 'ACTION_4');
 
     expect(action1('value', 1)).to.deep.equal({
