@@ -10,7 +10,10 @@ import createAction from './createAction';
 export default function createActions(actionsMap, ...identityActions) {
   if (identityActions.every(isString)) {
     if (isString(actionsMap)) {
-      return fromIdentityActions([actionsMap, ...identityActions]);
+      return fromIdentityActions([
+        actionsMap,
+        ...identityActions
+      ]);
     } else if (isPlainObject(actionsMap)) {
       return {
         ...fromActionsMap(actionsMap),
@@ -18,6 +21,7 @@ export default function createActions(actionsMap, ...identityActions) {
       };
     }
   }
+
   throw new TypeError('Expected optional object followed by string action types');
 }
 
@@ -26,6 +30,7 @@ function isValidActionsMapValue(actionsMapValue) {
     return true;
   } else if (isArray(actionsMapValue)) {
     const [payload = identity, meta] = actionsMapValue;
+
     return isFunction(payload) && isFunction(meta);
   }
   return false;
@@ -50,7 +55,10 @@ function fromActionsMap(actionsMap) {
 function fromIdentityActions(identityActions) {
   return fromActionsMap(
     identityActions.reduce(
-      (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity }), {}
-    )
+      (actionsMap, actionType) => ({
+        ...actionsMap,
+        [actionType]: identity
+      })
+    , {})
   );
 }
