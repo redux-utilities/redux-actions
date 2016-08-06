@@ -30,13 +30,13 @@ function fromActionsMap(actionsMap) {
     } else {
       actionCreator = createAction(type, actionsMapValue);
     }
-    return {...actionCreatorsMap, [camelCase(type)]: actionCreator};
+    return { ...actionCreatorsMap, [camelCase(type)]: actionCreator };
   }, {});
 }
 
 function fromActionTypes(...actionTypes) {
   return fromActionsMap(
-    actionTypes.reduce((actionsMap, actionType) => ({...actionsMap, [actionType]: undefined}), {})
+    actionTypes.reduce((actionsMap, actionType) => ({ ...actionsMap, [actionType]: undefined }), {})
   );
 }
 
@@ -45,7 +45,7 @@ export default function createActions(actionsMap, ...actionTypes) {
     if (isString(actionsMap)) {
       return fromActionTypes(actionsMap, ...actionTypes);
     } else if (isPlainObject(actionsMap)) {
-      return {...fromActionsMap(actionsMap), ...fromActionTypes(...actionTypes)};
+      return { ...fromActionsMap(actionsMap), ...fromActionTypes(...actionTypes) };
     }
   }
   throw new TypeError('Expected (optional) object followed by string action types');

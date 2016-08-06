@@ -16,7 +16,6 @@ export default function handleAction(type, reducers, defaultState) {
     if (action.type !== typeValue) {
       return state;
     }
-
     return (action.error === true ? throwReducer : nextReducer)(state, action);
   };
 }

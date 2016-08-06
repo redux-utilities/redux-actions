@@ -1,23 +1,23 @@
-import {expect} from 'chai';
-import {handleActions, createAction} from '../';
+import { expect } from 'chai';
+import { handleActions, createAction } from '../';
 
 describe('handleActions', () => {
   it('create a single handler from a map of multiple action handlers', () => {
     const reducer = handleActions({
-      INCREMENT: ({counter}, {payload: amount}) => ({
+      INCREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       }),
 
-      DECREMENT: ({counter}, {payload: amount}) => ({
+      DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
       })
     });
 
-    expect(reducer({counter: 3}, {type: 'INCREMENT', payload: 7}))
+    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
       .to.deep.equal({
         counter: 10
       });
-    expect(reducer({counter: 10}, {type: 'DECREMENT', payload: 7}))
+    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
       .to.deep.equal({
         counter: 3
       });
@@ -27,12 +27,12 @@ describe('handleActions', () => {
     const INCREMENT = Symbol();
 
     const reducer = handleActions({
-      [INCREMENT]: ({counter}, {payload: amount}) => ({
+      [INCREMENT]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
     });
 
-    expect(reducer({counter: 3}, {type: INCREMENT, payload: 7}))
+    expect(reducer({ counter: 3 }, { type: INCREMENT, payload: 7 }))
       .to.deep.equal({
         counter: 10
       });
@@ -40,16 +40,16 @@ describe('handleActions', () => {
 
   it('accepts a default state as the second parameter', () => {
     const reducer = handleActions({
-      INCREMENT: ({counter}, {payload: amount}) => ({
+      INCREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       }),
 
-      DECREMENT: ({counter}, {payload: amount}) => ({
+      DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
       })
-    }, {counter: 3});
+    }, { counter: 3 });
 
-    expect(reducer(undefined, {type: 'INCREMENT', payload: 7}))
+    expect(reducer(undefined, { type: 'INCREMENT', payload: 7 }))
       .to.deep.equal({
         counter: 10
       });
@@ -58,12 +58,12 @@ describe('handleActions', () => {
   it('accepts action function as action type', () => {
     const incrementAction = createAction('INCREMENT');
     const reducer = handleActions({
-      [incrementAction]: ({counter}, {payload: amount}) => ({
+      [incrementAction]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
     });
 
-    expect(reducer({counter: 3}, incrementAction(7)))
+    expect(reducer({ counter: 3 }, incrementAction(7)))
       .to.deep.equal({
         counter: 10
       });
