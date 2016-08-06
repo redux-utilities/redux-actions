@@ -126,7 +126,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should use the meta creator if the meta value is a function in array form', () => {
+  it('should use the identity and meta creators in array form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: [value => ({ value }), meta1 => ({ meta1 })],
       ACTION_2: [({ value })=> value, ({ value }) => ({ meta2: value })],
