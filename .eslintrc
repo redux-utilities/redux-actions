@@ -16,7 +16,7 @@
     "no-param-reassign": 0,
     "no-reserved-keys": 0,
     "space-infix-ops": 0,
-    array-bracket-spacing: [2, "never"],
-    object-curly-spacing: [2, "never"]
+    "array-bracket-spacing": [2, "never"],
+    "object-curly-spacing": [2, "always"]
   }
 }

@@ -1,6 +1,7 @@
 import identity from 'lodash/identity';
 import camelCase from 'lodash/camelCase';
 import isPlainObject from 'lodash/isPlainObject';
+import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
@@ -9,8 +10,8 @@ import createAction from './createAction';
 function isValidActionsMapValue(actionsMapValue) {
   if (isFunction(actionsMapValue)) {
     return true;
-  } else if (isPlainObject(actionsMapValue)) {
-    const {payload = identity, meta} = actionsMapValue;
+  } else if (isArray(actionsMapValue)) {
+    const [payload = identity, meta] = actionsMapValue;
     return isFunction(payload) && isFunction(meta);
   }
   return false;
@@ -20,13 +21,12 @@ function fromActionsMap(actionsMap) {
   return reduce(actionsMap, (actionCreatorsMap, actionsMapValue = identity, type) => {
     if (!isValidActionsMapValue(actionsMapValue)) {
       throw new TypeError(
-        'Expected function, undefined, or object with meta and optional ' +
-        `payload functions for ${type}`);
+        'Expected function, undefined, or array with payload and meta ' +
+        `functions for ${type}`);
     }
     let actionCreator;
-    if (isPlainObject(actionsMapValue)) {
-      const {payload = identity, meta} = actionsMapValue;
-      actionCreator = createAction(type, payload, meta);
+    if (isArray(actionsMapValue)) {
+      actionCreator = createAction(type, ...actionsMapValue);
     } else {
       actionCreator = createAction(type, actionsMapValue);
     }

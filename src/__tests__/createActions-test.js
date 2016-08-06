@@ -3,7 +3,7 @@ import {expect} from 'chai';
 
 describe('createActions', () => {
   it('should throw an error when given arguments that contain a non-string', () => {
-    const expectedError = 'Expected (optional) object followed by string action types';
+    const expectedError = 'Expected (optional) array followed by string action types';
 
     expect(() => createActions(1)).to.throw(TypeError, expectedError);
     expect(() => createActions({ACTION_1: undefined}, [])).to.throw(TypeError, expectedError);
@@ -12,10 +12,10 @@ describe('createActions', () => {
 
   it('should throw an error when given bad payload creators', () => {
     expect(
-      () => createActions({ACTION_1: []})
+      () => createActions({ACTION_1: {}})
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or object with meta ' +
+      'Expected function, undefined, or array with meta ' +
       'and optional payload functions for ACTION_1'
     );
 
@@ -26,53 +26,51 @@ describe('createActions', () => {
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or object with meta ' +
+      'Expected function, undefined, or array with meta ' +
       'and optional payload functions for ACTION_2'
     );
   });
 
-  it('should throw an error when given a bad payload or meta creator in object form', () => {
+  it('should throw an error when given a bad payload or meta creator in array form', () => {
     expect(
       () => createActions({
-        ACTION_1: {
-          payload: [],
-          meta: () => {}
-        }
+        ACTION_1: [
+          [],
+          () => {}
+        ]
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or object with meta ' +
+      'Expected function, undefined, or array with meta ' +
       'and optional payload functions for ACTION_1'
     );
 
     expect(
       () => createActions({
-        ACTION_1: {
-          payload: () => {},
-          meta: () => {}
-        },
-        ACTION_2: {
-          payload: () => {},
-          meta: 1
-        }
+        ACTION_1: [
+          () => {},
+          () => {}
+        ],
+        ACTION_2: [
+          () => {},
+          1
+        ]
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or object with meta ' +
+      'Expected function, undefined, or array with meta ' +
       'and optional payload functions for ACTION_2'
     );
   });
 
-  it('should throw an error when no meta creator is given in object form', () => {
+  it('should throw an error when no meta creator is given in array form', () => {
     expect(
       () => createActions({
-        ACTION_1: {
-          payload: []
-        }
+        ACTION_1: [() => {}]
       })
     ).to.throw(
       TypeError,
-      'Expected function, undefined, or object with meta ' +
+      'Expected function, undefined, or array with meta ' +
       'and optional payload functions for ACTION_1'
     );
   });
@@ -114,7 +112,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should use the identity if the payload creator is undefined in object form', () => {
+  it('should use the identity if the payload creator is undefined in array form', () => {
     const {action1, action2} = createActions({
       ACTION_1: {
         meta(meta1) {
@@ -141,7 +139,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should use the meta creator if the meta value is a function in object form', () => {
+  it('should use the meta creator if the meta value is a function in array form', () => {
     const {action1, action2} = createActions({
       ACTION_1: {
         payload(value) {
