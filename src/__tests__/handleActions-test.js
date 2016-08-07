@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { handleActions, createAction } from '../';
+import { handleActions, createAction, createActions } from '../';
 
 describe('handleActions', () => {
   it('create a single handler from a map of multiple action handlers', () => {
@@ -68,4 +68,27 @@ describe('handleActions', () => {
         counter: 10
       });
   });
+  
+  it('should work with createActions action creators', () => {
+    const { increment, decrement } = createActions('INCREMENT', 'DECREMENT')
+  
+    const reducer = handleActions({
+      [increment]: ({ counter }, { payload }) => ({
+        counter: counter + payload
+      }),
+    
+      [decrement]: ({ counter }, { payload }) => ({
+        counter: counter - payload
+      })
+    });
+  
+    expect(reducer({ counter: 3 }, increment(2)))
+      .to.deep.equal({
+        counter: 5
+      });
+    expect(reducer({ counter: 10 }, decrement(3)))
+      .to.deep.equal({
+        counter: 7
+      });
+  })
 });
