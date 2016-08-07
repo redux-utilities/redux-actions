@@ -46,15 +46,16 @@ describe('handleAction()', () => {
         const reducer = handleAction(type, (state, action) => ({
           counter: state.counter + action.payload
         }), { counter: 3 });
+
         expect(reducer(undefined, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
       });
-      
+
       it('should work with createActions action creators', () => {
-        const { increment } = createActions('INCREMENT')
-        
+        const { increment } = createActions('INCREMENT');
+
         const reducer = handleAction(increment, (state, { payload }) => ({
           counter: state.counter + payload
         }), { counter: 3 });
@@ -63,7 +64,7 @@ describe('handleAction()', () => {
           .to.deep.equal({
             counter: 10
           });
-      })
+      });
     });
   });
 
