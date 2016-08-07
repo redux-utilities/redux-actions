@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { handleAction, createAction } from '../';
+import { handleAction, createAction, createActions } from '../';
 
 describe('handleAction()', () => {
   const type = 'TYPE';
@@ -51,6 +51,19 @@ describe('handleAction()', () => {
             counter: 10
           });
       });
+      
+      it('should work with createActions action creators', () => {
+        const { increment } = createActions('INCREMENT')
+        
+        const reducer = handleAction(increment, (state, { payload }) => ({
+          counter: state.counter + payload
+        }), { counter: 3 });
+
+        expect(reducer(undefined, increment(7)))
+          .to.deep.equal({
+            counter: 10
+          });
+      })
     });
   });
 
