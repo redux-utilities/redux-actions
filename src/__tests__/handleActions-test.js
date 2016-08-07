@@ -68,20 +68,20 @@ describe('handleActions', () => {
         counter: 10
       });
   });
-  
+
   it('should work with createActions action creators', () => {
-    const { increment, decrement } = createActions('INCREMENT', 'DECREMENT')
-  
+    const { increment, decrement } = createActions('INCREMENT', 'DECREMENT');
+
     const reducer = handleActions({
       [increment]: ({ counter }, { payload }) => ({
         counter: counter + payload
       }),
-    
+
       [decrement]: ({ counter }, { payload }) => ({
         counter: counter - payload
       })
     });
-  
+
     expect(reducer({ counter: 3 }, increment(2)))
       .to.deep.equal({
         counter: 5
@@ -90,5 +90,5 @@ describe('handleActions', () => {
       .to.deep.equal({
         counter: 7
       });
-  })
+  });
 });
