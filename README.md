@@ -112,6 +112,49 @@ expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 
 This also works in when declaring reducers with the `next`/`throw` object format in `handleAction` and `handleActions`.
 
+### `createActions(?actionsMap, ?...identityActions)`
+
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the string literals of `identityActions`; the values are the action creators.
+
+`actionsMap` is an optional object with action types as keys, and whose values **must** be either
+
+- a function, which is the payload creator for that action
+- an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
+    - `meta` is **required** in this case (otherwise use the function form above)
+
+`identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
+
+```js
+const { actionOne, actionTwo, actionThree } = createActions({
+  // function form; payload creator defined inline
+  ACTION_ONE: (key, value) => ({ [key]: value }),
+  
+  // array form
+  ACTION_TWO: [
+    (first) => first,               // payload
+    (first, second) => ({ second }) // meta
+  ],
+
+  // trailing action type string form; payload creator is the identity
+}, 'ACTION_THREE');
+
+expect(actionOne('key', 1)).to.deep.equal({
+  type: 'ACTION_ONE',
+  payload: { key: 1 }
+});
+
+expect(actionTwo('first', 'second')).to.deep.equal({
+  type: 'ACTION_TWO',
+  payload: ['first'],
+  meta: { second: 'second' }
+});
+
+expect(actionThree(3)).to.deep.equal({
+  type: 'ACTION_THREE',
+  payload: 3,
+});
+```
+
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
