@@ -13,6 +13,16 @@ npm install --save redux-actions
 import { createAction, handleAction, handleActions } from 'redux-actions';
 ```
 
+### Note
+
+We are also supporting a [UMD build](https://npmcdn.com/redux-actions/dist/redux-actions.min.js)
+
+```js
+var createAction = window.ReduxActions.createAction;
+var handleAction = window.ReduxActions.handleAction;
+var handleActions = window.ReduxActions.handleActions;
+```
+
 ### `createAction(type, payloadCreator = Identity, ?metaCreator)`
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no payload creator is passed, or if it's not a function, the identity function is used.
