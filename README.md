@@ -1,19 +1,25 @@
-redux-actions
-=============
+# redux-actions
 
 [![build status](https://img.shields.io/travis/acdlite/redux-actions/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-actions)
 [![npm version](https://img.shields.io/npm/v/redux-actions.svg?style=flat-square)](https://www.npmjs.com/package/redux-actions)
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
-```js
+## Installation
+
+```bash
 npm install --save redux-actions
 ```
-```js
-import { createAction, handleAction, handleActions } from 'redux-actions';
-```
+
+If you don’t use npm, you may grab the latest [UMD](https://npmcdn.com/redux-actions@latest/dist) build from [npmcdn](https://npmcdn.com) (either a [development](https://npmcdn.com/redux-actions@latest/dist/redux-actions.js) or a [production](https://npmcdn.com/redux-actions@latest/dist/redux-actions.min.js) build). The UMD build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](http://npmjs.org).
+
+## Usage
 
 ### `createAction(type, payloadCreator = Identity, ?metaCreator)`
+
+```js
+import { createAction } from 'redux-actions';
+```
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no payload creator is passed, or if it's not a function, the identity function is used.
 
@@ -80,6 +86,10 @@ createAction('ADD_TODO')('Use Redux');
 
 ### `createActions(?actionsMap, ?...identityActions)`
 
+```js
+import { createActions } from 'redux-actions';
+```
+
 Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the string literals of `identityActions`; the values are the action creators.
 
 `actionsMap` is an optional object with action types as keys, and whose values **must** be either
@@ -94,7 +104,7 @@ Returns an object mapping action types to action creators. The keys of this obje
 const { actionOne, actionTwo, actionThree } = createActions({
   // function form; payload creator defined inline
   ACTION_ONE: (key, value) => ({ [key]: value }),
-  
+
   // array form
   ACTION_TWO: [
     (first) => first,               // payload
@@ -123,6 +133,10 @@ expect(actionThree(3)).to.deep.equal({
 
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
+```js
+import { handleAction } from 'redux-actions';
+```
+
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
 If a single reducer is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
@@ -141,6 +155,10 @@ If either `next()` or `throw()` are `undefined` or `null`, then the identity fun
 The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
 
 ### `handleActions(reducerMap, ?defaultState)`
+
+```js
+import { handleActions } from 'redux-actions';
+```
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
