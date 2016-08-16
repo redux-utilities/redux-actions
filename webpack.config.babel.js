@@ -4,8 +4,6 @@ import path from 'path';
 const { NODE_ENV } = process.env;
 const production = NODE_ENV === 'production';
 
-const filename = `redux-actions${production ? '.min' : ''}.js`;
-
 const plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
@@ -31,7 +29,7 @@ export default {
   entry: path.join(__dirname, 'src/index.js'),
   output: {
     path: path.join(__dirname, 'dist'),
-    filename,
+    filename: `redux-actions${production ? '.min' : ''}.js`,
     library: 'ReduxActions',
     libraryTarget: 'umd'
   },

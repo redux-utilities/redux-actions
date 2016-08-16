@@ -4,9 +4,10 @@
   "description": "Flux Standard Action utlities for Redux",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --ignore *-test.js",
+    "build:commonjs": "babel src --out-dir lib --ignore *-test.js",
     "build:umd": "cross-env NODE_ENV=development webpack",
     "build:umd:min": "cross-env NODE_ENV=production webpack",
+    "build": "npm run clean && npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "clean": "rimraf lib",
     "lint": "esw src webpack.config --color",
     "lint:fix": "npm run lint -- --fix",
