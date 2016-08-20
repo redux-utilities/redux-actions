@@ -1,4 +1,4 @@
-import { combineActions, createAction } from '../';
+import { combineActions, createActions } from '../';
 import { expect } from 'chai';
 
 describe('combineActions', () => {
@@ -11,7 +11,7 @@ describe('combineActions', () => {
   });
 
   it('should accept action creators and action type strings', () => {
-    const [action1, action2] = [createAction('ACTION_1'), createAction('ACTION_2')];
+    const { action1, action2 } = createActions('ACTION_1', 'ACTION_2')
 
     expect(() => combineActions('ACTION_1', 'ACTION_2'))
       .not.to.throw(Error);
@@ -22,7 +22,7 @@ describe('combineActions', () => {
   });
 
   it('should return a stringifiable object', () => {
-    const [action1, action2] = [createAction('ACTION_1'), createAction('ACTION_2')];
+    const { action1, action2 } = createActions('ACTION_1', 'ACTION_2')
 
     expect(combineActions('ACTION_1', 'ACTION_2')).to.respondTo('toString');
     expect(combineActions(action1, action2)).to.respondTo('toString');
