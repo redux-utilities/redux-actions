@@ -1,4 +1,5 @@
 import identity from 'lodash/identity';
+import isUndefined from 'lodash/isUndefined';
 
 export default function createAction(type, payloadCreator, metaCreator) {
   const finalPayloadCreator = typeof payloadCreator === 'function'
@@ -13,7 +14,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
     };
 
     const payload = hasError ? args[0] : finalPayloadCreator(...args);
-    if (payload !== undefined) {
+    if (!isUndefined(payload)) {
       action.payload = payload;
     }
 
