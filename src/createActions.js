@@ -1,10 +1,10 @@
-import identity from 'lodash/identity';
-import camelCase from 'lodash/camelCase';
-import isPlainObject from 'lodash/isPlainObject';
-import isArray from 'lodash/isArray';
-import reduce from 'lodash/reduce';
-import isString from 'lodash/isString';
-import isFunction from 'lodash/isFunction';
+import identity from 'lodash.identity';
+import camelCase from 'lodash.camelcase';
+import isPlainObject from 'lodash.isplainobject';
+import isArray from 'lodash.isarray';
+import reduce from 'lodash.reduce';
+import isString from 'lodash.isstring';
+import isFunction from 'lodash.isfunction';
 import createAction from './createAction';
 
 export default function createActions(actionsMap, ...identityActions) {
