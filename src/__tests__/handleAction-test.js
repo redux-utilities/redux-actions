@@ -124,14 +124,11 @@ describe('handleAction()', () => {
 
     it('should handle combined actions in next/throw form', () => {
       const action1 = createAction('ACTION_1');
-      const reducer = handleAction(
-        combineActions(action1, 'ACTION_2', 'ACTION_3'),
-        {
-          next(state, action) {
-            return { ...state, number: action.payload };
-          }
-        },
-      );
+      const reducer = handleAction(combineActions(action1, 'ACTION_2', 'ACTION_3'), {
+        next(state, action) {
+          return { ...state, number: action.payload };
+        }
+      });
 
       expect(reducer({ number: 0 }, action1(1))).to.deep.equal({ number: 1 });
       expect(reducer({ number: 0 }, { type: 'ACTION_2', payload: 2 })).to.deep.equal({ number: 2 });

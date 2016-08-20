@@ -18,7 +18,7 @@ export default function combineActions(...actionsTypes) {
 
 function isValidActionTypes(actionTypes) {
   if (isEmpty(actionTypes)) {
-    return false
+    return false;
   }
   return actionTypes.every(isValidActionType);
 }

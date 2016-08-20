@@ -1,7 +1,7 @@
 import isFunction from 'lodash/isFunction';
 import identity from 'lodash/identity';
 import isNil from 'lodash/isNil';
-import includes from 'lodash/includes'
+import includes from 'lodash/includes';
 import { ACTION_TYPE_DELIMITER } from './combineActions';
 
 export default function handleAction(actionType, reducers, defaultState) {
