@@ -96,19 +96,10 @@ This function exists because while action type strings can be joined with a conv
 const increment = createAction('INCREMENT', amount => ({ amount }))
 const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
 
-const reducer = handleAction(
-  combineActions(increment, decrement),
-  {
-    next(state, { payload: { amount } }) {
-      return { ...state, counter: state.counter + amount }
-    },
-
-    throw(state) {
-      return { ...state, counter: 0 }
-    },
-  },
-  { counter: 10 }
-)
+const reducer = handleAction(combineActions(increment, decrement), {
+  next: (state, { payload: { amount } }) => ({ ...state, counter: state.counter + amount }),
+  throw: state => ({ ...state, counter: 0 }),
+}, { counter: 10 })
 
 expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
 expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
@@ -116,7 +107,7 @@ expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
 expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 ```
 
-This also works in when declaring reducers with the `next`/`throw` object format in `handleAction` and `handleActions`.
+This also works in when declaring multiple reducers with `handleActions`.
 
 ### `createActions(?actionsMap, ?...identityActions)`
 
