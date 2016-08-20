@@ -88,13 +88,15 @@ createAction('ADD_TODO')('Use Redux');
 
 Combine any number of action types or action creators.
 
-`actionTypes` is a variadic list of arguments which can be action type strings or action creators.
+`actionTypes` is a list of positional arguments which can be action type strings or action creators.
 
 This function exists because while action type strings can be joined with a conventional delimiter, there is no obvious way for a library user to combine action creators.
 
 ```js
-const increment = createAction('INCREMENT', amount => ({ amount }))
-const decrement = createAction('DECREMENT', amount => ({ amount: -amount }))
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount }),
+})
 
 const reducer = handleAction(combineActions(increment, decrement), {
   next: (state, { payload: { amount } }) => ({ ...state, counter: state.counter + amount }),
@@ -106,8 +108,6 @@ expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
 expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
 expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 ```
-
-This also works in when declaring multiple reducers with `handleActions`.
 
 ### `createActions(?actionsMap, ?...identityActions)`
 
