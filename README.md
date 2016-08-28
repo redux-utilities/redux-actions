@@ -131,29 +131,6 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-### `combineActions(...actionTypes)`
-
-Combine any number of action types or action creators.
-
-`actionTypes` is a list of positional arguments which can be action type strings, symbols, or action creators.
-
-```js
-const { increment, decrement } = createActions({
-  INCREMENT: amount => ({ amount }),
-  DECREMENT: amount => ({ amount: -amount }),
-})
-
-const reducer = handleAction(combineActions(increment, decrement), {
-  next: (state, { payload: { amount } }) => ({ ...state, counter: state.counter + amount }),
-  throw: state => ({ ...state, counter: 0 }),
-}, { counter: 10 })
-
-expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
-expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
-expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
-expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
-```
-
 ### `handleAction(type, reducer | reducerMap, ?defaultState)`
 
 ```js
@@ -201,6 +178,29 @@ const reducer = handleActions({
     counter: state.counter - action.payload
   })
 }, { counter: 0 });
+```
+
+### `combineActions(...actionTypes)`
+
+Combine any number of action types or action creators.
+
+`actionTypes` is a list of positional arguments which can be action type strings, symbols, or action creators.
+
+```js
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount }),
+})
+
+const reducer = handleAction(combineActions(increment, decrement), {
+  next: (state, { payload: { amount } }) => ({ ...state, counter: state.counter + amount }),
+  throw: state => ({ ...state, counter: 0 }),
+}, { counter: 10 })
+
+expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
+expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
+expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
+expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 ```
 
 ## Usage with middleware
