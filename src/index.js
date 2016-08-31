@@ -9,5 +9,5 @@ export {
   createActions,
   handleAction,
   handleActions,
-  combineActions,
+  combineActions
 };
