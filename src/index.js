@@ -8,6 +8,6 @@ export {
   createAction,
   createActions,
   handleAction,
+  handleActions,
   combineActions,
-  handleActions
 };
