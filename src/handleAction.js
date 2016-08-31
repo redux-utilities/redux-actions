@@ -1,6 +1,7 @@
 import isFunction from 'lodash/isFunction';
 import identity from 'lodash/identity';
 import isNil from 'lodash/isNil';
+import includes from 'lodash/includes';
 import { ACTION_TYPE_DELIMITER } from './combineActions';
 
 export default function handleAction(actionType, reducers, defaultState) {
@@ -11,7 +12,7 @@ export default function handleAction(actionType, reducers, defaultState) {
     : [reducers.next, reducers.throw].map(reducer => (isNil(reducer) ? identity : reducer));
 
   return (state = defaultState, action) => {
-    if (!actionTypes.includes(action.type.toString())) {
+    if (!includes(actionTypes, action.type.toString())) {
       return state;
     }
 
