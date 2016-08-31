@@ -6,15 +6,15 @@ import isSymbol from 'lodash/isSymbol';
 
 export const ACTION_TYPE_DELIMITER = '|redux-action-delimiter|';
 
+function isValidActionType(actionType) {
+  return isString(actionType) || isFunction(actionType) || isSymbol(actionType);
+}
+
 function isValidActionTypes(actionTypes) {
   if (isEmpty(actionTypes)) {
     return false;
   }
   return actionTypes.every(isValidActionType);
-}
-
-function isValidActionType(actionType) {
-  return isString(actionType) || isFunction(actionType) || isSymbol(actionType);
 }
 
 export default function combineActions(...actionsTypes) {
