@@ -29,7 +29,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
     return action;
   };
 
-  actionHandler.toString = () => type;
+  actionHandler.toString = () => type.toString();
 
   return actionHandler;
 }
