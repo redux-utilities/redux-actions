@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import toString from 'lodash/toString';
 import isSymbol from 'lodash/isSymbol';
 
-export const ACTION_TYPE_DELIMITER = '|redux-action-delimiter|';
+export const ACTION_TYPE_DELIMITER = '||';
 
 function isValidActionType(actionType) {
   return isString(actionType) || isFunction(actionType) || isSymbol(actionType);
