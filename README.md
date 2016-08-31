@@ -182,9 +182,9 @@ const reducer = handleActions({
 
 ### `combineActions(...actionTypes)`
 
-Combine any number of action types or action creators.
+Combine any number of action types or action creators. `actionTypes` is a list of positional arguments which can be action type strings, symbols, or action creators.
 
-`actionTypes` is a list of positional arguments which can be action type strings, symbols, or action creators.
+This is useful for allowing your reducing multiple distinct actions with the same reducer.
 
 ```js
 const { increment, decrement } = createActions({
