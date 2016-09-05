@@ -2,6 +2,22 @@ import { expect } from 'chai';
 import { handleActions, createAction, createActions, combineActions } from '../';
 
 describe('handleActions', () => {
+  const defaultState = { counter: 0 }
+  
+  it('should throw an error when defaultState is not specified', () => {
+    expect(() => {
+      handleActions({
+        INCREMENT: ({ counter }, { payload: amount }) => ({
+          counter: counter + amount
+        }),
+    
+        DECREMENT: ({ counter }, { payload: amount }) => ({
+          counter: counter - amount
+        })
+      });
+    }).to.throw(Error, 'Expected defaultState for reducer handling INCREMENT, DECREMENT to be defined')
+  })
+  
   it('create a single handler from a map of multiple action handlers', () => {
     const reducer = handleActions({
       INCREMENT: ({ counter }, { payload: amount }) => ({
@@ -11,7 +27,7 @@ describe('handleActions', () => {
       DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
       })
-    });
+    }, defaultState);
 
     expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
       .to.deep.equal({
