@@ -52,11 +52,11 @@ describe('handleAction()', () => {
       it('accepts a default state used when the previous state is undefined', () => {
         const reducer = handleAction(type, (state, action) => ({
           counter: state.counter + action.payload
-        }), { counter: 5 });
+        }), { counter: 3 });
 
         expect(reducer(undefined, { type, payload: 7 }))
           .to.deep.equal({
-            counter: 12
+            counter: 10
           });
       });
 
