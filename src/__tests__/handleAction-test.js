@@ -3,8 +3,8 @@ import { handleAction, createAction, createActions, combineActions } from '../';
 
 describe('handleAction()', () => {
   const type = 'TYPE';
+  const prevState = { counter: 3 };
   const defaultState = { counter: 0 };
-  const previousState = { counter: 3 };
 
   describe('single handler form', () => {
     it('should throw an error if defaultState is not specified', () => {
@@ -16,12 +16,12 @@ describe('handleAction()', () => {
     describe('resulting reducer', () => {
       it('returns previous state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', () => null, defaultState);
-        expect(reducer(previousState, { type })).to.equal(previousState);
+        expect(reducer(prevState, { type })).to.equal(prevState);
       });
 
       it('returns default state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', () => null, { counter: 7 });
-        expect(reducer(undefined, { type }, defaultState))
+        expect(reducer(undefined, { type }))
           .to.deep.equal({
             counter: 7
           });
@@ -31,7 +31,7 @@ describe('handleAction()', () => {
         const reducer = handleAction(type, (state, action) => ({
           counter: state.counter + action.payload
         }), defaultState);
-        expect(reducer(previousState, { type, payload: 7 }))
+        expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
@@ -43,7 +43,7 @@ describe('handleAction()', () => {
           counter: state.counter + action.payload
         }), defaultState);
 
-        expect(reducer(previousState, incrementAction(7)))
+        expect(reducer(prevState, incrementAction(7)))
           .to.deep.equal({
             counter: 10
           });
@@ -85,7 +85,7 @@ describe('handleAction()', () => {
     describe('resulting reducer', () => {
       it('returns previous state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', { next: () => null }, defaultState);
-        expect(reducer(previousState, { type })).to.equal(previousState);
+        expect(reducer(prevState, { type })).to.equal(prevState);
       });
 
       it('uses `next()` if action does not represent an error', () => {
@@ -94,7 +94,7 @@ describe('handleAction()', () => {
             counter: state.counter + action.payload
           })
         }, defaultState);
-        expect(reducer(previousState, { type, payload: 7 }))
+        expect(reducer(prevState, { type, payload: 7 }))
           .to.deep.equal({
             counter: 10
           });
@@ -107,7 +107,7 @@ describe('handleAction()', () => {
           })
         }, defaultState);
 
-        expect(reducer(previousState, { type, payload: 7, error: true }))
+        expect(reducer(prevState, { type, payload: 7, error: true }))
           .to.deep.equal({
             counter: 10
           });
@@ -115,9 +115,9 @@ describe('handleAction()', () => {
 
       it('returns previous state if matching handler is not function', () => {
         const reducer = handleAction(type, { next: null, error: 123 }, defaultState);
-        expect(reducer(previousState, { type, payload: 123 })).to.equal(previousState);
-        expect(reducer(previousState, { type, payload: 123, error: true }))
-          .to.equal(previousState);
+        expect(reducer(prevState, { type, payload: 123 })).to.equal(prevState);
+        expect(reducer(prevState, { type, payload: 123, error: true }))
+          .to.equal(prevState);
       });
     });
   });
