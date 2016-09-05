@@ -2,22 +2,25 @@ import { expect } from 'chai';
 import { handleActions, createAction, createActions, combineActions } from '../';
 
 describe('handleActions', () => {
-  const defaultState = { counter: 0 }
-  
+  const defaultState = { counter: 0 };
+
   it('should throw an error when defaultState is not specified', () => {
     expect(() => {
       handleActions({
         INCREMENT: ({ counter }, { payload: amount }) => ({
           counter: counter + amount
         }),
-    
+
         DECREMENT: ({ counter }, { payload: amount }) => ({
           counter: counter - amount
         })
       });
-    }).to.throw(Error, 'Expected defaultState for reducer handling INCREMENT, DECREMENT to be defined')
-  })
-  
+    }).to.throw(
+      Error,
+      'Expected defaultState for reducer handling INCREMENT, DECREMENT to be defined'
+    );
+  });
+
   it('create a single handler from a map of multiple action handlers', () => {
     const reducer = handleActions({
       INCREMENT: ({ counter }, { payload: amount }) => ({
@@ -46,7 +49,7 @@ describe('handleActions', () => {
       [INCREMENT]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
-    });
+    }, defaultState);
 
     expect(reducer({ counter: 3 }, { type: INCREMENT, payload: 7 }))
       .to.deep.equal({
@@ -54,7 +57,7 @@ describe('handleActions', () => {
       });
   });
 
-  it('accepts a default state as the second parameter', () => {
+  it('accepts a default state used when previous state is undefined', () => {
     const reducer = handleActions({
       INCREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
@@ -77,7 +80,7 @@ describe('handleActions', () => {
       [incrementAction]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
-    });
+    }, defaultState);
 
     expect(reducer({ counter: 3 }, incrementAction(7)))
       .to.deep.equal({
@@ -97,12 +100,12 @@ describe('handleActions', () => {
       [combineActions(increment, decrement)](state, { payload: { amount } }) {
         return { ...state, counter: state.counter + amount };
       }
-    }, initialState);
+    }, defaultState);
 
     expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
     expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
     expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 5 });
   });
 
   it('should accept combined actions as action types in the next/throw form', () => {
@@ -123,14 +126,14 @@ describe('handleActions', () => {
           return { ...state, counter: 0 };
         }
       }
-    }, initialState);
+    }, defaultState);
     const error = new Error;
 
     // non-errors
     expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
     expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
     expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 5 });
 
     // errors
     expect(
@@ -152,7 +155,7 @@ describe('handleActions', () => {
       [decrement]: ({ counter }, { payload }) => ({
         counter: counter - payload
       })
-    });
+    }, defaultState);
 
     expect(reducer({ counter: 3 }, increment(2)))
       .to.deep.equal({

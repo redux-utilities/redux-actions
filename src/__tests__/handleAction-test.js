@@ -9,8 +9,8 @@ describe('handleAction()', () => {
   describe('single handler form', () => {
     it('should throw an error if defaultState is not specified', () => {
       expect(() => {
-        handleAction(type, undefined)
-      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined')
+        handleAction(type, undefined);
+      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined');
     });
 
     describe('resulting reducer', () => {
@@ -78,8 +78,8 @@ describe('handleAction()', () => {
   describe('map of handlers form', () => {
     it('should throw an error if defaultState is not specified', () => {
       expect(() => {
-        handleAction(type, { next: () => null })
-      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined')
+        handleAction(type, { next: () => null });
+      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined');
     });
 
     describe('resulting reducer', () => {
