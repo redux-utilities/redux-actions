@@ -95,7 +95,8 @@ describe('createAction()', () => {
 
       const explictNullAction = createAction(type)(null);
       expect(explictNullAction).to.deep.equal({
-        type
+        type,
+        payload: null
       });
 
       const baz = '1';
