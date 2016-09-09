@@ -18,7 +18,7 @@ describe('handleAction()', () => {
     });
   });
 
-  it('returns previous state if no reducer is specified', () => {
+  it('returns uses the identity if the specified reducer is undefined', () => {
     const reducer = handleAction(type);
 
     expect(reducer(prevState, { type })).to.equal(prevState);
