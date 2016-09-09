@@ -1,9 +1,10 @@
 import identity from 'lodash/identity';
+import isFunction from 'lodash/isFunction';
 
-export default function createAction(type, payloadCreator, metaCreator) {
-  const finalPayloadCreator = typeof payloadCreator === 'function'
-    ? payloadCreator
-    : identity;
+export default function createAction(type, payloadCreator = identity, metaCreator) {
+  if (!isFunction(payloadCreator)) {
+    throw new TypeError('Expected payloadCreator to be a function or undefined');
+  }
 
   const actionHandler = (...args) => {
     const hasError = args[0] instanceof Error;
@@ -12,7 +13,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
       type
     };
 
-    const payload = hasError ? args[0] : finalPayloadCreator(...args);
+    const payload = hasError ? args[0] : payloadCreator(...args);
     if (!(payload === null || payload === undefined)) {
       action.payload = payload;
     }
@@ -22,7 +23,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
       action.error = true;
     }
 
-    if (typeof metaCreator === 'function') {
+    if (isFunction(metaCreator)) {
       action.meta = metaCreator(...args);
     }
 
