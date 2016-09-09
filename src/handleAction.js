@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil';
 import includes from 'lodash/includes';
 import { ACTION_TYPE_DELIMITER } from './combineActions';
 
-export default function handleAction(actionType, reducer = {}, defaultState) {
+export default function handleAction(actionType, reducer = identity, defaultState) {
   const actionTypes = actionType.toString().split(ACTION_TYPE_DELIMITER);
 
   if (!isFunction(reducer) && !isPlainObject(reducer)) {
