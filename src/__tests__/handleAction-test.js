@@ -5,17 +5,27 @@ describe('handleAction()', () => {
   const type = 'TYPE';
   const prevState = { counter: 3 };
 
-  describe('single handler form', () => {
-    it('should throw an error if the reducer is the wrong type', () => {
-      const badReducers = [1, 'string', [], null, undefined]
-      
-      badReducers.forEach(badReducer => {
-        expect(() => {
-          handleAction(type, badReducer);
-        }).to.throw(TypeError);
-      })
-    });
+  it('should throw an error if the reducer is the wrong type', () => {
+    const badReducers = [1, 'string', [], null];
 
+    badReducers.forEach(badReducer => {
+      expect(() => {
+        handleAction(type, badReducer);
+      }).to.throw(
+        TypeError,
+        'Expected reducer to be a function or object with next and throw reducers'
+      );
+    });
+  });
+
+  it('returns previous state if no reducer is specified', () => {
+    const reducer = handleAction(type);
+
+    expect(reducer(prevState, { type })).to.equal(prevState);
+    expect(reducer(prevState, { type, error: true, payload: new Error })).to.equal(prevState);
+  });
+
+  describe('single handler form', () => {
     describe('resulting reducer', () => {
       it('returns previous state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', () => null);
