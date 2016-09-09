@@ -5,7 +5,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
     ? payloadCreator
     : identity;
 
-  const actionHandler = (...args) => {
+  const actionCreator = (...args) => {
     const hasError = args[0] instanceof Error;
 
     const action = {
@@ -29,7 +29,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
     return action;
   };
 
-  actionHandler.toString = () => type.toString();
+  actionCreator.toString = () => type.toString();
 
-  return actionHandler;
+  return actionCreator;
 }
