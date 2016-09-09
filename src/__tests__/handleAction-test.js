@@ -6,6 +6,16 @@ describe('handleAction()', () => {
   const prevState = { counter: 3 };
 
   describe('single handler form', () => {
+    it('should throw an error if the reducer is the wrong type', () => {
+      const badReducers = [1, 'string', [], null, undefined]
+      
+      badReducers.forEach(badReducer => {
+        expect(() => {
+          handleAction(type, badReducer);
+        }).to.throw(TypeError);
+      })
+    });
+
     describe('resulting reducer', () => {
       it('returns previous state if type does not match', () => {
         const reducer = handleAction('NOTTYPE', () => null);
