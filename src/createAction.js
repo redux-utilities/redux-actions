@@ -1,10 +1,9 @@
 import identity from 'lodash/identity';
 import isFunction from 'lodash/isFunction';
+import invariant from 'invariant';
 
 export default function createAction(type, payloadCreator = identity, metaCreator) {
-  if (!isFunction(payloadCreator)) {
-    throw new TypeError('Expected payloadCreator to be a function or undefined');
-  }
+  invariant(isFunction(payloadCreator), 'Expected payloadCreator to be a function or undefined');
 
   const actionCreator = (...args) => {
     const hasError = args[0] instanceof Error;

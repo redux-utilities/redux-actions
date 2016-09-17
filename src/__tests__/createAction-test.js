@@ -30,7 +30,7 @@ describe('createAction()', () => {
         expect(() => {
           createAction(type, badPayloadCreator);
         })
-        .to.throw(TypeError, 'Expected payloadCreator to be a function or undefined');
+        .to.throw(Error, 'Expected payloadCreator to be a function or undefined');
       });
     });
 
