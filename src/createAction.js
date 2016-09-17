@@ -6,7 +6,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     throw new TypeError('Expected payloadCreator to be a function or undefined');
   }
 
-  const actionHandler = (...args) => {
+  const actionCreator = (...args) => {
     const hasError = args[0] instanceof Error;
 
     const action = {
@@ -30,7 +30,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     return action;
   };
 
-  actionHandler.toString = () => type.toString();
+  actionCreator.toString = () => type.toString();
 
-  return actionHandler;
+  return actionCreator;
 }
