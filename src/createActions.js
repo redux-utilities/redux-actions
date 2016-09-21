@@ -1,5 +1,4 @@
 import identity from 'lodash/identity';
-import camelCase from 'lodash/camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
@@ -52,4 +51,12 @@ function fromIdentityActions(identityActions) {
       (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity })
     , {})
   );
+}
+
+function camelCase(word) {
+  return word.split(/[^a-zA-Z0-9]+/).map((part, index) => (
+    index === 0 ?
+      part.toLowerCase() :
+      part[0].toUpperCase() + part.slice(1).toLowerCase()
+  )).join('');
 }
