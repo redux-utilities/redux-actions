@@ -1,7 +1,6 @@
 import identity from 'lodash/identity';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
-import reduce from 'lodash/reduce';
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
@@ -30,7 +29,9 @@ function isValidActionsMapValue(actionsMapValue) {
 }
 
 function fromActionsMap(actionsMap) {
-  return reduce(actionsMap, (actionCreatorsMap, actionsMapValue, type) => {
+  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
+    const actionsMapValue = actionsMap[type];
+
     if (!isValidActionsMapValue(actionsMapValue)) {
       throw new TypeError(
         'Expected function, undefined, or array with payload and meta ' +
