@@ -133,12 +133,12 @@ describe('createAction()', () => {
 
     it('set error to true if payloadCreator return an Error object', () => {
       const errObj = new TypeError('this is an error');
-      const actionCreator = createAction(type, (...args) => errObj);
+      const actionCreator = createAction(type, () => errObj);
       const errAction = actionCreator('invalid arguments');
       expect(errAction).to.deep.equal({
         type,
         payload: errObj,
-        error: true,
+        error: true
       });
     });
   });
