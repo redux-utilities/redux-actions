@@ -17,7 +17,7 @@ export default function createAction(type, payloadCreator, metaCreator) {
       action.payload = payload;
     }
 
-    if (hasError) {
+    if (hasError || payload instanceof Error) {
       // Handle FSA errors where the payload is an Error object. Set error.
       action.error = true;
     }
