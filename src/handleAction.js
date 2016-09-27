@@ -12,7 +12,7 @@ export default function handleAction(actionType, reducers, defaultState) {
     : [reducers.next, reducers.throw].map(reducer => (isNil(reducer) ? identity : reducer));
 
   return (state = defaultState, action) => {
-    if (!includes(actionTypes, action.type.toString())) {
+    if (action.type == null || !includes(actionTypes, action.type.toString())) {
       return state;
     }
 

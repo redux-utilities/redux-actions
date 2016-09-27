@@ -19,6 +19,13 @@ describe('handleAction()', () => {
             counter: 7
           });
       });
+      it('returns default state if action is empty', () => {
+        const reducer = handleAction('NOTTYPE', () => null, { counter: 7 });
+        expect(reducer(undefined, {}))
+          .to.deep.equal({
+            counter: 7
+          });
+      });
 
       it('accepts single function as handler', () => {
         const reducer = handleAction(type, (state, action) => ({
