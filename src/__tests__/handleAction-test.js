@@ -204,6 +204,7 @@ describe('handleAction()', () => {
         (state) => state
       );
       expect(() => reducer(undefined))
+      // eslint-disable-next-line max-len
         .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
     });
 
@@ -214,6 +215,7 @@ describe('handleAction()', () => {
         (state) => state
       );
       expect(() => reducer(undefined, {}))
+      // eslint-disable-next-line max-len
         .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
     });
 
@@ -224,6 +226,7 @@ describe('handleAction()', () => {
         (state) => state
       );
       expect(() => reducer(undefined, { type: false }))
+      // eslint-disable-next-line max-len
         .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
     });
   });
