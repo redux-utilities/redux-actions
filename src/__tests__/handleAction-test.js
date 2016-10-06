@@ -195,4 +195,36 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 3 });
     });
   });
+
+  describe('with invalid actions', () => {
+    it('should throw a descriptive error when the action object is missing', () => {
+      const action1 = createAction('ACTION_1');
+      const reducer = handleAction(
+        action1,
+        (state) => state
+      );
+      expect(() => reducer(undefined))
+        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+    });
+
+    it('should throw a descriptive error when the action type is missing', () => {
+      const action1 = createAction('ACTION_1');
+      const reducer = handleAction(
+        action1,
+        (state) => state
+      );
+      expect(() => reducer(undefined, {}))
+        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+    });
+
+    it('should throw a descriptive error when the action type is not a string or symbol', () => {
+      const action1 = createAction('ACTION_1');
+      const reducer = handleAction(
+        action1,
+        (state) => state
+      );
+      expect(() => reducer(undefined, { type: false }))
+        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+    });
+  });
 });
