@@ -65,6 +65,22 @@ describe('handleAction()', () => {
             counter: 10
           });
       });
+
+      it('should should support additional arguments', () => {
+        const { increment } = createActions('INCREMENT');
+
+        const reducer = handleAction(
+          increment, (state, { payload }, extraArg) => ({
+            counter: state.counter + payload + extraArg
+          }), 
+          { counter: 3 });
+
+        const counterBase = 10;
+        expect(reducer(undefined, increment(7), counterBase))
+          .to.deep.equal({
+            counter: 10 + counterBase
+          });
+      });
     });
   });
 

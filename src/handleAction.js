@@ -11,11 +11,13 @@ export default function handleAction(actionType, reducers, defaultState) {
     ? [reducers, reducers]
     : [reducers.next, reducers.throw].map(reducer => (isNil(reducer) ? identity : reducer));
 
-  return (state = defaultState, action) => {
+  return (state = defaultState, action, ...args) => {
     if (!includes(actionTypes, action.type.toString())) {
       return state;
     }
 
-    return (action.error === true ? throwReducer : nextReducer)(state, action);
+    return (
+      action.error === true ? throwReducer : nextReducer
+    )(state, action, ...args);
   };
 }
