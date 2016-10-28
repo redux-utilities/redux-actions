@@ -50,12 +50,13 @@
     "eslint-config-airbnb-base": "^1.0.3",
     "eslint-plugin-import": "^1.5.0",
     "eslint-watch": "^2.1.13",
-    "flux-standard-action": "^0.6.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.5.3",
     "webpack": "^1.13.1"
   },
   "dependencies": {
+    "flux-standard-action": "^1.0.0",
+    "invariant": "^2.2.1",
     "lodash": "^4.13.1",
     "reduce-reducers": "^0.1.0"
   }
