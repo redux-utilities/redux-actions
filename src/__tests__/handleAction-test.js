@@ -200,23 +200,32 @@ describe('handleAction()', () => {
   describe('with invalid actions', () => {
     it('should throw a descriptive error when the action object is missing', () => {
       const reducer = handleAction(createAction('ACTION_1'), identity);
-      expect(() => reducer(undefined))
-      // eslint-disable-next-line max-len
-        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+      expect(
+        () => reducer(undefined)
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
     });
 
     it('should throw a descriptive error when the action type is missing', () => {
       const reducer = handleAction(createAction('ACTION_1'), identity);
-      expect(() => reducer(undefined, {}))
-      // eslint-disable-next-line max-len
-        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+      expect(
+        () => reducer(undefined, {})
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
     });
 
     it('should throw a descriptive error when the action type is not a string or symbol', () => {
       const reducer = handleAction(createAction('ACTION_1'), identity);
-      expect(() => reducer(undefined, { type: false }))
-      // eslint-disable-next-line max-len
-        .to.throw(/The FSA spec mandates an action object with a type. Try using the createAction\(s\) method./);
+      expect(
+        () => reducer(undefined, { type: false })
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
     });
   });
 });
