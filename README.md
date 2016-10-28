@@ -1,7 +1,8 @@
 # redux-actions
 
 [![build status](https://img.shields.io/travis/acdlite/redux-actions/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-actions)
-[![npm version](https://img.shields.io/npm/v/redux-actions.svg?style=flat-square)](https://www.npmjs.com/package/redux-actions)
+
+[![NPM](https://nodei.co/npm/redux-actions.png?downloads=true)](https://nodei.co/npm/redux-actions/)
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
@@ -11,7 +12,7 @@
 npm install --save redux-actions
 ```
 
-If you don’t use [npm](https://www.npmjs.com), you may grab the latest [UMD](https://npmcdn.com/redux-actions@latest/dist) build from [npmcdn](https://npmcdn.com) (either a [development](https://npmcdn.com/redux-actions@latest/dist/redux-actions.js) or a [production](https://npmcdn.com/redux-actions@latest/dist/redux-actions.min.js) build). The UMD build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
+If you don’t use [npm](https://www.npmjs.com), you may grab the latest [UMD](https://unpkg.com/redux-actions@latest/dist) build from [unpkg](https://unpkg.com) (either a [development](https://unpkg.com/redux-actions@latest/dist/redux-actions.js) or a [production](https://unpkg.com/redux-actions@latest/dist/redux-actions.min.js) build). The UMD build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
 
 ## Usage
 

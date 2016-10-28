@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import identity from 'lodash/identity';
 import { handleAction, createAction, createActions, combineActions } from '../';
 
 describe('handleAction()', () => {
@@ -209,6 +210,38 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 2 });
       expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
         .to.deep.equal({ number: 3 });
+    });
+  });
+
+  describe('with invalid actions', () => {
+    it('should throw a descriptive error when the action object is missing', () => {
+      const reducer = handleAction(createAction('ACTION_1'), identity);
+      expect(
+        () => reducer(undefined)
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
+    });
+
+    it('should throw a descriptive error when the action type is missing', () => {
+      const reducer = handleAction(createAction('ACTION_1'), identity);
+      expect(
+        () => reducer(undefined, {})
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
+    });
+
+    it('should throw a descriptive error when the action type is not a string or symbol', () => {
+      const reducer = handleAction(createAction('ACTION_1'), identity);
+      expect(
+        () => reducer(undefined, { type: false })
+      ).to.throw(
+        Error,
+        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      );
     });
   });
 });
