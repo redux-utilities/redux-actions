@@ -4,7 +4,7 @@ import { handleActions, createAction, createActions, combineActions } from '../'
 describe('handleActions', () => {
   const defaultState = { counter: 0 };
 
-  it('should throw an error when defaultState is not specified', () => {
+  it('should throw an error when defaultState is not defined', () => {
     expect(() => {
       handleActions({
         INCREMENT: ({ counter }, { payload: amount }) => ({
@@ -17,7 +17,25 @@ describe('handleActions', () => {
       });
     }).to.throw(
       Error,
-      'Expected defaultState for reducer handling INCREMENT, DECREMENT to be defined'
+      'defaultState for reducer handling INCREMENT should be defined'
+    );
+  });
+
+  it('should throw an error when defaultState is not defined for combinedActions', () => {
+    expect(() => {
+      handleActions({
+        [
+          combineActions(
+            'INCREMENT',
+            'DECREMENT'
+          )
+        ]: ({ counter }, { type, payload: amount }) => ({
+          counter: counter + (type === 'INCREMENT' ? +1 : -1) * amount
+        })
+      });
+    }).to.throw(
+      Error,
+      'defaultState for reducer handling INCREMENT, DECREMENT should be defined'
     );
   });
 

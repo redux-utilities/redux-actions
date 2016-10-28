@@ -11,7 +11,10 @@ describe('handleAction()', () => {
     it('should throw an error if defaultState is not specified', () => {
       expect(() => {
         handleAction(type, undefined);
-      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined');
+      }).to.throw(
+        Error,
+        'defaultState for reducer handling TYPE should be defined'
+      );
     });
 
     describe('resulting reducer', () => {
@@ -80,7 +83,11 @@ describe('handleAction()', () => {
     it('should throw an error if defaultState is not specified', () => {
       expect(() => {
         handleAction(type, { next: () => null });
-      }).to.throw(Error, 'Expected defaultState for reducer handling TYPE to be defined');
+      })
+      .to.throw(
+        Error,
+        'defaultState for reducer handling TYPE should be defined'
+      );
     });
 
     describe('resulting reducer', () => {
@@ -215,7 +222,7 @@ describe('handleAction()', () => {
 
   describe('with invalid actions', () => {
     it('should throw a descriptive error when the action object is missing', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity);
+      const reducer = handleAction(createAction('ACTION_1'), identity, {});
       expect(
         () => reducer(undefined)
       ).to.throw(
@@ -225,7 +232,7 @@ describe('handleAction()', () => {
     });
 
     it('should throw a descriptive error when the action type is missing', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity);
+      const reducer = handleAction(createAction('ACTION_1'), identity, {});
       expect(
         () => reducer(undefined, {})
       ).to.throw(
@@ -235,7 +242,7 @@ describe('handleAction()', () => {
     });
 
     it('should throw a descriptive error when the action type is not a string or symbol', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity);
+      const reducer = handleAction(createAction('ACTION_1'), identity, {});
       expect(
         () => reducer(undefined, { type: false })
       ).to.throw(
