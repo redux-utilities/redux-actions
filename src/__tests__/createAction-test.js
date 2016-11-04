@@ -93,11 +93,6 @@ describe('createAction()', () => {
         type
       });
 
-      const explictNullAction = createAction(type)(null);
-      expect(explictNullAction).to.deep.equal({
-        type
-      });
-
       const baz = '1';
       const actionCreator = createAction(type, null, () => ({ bar: baz }));
       expect(actionCreator()).to.deep.equal({
@@ -128,6 +123,17 @@ describe('createAction()', () => {
         payload: errObj,
         error: true,
         meta: { foo: 'bar' }
+      });
+    });
+
+    it('set error to true if payloadCreator return an Error object', () => {
+      const errObj = new TypeError('this is an error');
+      const actionCreator = createAction(type, () => errObj);
+      const errAction = actionCreator('invalid arguments');
+      expect(errAction).to.deep.equal({
+        type,
+        payload: errObj,
+        error: true
       });
     });
   });

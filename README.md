@@ -1,7 +1,8 @@
 # redux-actions
 
 [![build status](https://img.shields.io/travis/acdlite/redux-actions/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-actions)
-[![npm version](https://img.shields.io/npm/v/redux-actions.svg?style=flat-square)](https://www.npmjs.com/package/redux-actions)
+
+[![NPM](https://nodei.co/npm/redux-actions.png?downloads=true)](https://nodei.co/npm/redux-actions/)
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
@@ -131,7 +132,7 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-### `handleAction(type, reducer | reducerMap = Identity, ?defaultState)`
+### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
 ```js
 import { handleAction } from 'redux-actions';
@@ -147,16 +148,16 @@ Otherwise, you can specify separate reducers for `next()` and `throw()` using th
 handleAction('FETCH_DATA', {
   next(state, action) {...},
   throw(state, action) {...}
-});
+}, defaultState);
 ```
 
 If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer. 
 
 If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identity function is used.
 
-The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
-### `handleActions(reducerMap, ?defaultState)`
+### `handleActions(reducerMap, defaultState)`
 
 ```js
 import { handleActions } from 'redux-actions';
@@ -164,7 +165,7 @@ import { handleActions } from 'redux-actions';
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
-The optional second parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
 
