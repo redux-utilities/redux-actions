@@ -8,9 +8,9 @@ describe('handleAction()', () => {
   const defaultState = { counter: 0 };
 
   it('should throw an error if the reducer is the wrong type', () => {
-    const badReducers = [1, 'string', [], null];
+    const wrongTypeReducers = [1, 'string', [], null];
 
-    badReducers.forEach(badReducer => {
+    wrongTypeReducers.forEach(badReducer => {
       expect(() => {
         handleAction(type, badReducer, defaultState);
       }).to.throw(
