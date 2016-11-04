@@ -7,6 +7,26 @@ describe('handleAction()', () => {
   const prevState = { counter: 3 };
   const defaultState = { counter: 0 };
 
+  it('should throw an error if the reducer is the wrong type', () => {
+    const wrongTypeReducers = [1, 'string', [], null];
+
+    wrongTypeReducers.forEach(wrongTypeReducer => {
+      expect(() => {
+        handleAction(type, wrongTypeReducer, defaultState);
+      }).to.throw(
+        Error,
+        'Expected reducer to be a function or object with next and throw reducers'
+      );
+    });
+  });
+
+  it('uses the identity if the specified reducer is undefined', () => {
+    const reducer = handleAction(type, undefined, defaultState);
+
+    expect(reducer(prevState, { type })).to.equal(prevState);
+    expect(reducer(prevState, { type, error: true, payload: new Error })).to.equal(prevState);
+  });
+
   describe('single handler form', () => {
     it('should throw an error if defaultState is not specified', () => {
       expect(() => {
