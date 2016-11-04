@@ -10,9 +10,9 @@ describe('handleAction()', () => {
   it('should throw an error if the reducer is the wrong type', () => {
     const wrongTypeReducers = [1, 'string', [], null];
 
-    wrongTypeReducers.forEach(badReducer => {
+    wrongTypeReducers.forEach(wrongTypeReducer => {
       expect(() => {
-        handleAction(type, badReducer, defaultState);
+        handleAction(type, wrongTypeReducer, defaultState);
       }).to.throw(
         Error,
         'Expected reducer to be a function or object with next and throw reducers'
