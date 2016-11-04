@@ -4,7 +4,10 @@ import isUndefined from 'lodash/isUndefined';
 import invariant from 'invariant';
 
 export default function createAction(type, payloadCreator = identity, metaCreator) {
-  invariant(isFunction(payloadCreator), 'Expected payloadCreator to be a function or undefined');
+  invariant(
+    isFunction(payloadCreator),
+    'Expected payloadCreator to be a function or undefined'
+  );
 
   const actionCreator = (...args) => {
     const hasError = args[0] instanceof Error;
@@ -13,7 +16,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
       type
     };
 
-    const payload = hasError ? args[0] : finalPayloadCreator(...args);
+    const payload = hasError ? args[0] : payloadCreator(...args);
     if (!isUndefined(payload)) {
       action.payload = payload;
     }

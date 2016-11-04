@@ -24,13 +24,16 @@ describe('createAction()', () => {
     });
 
     it('should throw an error if payloadCreator is not a function or undefined', () => {
-      const badPayloadCreators = [1, false, null, 'string', {}, []];
+      const wrongTypePayloadCreators = [1, false, null, 'string', {}, []];
 
-      badPayloadCreators.forEach(badPayloadCreator => {
+      wrongTypePayloadCreators.forEach(wrongTypePayloadCreator => {
         expect(() => {
-          createAction(type, badPayloadCreator);
+          createAction(type, wrongTypePayloadCreator);
         })
-        .to.throw(Error, 'Expected payloadCreator to be a function or undefined');
+        .to.throw(
+          Error,
+          'Expected payloadCreator to be a function or undefined'
+        );
       });
     });
 
