@@ -22,7 +22,9 @@ If you don’t use [npm](https://www.npmjs.com), you may grab the latest [UMD](h
 import { createAction } from 'redux-actions';
 ```
 
-Wraps an action creator so that its return value is the payload of a Flux Standard Action. If no payload creator is passed, or if it's not a function, the identity function is used.
+Wraps an action creator so that its return value is the payload of a Flux Standard Action. 
+
+`payloadCreator` must be a function or `undefined`. If `payloadCreator` is `undefined`, the identity function is used.
 
 Example:
 

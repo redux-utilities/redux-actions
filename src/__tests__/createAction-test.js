@@ -23,7 +23,21 @@ describe('createAction()', () => {
       });
     });
 
-    it('uses identity function if payloadCreator is not a function', () => {
+    it('should throw an error if payloadCreator is not a function or undefined', () => {
+      const wrongTypePayloadCreators = [1, false, null, 'string', {}, []];
+
+      wrongTypePayloadCreators.forEach(wrongTypePayloadCreator => {
+        expect(() => {
+          createAction(type, wrongTypePayloadCreator);
+        })
+        .to.throw(
+          Error,
+          'Expected payloadCreator to be a function or undefined'
+        );
+      });
+    });
+
+    it('uses identity function if payloadCreator is undefined', () => {
       const actionCreator = createAction(type);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
@@ -35,7 +49,7 @@ describe('createAction()', () => {
     });
 
     it('accepts a second parameter for adding meta to object', () => {
-      const actionCreator = createAction(type, null, ({ cid }) => ({ cid }));
+      const actionCreator = createAction(type, undefined, ({ cid }) => ({ cid }));
       const foobar = { foo: 'bar', cid: 5 };
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
@@ -70,7 +84,7 @@ describe('createAction()', () => {
     });
 
     it('sets error to true if payload is an Error object and meta is provided', () => {
-      const actionCreator = createAction(type, null, (_, meta) => meta);
+      const actionCreator = createAction(type, undefined, (_, meta) => meta);
       const errObj = new TypeError('this is an error');
 
       const errAction = actionCreator(errObj, { foo: 'bar' });
@@ -94,7 +108,7 @@ describe('createAction()', () => {
       });
 
       const baz = '1';
-      const actionCreator = createAction(type, null, () => ({ bar: baz }));
+      const actionCreator = createAction(type, undefined, () => ({ bar: baz }));
       expect(actionCreator()).to.deep.equal({
         type,
         meta: {
