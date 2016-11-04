@@ -1,5 +1,6 @@
 import identity from 'lodash/identity';
 import isFunction from 'lodash/isFunction';
+import isUndefined from 'lodash/isUndefined';
 import invariant from 'invariant';
 
 export default function createAction(type, payloadCreator = identity, metaCreator) {
@@ -12,12 +13,12 @@ export default function createAction(type, payloadCreator = identity, metaCreato
       type
     };
 
-    const payload = hasError ? args[0] : payloadCreator(...args);
-    if (!(payload === null || payload === undefined)) {
+    const payload = hasError ? args[0] : finalPayloadCreator(...args);
+    if (!isUndefined(payload)) {
       action.payload = payload;
     }
 
-    if (hasError) {
+    if (hasError || payload instanceof Error) {
       // Handle FSA errors where the payload is an Error object. Set error.
       action.error = true;
     }

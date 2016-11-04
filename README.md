@@ -134,7 +134,7 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-### `handleAction(type, reducer | reducerMap, ?defaultState)`
+### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
 ```js
 import { handleAction } from 'redux-actions';
@@ -142,22 +142,24 @@ import { handleAction } from 'redux-actions';
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
-If a single reducer is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
+If a `reducer` function is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
-Otherwise, you can specify separate reducers for `next()` and `throw()`. This API is inspired by the ES6 generator interface.
+Otherwise, you can specify separate reducers for `next()` and `throw()` using the `reducerMap` form. This API is inspired by the ES6 generator interface.
 
 ```js
 handleAction('FETCH_DATA', {
   next(state, action) {...},
   throw(state, action) {...}
-});
+}, defaultState);
 ```
 
-If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer.
+If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer. 
 
-The optional third parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identity function is used.
 
-### `handleActions(reducerMap, ?defaultState)`
+The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
+
+### `handleActions(reducerMap, defaultState)`
 
 ```js
 import { handleActions } from 'redux-actions';
@@ -165,7 +167,7 @@ import { handleActions } from 'redux-actions';
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
 
-The optional second parameter specifies a default or initial state, which is used when `undefined` is passed to the reducer.
+The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
 
