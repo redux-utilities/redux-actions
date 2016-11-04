@@ -12,16 +12,16 @@ describe('handleAction()', () => {
 
     badReducers.forEach(badReducer => {
       expect(() => {
-        handleAction(type, badReducer);
+        handleAction(type, badReducer, defaultState);
       }).to.throw(
-        TypeError,
+        Error,
         'Expected reducer to be a function or object with next and throw reducers'
       );
     });
   });
 
-  it('returns uses the identity if the specified reducer is undefined', () => {
-    const reducer = handleAction(type);
+  it('uses the identity if the specified reducer is undefined', () => {
+    const reducer = handleAction(type, undefined, defaultState);
 
     expect(reducer(prevState, { type })).to.equal(prevState);
     expect(reducer(prevState, { type, error: true, payload: new Error })).to.equal(prevState);

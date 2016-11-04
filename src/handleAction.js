@@ -14,10 +14,10 @@ export default function handleAction(actionType, reducer = identity, defaultStat
     !isUndefined(defaultState),
     `defaultState for reducer handling ${actionTypes.join(', ')} should be defined`
   );
-
-  if (!isFunction(reducer) && !isPlainObject(reducer)) {
-    throw new TypeError('Expected reducer to be a function or object with next and throw reducers');
-  }
+  invariant(
+    isFunction(reducer) || isPlainObject(reducer),
+    'Expected reducer to be a function or object with next and throw reducers'
+  );
 
   const [nextReducer, throwReducer] = isFunction(reducer)
     ? [reducer, reducer]
