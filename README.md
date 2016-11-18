@@ -141,6 +141,7 @@ import { handleAction } from 'redux-actions';
 ```
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
+Generated reducer will pass down any received extra arguments.
 
 If a `reducer` function is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
@@ -148,8 +149,8 @@ Otherwise, you can specify separate reducers for `next()` and `throw()` using th
 
 ```js
 handleAction('FETCH_DATA', {
-  next(state, action) {...},
-  throw(state, action) {...}
+  next(state, action, ...args) {...},
+  throw(state, action, ...args) {...}
 }, defaultState);
 ```
 
@@ -175,11 +176,11 @@ Example:
 
 ```js
 const reducer = handleActions({
-  INCREMENT: (state, action) => ({
+  INCREMENT: (state, action, ...args) => ({
     counter: state.counter + action.payload
   }),
 
-  DECREMENT: (state, action) => ({
+  DECREMENT: (state, action, ...args) => ({
     counter: state.counter - action.payload
   })
 }, { counter: 0 });

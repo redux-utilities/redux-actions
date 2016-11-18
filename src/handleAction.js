@@ -23,7 +23,7 @@ export default function handleAction(actionType, reducer = identity, defaultStat
     ? [reducer, reducer]
     : [reducer.next, reducer.throw].map(aReducer => (isNil(aReducer) ? identity : aReducer));
 
-  return (state = defaultState, action) => {
+  return (state = defaultState, action, ...args) => {
     invariant(
       isFSA(action),
       'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
@@ -33,6 +33,8 @@ export default function handleAction(actionType, reducer = identity, defaultStat
       return state;
     }
 
-    return (action.error === true ? throwReducer : nextReducer)(state, action);
+    return (
+      action.error === true ? throwReducer : nextReducer
+    )(state, action, ...args);
   };
 }

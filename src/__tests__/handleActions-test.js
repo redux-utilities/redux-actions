@@ -184,4 +184,20 @@ describe('handleActions', () => {
         counter: 7
       });
   });
+
+  it('accepts additional arguments', () => {
+    const incrementAction = createAction('INCREMENT');
+    const reducer = handleActions({
+      [incrementAction]: (
+        { counter }, { payload: amount }, extraArg1, extraArg2
+      ) => ({ counter: counter + amount + extraArg1 + extraArg2 })
+    }, defaultState);
+
+    const extraArg1 = 5;
+    const extraArg2 = 1;
+    expect(reducer({ counter: 3 }, incrementAction(7), extraArg1, extraArg2))
+      .to.deep.equal({
+        counter: 10 + extraArg1 + extraArg2
+      });
+  });
 });

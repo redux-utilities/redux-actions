@@ -57,7 +57,6 @@
   "dependencies": {
     "flux-standard-action": "^1.0.0",
     "invariant": "^2.2.1",
-    "lodash": "^4.13.1",
-    "reduce-reducers": "^0.1.0"
+    "lodash": "^4.13.1"
   }
 }
