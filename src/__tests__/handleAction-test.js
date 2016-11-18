@@ -72,7 +72,7 @@ describe('handleAction()', () => {
         const reducer = handleAction(
           increment, (state, { payload }, extraArg) => ({
             counter: state.counter + payload + extraArg
-          }), 
+          }),
           { counter: 3 });
 
         const counterBase = 10;
