@@ -5,16 +5,16 @@ describe('createActions', () => {
   it('should throw an error when given arguments that contain a non-string', () => {
     const expectedError = 'Expected optional object followed by string action types';
 
-    expect(() => createActions(1)).to.throw(TypeError, expectedError);
-    expect(() => createActions({ ACTION_1: undefined }, [])).to.throw(TypeError, expectedError);
-    expect(() => createActions('ACTION_1', true)).to.throw(TypeError, expectedError);
+    expect(() => createActions(1)).to.throw(Error, expectedError);
+    expect(() => createActions({ ACTION_1: undefined }, [])).to.throw(Error, expectedError);
+    expect(() => createActions('ACTION_1', true)).to.throw(Error, expectedError);
   });
 
   it('should throw an error when given bad payload creators', () => {
     expect(
       () => createActions({ ACTION_1: {} })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
 
@@ -24,7 +24,7 @@ describe('createActions', () => {
         ACTION_2: 'string'
       })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_2'
     );
   });
@@ -38,7 +38,7 @@ describe('createActions', () => {
         ]
       })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
 
@@ -54,7 +54,7 @@ describe('createActions', () => {
         ]
       })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_2'
     );
   });
@@ -63,7 +63,7 @@ describe('createActions', () => {
     expect(
       () => createActions({ ACTION_1: undefined }, 'ACTION_2')
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
 
@@ -73,7 +73,7 @@ describe('createActions', () => {
         ACTION_2: undefined
       })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_2'
     );
   });
@@ -84,7 +84,7 @@ describe('createActions', () => {
         ACTION_1: [() => {}]
       })
     ).to.throw(
-      TypeError,
+      Error,
       'Expected function, undefined, or array with payload and meta functions for ACTION_1'
     );
   });

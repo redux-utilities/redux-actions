@@ -6,17 +6,18 @@ import reduce from 'lodash/reduce';
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
+import invariant from 'invariant';
 
 export default function createActions(actionsMap, ...identityActions) {
-  if (identityActions.every(isString)) {
-    if (isString(actionsMap)) {
-      return fromIdentityActions([actionsMap, ...identityActions]);
-    } else if (isPlainObject(actionsMap)) {
-      return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
-    }
+  invariant(
+    identityActions.every(isString) &&
+    (isString(actionsMap) || isPlainObject(actionsMap)),
+    'Expected optional object followed by string action types'
+  );
+  if (isString(actionsMap)) {
+    return fromIdentityActions([actionsMap, ...identityActions]);
   }
-
-  throw new TypeError('Expected optional object followed by string action types');
+  return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
 }
 
 function isValidActionsMapValue(actionsMapValue) {
@@ -32,12 +33,11 @@ function isValidActionsMapValue(actionsMapValue) {
 
 function fromActionsMap(actionsMap) {
   return reduce(actionsMap, (actionCreatorsMap, actionsMapValue, type) => {
-    if (!isValidActionsMapValue(actionsMapValue)) {
-      throw new TypeError(
-        'Expected function, undefined, or array with payload and meta ' +
-        `functions for ${type}`);
-    }
-
+    invariant(
+      isValidActionsMapValue(actionsMapValue),
+      'Expected function, undefined, or array with payload and meta ' +
+      `functions for ${type}`
+    );
     const actionCreator = isArray(actionsMapValue)
       ? createAction(type, ...actionsMapValue)
       : createAction(type, actionsMapValue);
@@ -47,9 +47,7 @@ function fromActionsMap(actionsMap) {
 }
 
 function fromIdentityActions(identityActions) {
-  return fromActionsMap(
-    identityActions.reduce(
-      (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity })
-    , {})
-  );
+  return fromActionsMap(identityActions.reduce(
+    (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity })
+  , {}));
 }
