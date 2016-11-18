@@ -70,15 +70,17 @@ describe('handleAction()', () => {
         const { increment } = createActions('INCREMENT');
 
         const reducer = handleAction(
-          increment, (state, { payload }, extraArg) => ({
-            counter: state.counter + payload + extraArg
+          increment, (state, { payload }, extraArg1, extraArg2) => ({
+            counter: state.counter + payload + extraArg1 + extraArg2
           }),
-          { counter: 3 });
+          { counter: 3 }
+        );
 
-        const counterBase = 10;
-        expect(reducer(undefined, increment(7), counterBase))
+        const extraArg1 = 5;
+        const extraArg2 = 10;
+        expect(reducer(undefined, increment(7), extraArg1, extraArg2))
           .to.deep.equal({
-            counter: 10 + counterBase
+            counter: 10 + extraArg1 + extraArg2
           });
       });
     });

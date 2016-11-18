@@ -149,7 +149,6 @@ describe('handleActions', () => {
   });
 
   it('accepts additional arguments', () => {
-    // meaningless base and fix just for testing additional arguments
     const incrementAction = createAction('INCREMENT');
     const reducer = handleActions({
       [incrementAction]: (
@@ -157,11 +156,11 @@ describe('handleActions', () => {
       ) => ({ counter: counter + amount + extraArg1 + extraArg2 })
     });
 
-    const counterBase = 5;
-    const counterFix = 1;
-    expect(reducer({ counter: 3 }, incrementAction(7), counterBase, counterFix))
+    const extraArg1 = 5;
+    const extraArg2 = 1;
+    expect(reducer({ counter: 3 }, incrementAction(7), extraArg1, extraArg2))
       .to.deep.equal({
-        counter: 10 + counterBase + counterFix
+        counter: 10 + extraArg1 + extraArg2
       });
   });
 });
