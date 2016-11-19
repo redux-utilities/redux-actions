@@ -230,7 +230,6 @@ expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({ 
 expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
 ```
 
-
 ## Usage with middleware
 
 redux-actions is handy all by itself, however, its real power comes when you combine it with middleware.
