@@ -105,6 +105,22 @@ describe('createActions', () => {
     });
   });
 
+  it('should honor special delimiters in action types', () => {
+    const { pActionOne, qActionTwo } = createActions({
+      'P/ACTION_ONE': (key, value) => ({ [key]: value }),
+      'Q/ACTION_TWO': (first, second) => ([first, second])
+    });
+
+    expect(pActionOne('value', 1)).to.deep.equal({
+      type: 'P/ACTION_ONE',
+      payload: { value: 1 }
+    });
+    expect(qActionTwo('value', 2)).to.deep.equal({
+      type: 'Q/ACTION_TWO',
+      payload: ['value', 2]
+    });
+  });
+
   it('should use the identity if the payload creator is undefined in array form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: [
