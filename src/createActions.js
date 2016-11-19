@@ -32,7 +32,7 @@ function isValidActionsMapValue(actionsMapValue) {
 
 function fromActionsMap(actionsMap) {
   return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
-    const actionsMapValue = actionCreatorsMap[type];
+    const actionsMapValue = actionsMap[type];
     invariant(
       isValidActionsMapValue(actionsMapValue),
       'Expected function, undefined, or array with payload and meta ' +
@@ -41,7 +41,6 @@ function fromActionsMap(actionsMap) {
     const actionCreator = isArray(actionsMapValue)
       ? createAction(type, ...actionsMapValue)
       : createAction(type, actionsMapValue);
-
     return { ...actionCreatorsMap, [camelCase(type)]: actionCreator };
   }, {});
 }
