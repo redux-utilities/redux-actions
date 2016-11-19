@@ -6,7 +6,7 @@ describe('camelCase', () => {
     expect(camelCase('MY_ACTION')).to.equal('myAction');
   });
 
-  it('should include special delimiters in words', () => {
+  it('should include forward slashes in words', () => {
     expect(camelCase('NAMESPACE/MY_ACTION')).to.equal('namespace/myAction');
   });
 
