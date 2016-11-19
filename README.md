@@ -210,6 +210,27 @@ expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
 expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 ```
 
+Here's an example using `handleActions`:
+
+```js
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount })
+});
+
+const reducer = handleActions({
+  [combineActions(increment, decrement)](state, { payload: { amount } }) {
+    return { ...state, counter: state.counter + amount };
+  }
+}, { counter: 10 });
+
+expect(reducer({ counter: 5 }, increment(5))).to.deep.equal({ counter: 10 });
+expect(reducer({ counter: 5 }, decrement(5))).to.deep.equal({ counter: 0 });
+expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({ counter: 10 });
+expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+```
+
+
 ## Usage with middleware
 
 redux-actions is handy all by itself, however, its real power comes when you combine it with middleware.
