@@ -2,7 +2,6 @@ import identity from 'lodash/identity';
 import camelCase from './camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
-import reduce from 'lodash/reduce';
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
@@ -32,7 +31,8 @@ function isValidActionsMapValue(actionsMapValue) {
 }
 
 function fromActionsMap(actionsMap) {
-  return reduce(actionsMap, (actionCreatorsMap, actionsMapValue, type) => {
+  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
+    const actionsMapValue = actionCreatorsMap[type];
     invariant(
       isValidActionsMapValue(actionsMapValue),
       'Expected function, undefined, or array with payload and meta ' +
