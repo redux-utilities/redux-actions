@@ -1,5 +1,5 @@
 import identity from 'lodash/identity';
-import camelCase from 'lodash/camelCase';
+import camelCase from './camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
