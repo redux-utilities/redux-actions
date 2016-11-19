@@ -6,6 +6,8 @@
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
+>This library is a utitility library for Redux apps using [Flux Standard Actions](https://github.com/acdlite/flux-standard-action).
+
 ## Installation
 
 ```bash

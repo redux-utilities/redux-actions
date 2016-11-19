@@ -26,7 +26,7 @@ export default function handleAction(actionType, reducer = identity, defaultStat
   return (state = defaultState, action) => {
     invariant(
       isFSA(action),
-      'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+      'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
     );
 
     if (!includes(actionTypes, action.type.toString())) {

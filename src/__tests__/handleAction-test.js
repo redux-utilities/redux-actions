@@ -247,7 +247,7 @@ describe('handleAction()', () => {
         () => reducer(undefined)
       ).to.throw(
         Error,
-        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
       );
     });
 
@@ -257,7 +257,7 @@ describe('handleAction()', () => {
         () => reducer(undefined, {})
       ).to.throw(
         Error,
-        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
       );
     });
 
@@ -267,7 +267,7 @@ describe('handleAction()', () => {
         () => reducer(undefined, { type: false })
       ).to.throw(
         Error,
-        'The FSA spec mandates an action object with a type. Try using the createAction(s) method.'
+        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
       );
     });
   });
