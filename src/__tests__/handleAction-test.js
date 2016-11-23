@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import identity from 'lodash/identity';
 import { handleAction, createAction, createActions, combineActions } from '../';
 
 describe('handleAction()', () => {
@@ -95,6 +94,20 @@ describe('handleAction()', () => {
           .to.deep.equal({
             counter: 7
           });
+      });
+
+      it('should not throw and return state when action is non-FSA', () => {
+        const reducer = handleAction(type, (state) => state, defaultState);
+        const action = {
+          foo: {
+            bar: 'baz'
+          }
+        };
+
+        expect(reducer(undefined, action)).not.to.throw;
+        expect(reducer(undefined, action)).to.deep.equal({
+          counter: 0
+        });
       });
     });
   });
@@ -237,38 +250,6 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 2 });
       expect(reducer({ number: 0 }, { type: Symbol('ACTION_3'), payload: 3 }))
         .to.deep.equal({ number: 3 });
-    });
-  });
-
-  describe('with invalid actions', () => {
-    it('should throw a descriptive error when the action object is missing', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity, {});
-      expect(
-        () => reducer(undefined)
-      ).to.throw(
-        Error,
-        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
-      );
-    });
-
-    it('should throw a descriptive error when the action type is missing', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity, {});
-      expect(
-        () => reducer(undefined, {})
-      ).to.throw(
-        Error,
-        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
-      );
-    });
-
-    it('should throw a descriptive error when the action type is not a string or symbol', () => {
-      const reducer = handleAction(createAction('ACTION_1'), identity, {});
-      expect(
-        () => reducer(undefined, { type: false })
-      ).to.throw(
-        Error,
-        'Trying to handle a non Flux Standard Action. Try using the createAction(s) method.'
-      );
     });
   });
 });
