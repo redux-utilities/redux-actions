@@ -10,7 +10,9 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     'Expected payloadCreator to be a function, undefined, or null'
   );
 
-  const finalPayloadCreator = isNull(payloadCreator) ? identity : payloadCreator;
+  const finalPayloadCreator = isNull(payloadCreator)
+    ? identity
+    : payloadCreator;
 
   const actionCreator = (...args) => {
     const hasError = args[0] instanceof Error;
