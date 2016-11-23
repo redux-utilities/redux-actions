@@ -7,7 +7,7 @@ import invariant from 'invariant';
 export default function createAction(type, payloadCreator = identity, metaCreator) {
   invariant(
     isFunction(payloadCreator) || isNull(payloadCreator),
-    'Expected payloadCreator to be a function, undefined, or null'
+    'Expected payloadCreator to be a function, undefined or null'
   );
 
   const finalPayloadCreator = isNull(payloadCreator)

@@ -32,7 +32,7 @@ describe('createAction()', () => {
         })
         .to.throw(
           Error,
-          'Expected payloadCreator to be a function, undefined, or null'
+          'Expected payloadCreator to be a function, undefined or null'
         );
       });
     });
