@@ -24,7 +24,7 @@ import { createAction } from 'redux-actions';
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. 
 
-`payloadCreator` must be a function or `undefined`. If `payloadCreator` is `undefined`, the identity function is used.
+`payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
 Example:
 
