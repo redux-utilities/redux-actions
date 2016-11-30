@@ -165,7 +165,7 @@ The third parameter `defaultState` is required, and is used when `undefined` is 
 import { handleActions } from 'redux-actions';
 ```
 
-Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
 
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
