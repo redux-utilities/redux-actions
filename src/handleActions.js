@@ -1,5 +1,5 @@
 import handleAction from './handleAction';
-import ownKeys from './ownKeys';
+import ownKeys from './utils/ownKeys';
 import reduceReducers from 'reduce-reducers';
 
 export default function handleActions(handlers, defaultState) {
