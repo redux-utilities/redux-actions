@@ -1,13 +1,6 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
+    "./build/preset-es2015",
     "stage-0"
-  ],
-  "env": {
-    "cjs": {
-      "plugins": [
-        "transform-es2015-modules-commonjs"
-      ]
-    }
-  }
+  ]
 }
