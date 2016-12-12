@@ -1,6 +1,7 @@
-const esModules = process.env.BABEL_ENV === 'es';
+const esOptions = process.env.BABEL_ENV === 'es' ? { modules: false } : {};
+
 module.exports = {
   presets: [
-    ['es2015', { modules: esModules ? false : 'commonjs' }]
+    ['es2015', esOptions]
   ]
 };
