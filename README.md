@@ -112,7 +112,7 @@ const { actionOne, actionTwo, actionThree } = createActions({
 
   // array form
   ACTION_TWO: [
-    (first) => first,               // payload
+    (first) => [first],             // payload
     (first, second) => ({ second }) // meta
   ],
 
