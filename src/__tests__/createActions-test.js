@@ -106,7 +106,7 @@ describe('createActions', () => {
   });
 
   it('should honor special delimiters in action types', () => {
-    const { ['p/actionOne']: pActionOne, ['q/actionTwo']: qActionTwo } = createActions({
+    const { 'p/actionOne': pActionOne, 'q/actionTwo': qActionTwo } = createActions({
       'P/ACTION_ONE': (key, value) => ({ [key]: value }),
       'Q/ACTION_TWO': (first, second) => ([first, second])
     });
