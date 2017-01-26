@@ -12,6 +12,8 @@
 npm install --save redux-actions
 ```
 
+The [npm](https://www.npmjs.com) package provides a [CommonJS](http://webpack.github.io/docs/commonjs.html) build for use in Node.js, and with bundlers like [Webpack](http://webpack.github.io/) and [Browserify](http://browserify.org/). It also includes an [ES modules](http://jsmodules.io/) build that works well with [Rollup](http://rollupjs.org/) and [Webpack2](https://webpack.js.org)'s tree-shaking.
+
 If you don’t use [npm](https://www.npmjs.com), you may grab the latest [UMD](https://unpkg.com/redux-actions@latest/dist) build from [unpkg](https://unpkg.com) (either a [development](https://unpkg.com/redux-actions@latest/dist/redux-actions.js) or a [production](https://unpkg.com/redux-actions@latest/dist/redux-actions.min.js) build). The UMD build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
 
 ## Usage
@@ -24,7 +26,7 @@ import { createAction } from 'redux-actions';
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action. 
 
-`payloadCreator` must be a function or `undefined`. If `payloadCreator` is `undefined`, the identity function is used.
+`payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
 Example:
 
@@ -110,7 +112,7 @@ const { actionOne, actionTwo, actionThree } = createActions({
 
   // array form
   ACTION_TWO: [
-    (first) => first,               // payload
+    (first) => [first],             // payload
     (first, second) => ({ second }) // meta
   ],
 
@@ -165,7 +167,7 @@ The third parameter `defaultState` is required, and is used when `undefined` is 
 import { handleActions } from 'redux-actions';
 ```
 
-Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map).
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
 
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
@@ -206,6 +208,26 @@ expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
 expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
 expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
 expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
+```
+
+Here's an example using `handleActions`:
+
+```js
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount })
+});
+
+const reducer = handleActions({
+  [combineActions(increment, decrement)](state, { payload: { amount } }) {
+    return { ...state, counter: state.counter + amount };
+  }
+}, { counter: 10 });
+
+expect(reducer({ counter: 5 }, increment(5))).to.deep.equal({ counter: 10 });
+expect(reducer({ counter: 5 }, decrement(5))).to.deep.equal({ counter: 0 });
+expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({ counter: 5 });
+expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
 ```
 
 ## Usage with middleware

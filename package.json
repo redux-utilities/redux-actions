@@ -1,15 +1,18 @@
 {
   "name": "redux-actions",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "Flux Standard Action utlities for Redux",
   "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
   "scripts": {
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore *-test.js",
     "build:commonjs": "babel src --out-dir lib --ignore *-test.js",
     "build:umd": "cross-env NODE_ENV=development webpack",
     "build:umd:min": "cross-env NODE_ENV=production webpack",
-    "build": "npm run clean && npm run build:commonjs && npm run build:umd && npm run build:umd:min",
-    "clean": "rimraf lib",
-    "lint": "esw src webpack.config --color",
+    "build": "npm run clean && npm run build:es && npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "clean": "rimraf lib es",
+    "lint": "esw build src webpack.config --color",
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "npm run lint -- --watch",
     "prepublish": "npm run lint && npm run test && npm run build",
@@ -17,6 +20,7 @@
     "test:watch": "npm run test -- --watch src/**/*-test.js"
   },
   "files": [
+    "es",
     "lib",
     "dist"
   ],

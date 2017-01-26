@@ -23,8 +23,8 @@ describe('createAction()', () => {
       });
     });
 
-    it('should throw an error if payloadCreator is not a function or undefined', () => {
-      const wrongTypePayloadCreators = [1, false, null, 'string', {}, []];
+    it('should throw an error if payloadCreator is not a function, undefined, null', () => {
+      const wrongTypePayloadCreators = [1, false, 'string', {}, []];
 
       wrongTypePayloadCreators.forEach(wrongTypePayloadCreator => {
         expect(() => {
@@ -32,13 +32,24 @@ describe('createAction()', () => {
         })
         .to.throw(
           Error,
-          'Expected payloadCreator to be a function or undefined'
+          'Expected payloadCreator to be a function, undefined or null'
         );
       });
     });
 
     it('uses identity function if payloadCreator is undefined', () => {
       const actionCreator = createAction(type);
+      const foobar = { foo: 'bar' };
+      const action = actionCreator(foobar);
+      expect(action).to.deep.equal({
+        type,
+        payload: foobar
+      });
+      expect(isFSA(action)).to.be.true;
+    });
+
+    it('uses identity function if payloadCreator is null', () => {
+      const actionCreator = createAction(type, null);
       const foobar = { foo: 'bar' };
       const action = actionCreator(foobar);
       expect(action).to.deep.equal({
