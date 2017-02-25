@@ -24,7 +24,7 @@ export default function handleAction(actionType, reducer = identity, defaultStat
 
   return (state = defaultState, action) => {
     const { type } = action;
-    if (type && !includes(actionTypes, type.toString())) {
+    if (!type || !includes(actionTypes, type.toString())) {
       return state;
     }
 
