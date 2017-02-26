@@ -79,6 +79,8 @@ describe('unflattenActions', () => {
     expect(actionsMap.LOGIN('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
     expect(actionsMap.APP.COUNTER.INCREMENT(100)).to.deep.equal({ amount: 100 });
     expect(actionsMap.APP.COUNTER.DECREMENT(100)).to.deep.equal({ amount: -100 });
-    expect(actionsMap.APP.NOTIFY('yangmillstheory', 'Hello World')).to.deep.equal({ message: 'yangmillstheory: Hello World' });
+    expect(actionsMap.APP.NOTIFY('yangmillstheory', 'Hello World')).to.deep.equal({
+      message: 'yangmillstheory: Hello World'
+    });
   });
 });
