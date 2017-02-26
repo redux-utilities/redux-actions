@@ -22,7 +22,21 @@ describe('flattenActions', () => {
     });
   });
 
-  it('should be casesensitive', () => {
+  it('should do nothing to an already flattened map', () => {
+    const actionsMap = {
+      INCREMENT: amount => ({ amount }),
+      DECREMENT: amount => ({ amount: -amount }),
+      LOGIN: username => ({ username })
+    };
+
+    expect(flattenActions(actionsMap)).to.deep.equal({
+      INCREMENT: actionsMap.INCREMENT,
+      DECREMENT: actionsMap.DECREMENT,
+      LOGIN: actionsMap.LOGIN
+    });
+  });
+
+  it('should be case-sensitive', () => {
     const actionsMap = {
       app: {
         counter: {

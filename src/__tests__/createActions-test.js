@@ -212,4 +212,22 @@ describe('createActions', () => {
       payload: 4
     });
   });
+
+  it('should create actions from a namespaced actions map', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: amount => ({ amount }),
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+      },
+      LOGIN: username => ({ username })
+    }, 'ACTION_ONE', 'ACTION_TWO');
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP/COUNTER/INCREMENT',
+      payload: { amount: 1 },
+    })
+  });
 });
