@@ -6,6 +6,7 @@ import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 import invariant from 'invariant';
+import { flattenActions, unflattenActions } from './namespaceActions';
 
 export default function createActions(actionsMap, ...identityActions) {
   invariant(
@@ -16,7 +17,10 @@ export default function createActions(actionsMap, ...identityActions) {
   if (isString(actionsMap)) {
     return fromIdentityActions([actionsMap, ...identityActions]);
   }
-  return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
+  return unflattenActions({
+    ...fromActionsMap(flattenActions(actionsMap)),
+    ...fromIdentityActions(identityActions)
+  });
 }
 
 function isValidActionsMapValue(actionsMapValue) {

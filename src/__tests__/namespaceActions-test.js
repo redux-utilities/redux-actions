@@ -93,4 +93,20 @@ describe('unflattenActions', () => {
     expect(actionsMap.APP.COUNTER.INCREMENT(100)).to.deep.equal({ amount: 100 });
     expect(actionsMap.APP.COUNTER.DECREMENT(100)).to.deep.equal({ amount: -100 });
   });
+
+  it('should do nothing to an already unflattened map', () => {
+    const actionsMap = {
+      APP: {
+        COUNTER: {
+          INCREMENT: amount => ({ amount }),
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+      },
+      LOGIN: username => ({ username })
+    };
+    const unflattenedActionsMap = unflattenActions(actionsMap);
+
+    expect(unflattenedActionsMap).to.deep.equal(actionsMap);
+  });
 });
