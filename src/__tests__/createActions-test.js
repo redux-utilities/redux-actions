@@ -250,4 +250,37 @@ describe('createActions', () => {
       payload: 'two'
     });
   });
+
+  it('should create actions with payload creators in array form', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value' })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      },
+    });
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP/COUNTER/INCREMENT',
+      payload: { amount: 1 },
+      meta: { key: 'value' }
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP/COUNTER/DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP/NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' },
+      meta: { username: 'yangmillstheory', message: 'Hello World' }
+    });
+  });
 });
