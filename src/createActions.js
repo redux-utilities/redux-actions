@@ -21,7 +21,7 @@ export default function createActions(actionsMap, ...identityActions) {
     return fromIdentityActions([actionsMap, ...identityActions]);
   }
   return unflattenActions({
-    ...fromActionsMap(flattenActions(actionsMap)),
+    ...fromActionsMap(actionsMap),
     ...fromIdentityActions(identityActions)
   });
 }
@@ -43,18 +43,18 @@ function isValidActionsMapValue(actionsMapValue) {
 }
 
 function fromActionsMap(actionsMap) {
-  const actionTypes = Object.keys(actionsMap);
-  actionTypes.forEach(type => invariant(
+  Object.keys(actionsMap).forEach(type => invariant(
     isValidActionsMapValue(actionsMap[type]),
     'Expected function, undefined, or array with payload and meta ' +
     `functions for ${type}`
   ));
-  return actionTypes.reduce((actionCreatorsMap, type) => {
-    const actionsMapValue = actionsMap[type];
+  const flattenedActionsMap = flattenActions(actionsMap);
+  return Object.keys(flattenedActionsMap).reduce((actionCreatorsMap, namespacedType) => {
+    const actionsMapValue = flattenedActionsMap[namespacedType];
     const actionCreator = isArray(actionsMapValue)
-      ? createAction(type, ...actionsMapValue)
-      : createAction(type, actionsMapValue);
-    return { ...actionCreatorsMap, [camelCase(type)]: actionCreator };
+      ? createAction(namespacedType, ...actionsMapValue)
+      : createAction(namespacedType, actionsMapValue);
+    return { ...actionCreatorsMap, [camelCase(namespacedType)]: actionCreator };
   }, {});
 }
 

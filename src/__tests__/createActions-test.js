@@ -228,6 +228,26 @@ describe('createActions', () => {
     expect(actionCreators.app.counter.increment(1)).to.deep.equal({
       type: 'APP/COUNTER/INCREMENT',
       payload: { amount: 1 }
-    })
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP/COUNTER/DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP/NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' }
+    });
+    expect(actionCreators.login('yangmillstheory')).to.deep.equal({
+      type: 'LOGIN',
+      payload: { username: 'yangmillstheory' }
+    });
+    expect(actionCreators.actionOne('one')).to.deep.equal({
+      type: 'ACTION_ONE',
+      payload: 'one'
+    });
+    expect(actionCreators.actionTwo('two')).to.deep.equal({
+      type: 'ACTION_TWO',
+      payload: 'two'
+    });
   });
 });
