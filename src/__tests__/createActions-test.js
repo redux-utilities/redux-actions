@@ -227,7 +227,7 @@ describe('createActions', () => {
 
     expect(actionCreators.app.counter.increment(1)).to.deep.equal({
       type: 'APP/COUNTER/INCREMENT',
-      payload: { amount: 1 },
+      payload: { amount: 1 }
     })
   });
 });

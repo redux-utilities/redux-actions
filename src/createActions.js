@@ -2,7 +2,10 @@ import identity from 'lodash/identity';
 import camelCase from './camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
+import every from 'lodash/every';
+import values from 'lodash/values';
 import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 import invariant from 'invariant';
@@ -30,18 +33,24 @@ function isValidActionsMapValue(actionsMapValue) {
     const [payload = identity, meta] = actionsMapValue;
 
     return isFunction(payload) && isFunction(meta);
+  } else if (isPlainObject(actionsMapValue)) {
+    if (isEmpty(actionsMapValue)) {
+      return false;
+    }
+    return every(values(actionsMapValue), isValidActionsMapValue);
   }
   return false;
 }
 
 function fromActionsMap(actionsMap) {
-  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
+  const actionTypes = Object.keys(actionsMap);
+  actionTypes.forEach(type => invariant(
+    isValidActionsMapValue(actionsMap[type]),
+    'Expected function, undefined, or array with payload and meta ' +
+    `functions for ${type}`
+  ));
+  return actionTypes.reduce((actionCreatorsMap, type) => {
     const actionsMapValue = actionsMap[type];
-    invariant(
-      isValidActionsMapValue(actionsMapValue),
-      'Expected function, undefined, or array with payload and meta ' +
-      `functions for ${type}`
-    );
     const actionCreator = isArray(actionsMapValue)
       ? createAction(type, ...actionsMapValue)
       : createAction(type, actionsMapValue);

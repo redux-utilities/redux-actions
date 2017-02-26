@@ -1,3 +1,5 @@
+import isFunction from 'lodash/isFunction';
+import isArray from 'lodash/isArray';
 const defaultNamespacer = '/';
 
 function flattenActions(
@@ -11,7 +13,8 @@ function flattenActions(
   }
   Object.getOwnPropertyNames(actionsMap).forEach(actionType => {
     const nextActionType = getNextActionType(actionType);
-    if (typeof actionsMap[actionType] === 'function') {
+    const actionsMapValue = actionsMap[actionType];
+    if (isFunction(actionsMapValue) || isArray(actionsMapValue)) {
       flattenedActions[nextActionType] = actionsMap[actionType];
     } else {
       flattenActions(actionsMap[actionType], namespacer, flattenedActions, nextActionType);
