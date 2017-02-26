@@ -64,17 +64,13 @@ describe('flattenActions', () => {
 });
 
 describe('unflattenActions', () => {
-  beforeEach(() => {
-    this.actionsMap = {
+  it('should unflatten a flattened actions map', () => {
+    const actionsMap = unflattenActions({
       'APP/COUNTER/INCREMENT': amount => ({ amount }),
       'APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
       'APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
       LOGIN: username => ({ username })
-    };
-  });
-
-  it('should unflatten a flattened actions map', () => {
-    const actionsMap = unflattenActions(this.actionsMap);
+    });
 
     expect(actionsMap.LOGIN('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
     expect(actionsMap.APP.COUNTER.INCREMENT(100)).to.deep.equal({ amount: 100 });
