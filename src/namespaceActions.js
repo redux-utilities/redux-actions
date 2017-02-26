@@ -28,7 +28,9 @@ function unflattenActions(actionCreatorsMap, namespacer = defaultNamespacer) {
   ) {
     const nextActionType = actionTypePath.shift();
     if (actionTypePath.length) {
-      unflattenedActions[nextActionType] = {};
+      unflattenedActions[nextActionType] = unflattenedActions[nextActionType]
+        ? unflattenedActions[nextActionType]
+        : {};
       unflatten(unflattenedActions[nextActionType], flattenedActionType, actionTypePath);
     } else {
       unflattenedActions[nextActionType] = actionCreatorsMap[flattenedActionType];
