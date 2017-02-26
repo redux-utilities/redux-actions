@@ -15,6 +15,7 @@
     "no-unused-expressions": 0,
     "no-param-reassign": 0,
     "no-reserved-keys": 0,
-    "space-infix-ops": 0
+    "space-infix-ops": 0,
+    "new-cap": 0,
   }
 }
