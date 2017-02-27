@@ -1,6 +1,7 @@
 import isFunction from 'lodash/isFunction';
 import camelCase from './camelCase';
 import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
 
@@ -16,7 +17,7 @@ function flattenActions(
   Object.getOwnPropertyNames(actionsMap).forEach(actionType => {
     const nextActionType = getNextActionType(actionType);
     const actionsMapValue = actionsMap[actionType];
-    if (isFunction(actionsMapValue) || isArray(actionsMapValue)) {
+    if (!isPlainObject(actionsMapValue)) {
       flattenedActions[nextActionType] = actionsMap[actionType];
     } else {
       flattenActions(actionsMap[actionType], namespace, flattenedActions, nextActionType);
