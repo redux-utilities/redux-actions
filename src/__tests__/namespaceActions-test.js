@@ -29,11 +29,7 @@ describe('flattenActions', () => {
       LOGIN: username => ({ username })
     };
 
-    expect(flattenActions(actionsMap)).to.deep.equal({
-      INCREMENT: actionsMap.INCREMENT,
-      DECREMENT: actionsMap.DECREMENT,
-      LOGIN: actionsMap.LOGIN
-    });
+    expect(flattenActions(actionsMap)).to.deep.equal(actionsMap);
   });
 
   it('should be case-sensitive', () => {
