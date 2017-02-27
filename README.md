@@ -102,7 +102,7 @@ Returns an object mapping action types to action creators. The keys of this obje
 - a function, which is the payload creator for that action
 - an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
     - `meta` is **required** in this case (otherwise use the function form above)
-- actions maps
+- an `actionsMap`
 
 `identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
 
