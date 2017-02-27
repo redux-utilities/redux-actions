@@ -23,10 +23,7 @@ export default function createActions(actionsMap, ...identityActions) {
   }
   return {
     ...unflattenActions(
-      attachActionCreators(
-        flattenActions(actionsMap, namespace),
-        namespace
-      ),
+      attachActionCreators(flattenActions(actionsMap, namespace)),
       namespace
     ),
     ...actionCreatorsFromIdentityActions(identityActions)
