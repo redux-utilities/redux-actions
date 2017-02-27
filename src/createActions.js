@@ -1,3 +1,4 @@
+import camelCase from './camelCase';
 import identity from 'lodash/identity';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
@@ -21,7 +22,13 @@ export default function createActions(actionsMap, ...identityActions) {
     return fromIdentityActions([actionsMap, ...identityActions]);
   }
   return {
-    ...fromActionsMap(actionsMap, namespace),
+    ...unflattenActions(
+      fromActionsMap(
+        flattenActions(actionsMap, namespace),
+        namespace
+      ),
+      namespace
+    ),
     ...fromIdentityActions(identityActions)
   };
 }
@@ -37,27 +44,29 @@ function isValidActionsMapValue(actionsMapValue) {
   return false;
 }
 
-function fromActionsMap(actionsMap, namespace) {
-  const flattenedActionsMap = flattenActions(actionsMap, namespace);
-  const flattenedActionCreators = Object
-    .keys(flattenedActionsMap)
-    .reduce((actionCreatorsMap, type) => {
-      const actionsMapValue = flattenedActionsMap[type];
-      invariant(
-        isValidActionsMapValue(actionsMapValue),
-        'Expected function, undefined, or array with payload and meta ' +
-        `functions for ${type}`
-      );
-      const actionCreator = isArray(actionsMapValue)
-        ? createAction(type, ...actionsMapValue)
-        : createAction(type, actionsMapValue);
-      return { ...actionCreatorsMap, [type]: actionCreator };
-    }, {});
-  return unflattenActions(flattenedActionCreators, namespace);
+function fromActionsMap(actionsMap) {
+  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
+    const actionsMapValue = actionsMap[type];
+    invariant(
+      isValidActionsMapValue(actionsMapValue),
+      'Expected function, undefined, or array with payload and meta ' +
+      `functions for ${type}`
+    );
+    const actionCreator = isArray(actionsMapValue)
+      ? createAction(type, ...actionsMapValue)
+      : createAction(type, actionsMapValue);
+    return { ...actionCreatorsMap, [type]: actionCreator };
+  }, {});
 }
 
 function fromIdentityActions(identityActions) {
-  return fromActionsMap(identityActions.reduce(
-    (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity })
+  const actionCreators = fromActionsMap(identityActions.reduce((actionsMap, actionType) => ({
+    ...actionsMap,
+    [actionType]: identity
+  })
   , {}));
+  return Object.keys(actionCreators).reduce((actionCreatorsMap, actionType) => ({
+    ...actionCreatorsMap,
+    [camelCase(actionType)]: actionCreators[actionType]
+  }), {});
 }

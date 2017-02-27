@@ -244,7 +244,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should create namesped actions with payload creators in array form', () => {
+  it('should create namespaced actions with payload creators in array form', () => {
     const actionCreators = createActions({
       APP: {
         COUNTER: {
