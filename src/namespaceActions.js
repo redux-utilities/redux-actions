@@ -12,9 +12,11 @@ function flattenActions(
   function getNextActionType(actionType) {
     return flattenedActionType ? `${flattenedActionType}${namespace}${actionType}` : actionType;
   }
+
   Object.getOwnPropertyNames(actionsMap).forEach(actionType => {
     const nextActionType = getNextActionType(actionType);
     const actionsMapValue = actionsMap[actionType];
+
     if (!isPlainObject(actionsMapValue)) {
       flattenedActions[nextActionType] = actionsMap[actionType];
     } else {
@@ -40,6 +42,7 @@ function unflattenActions(actionCreatorsMap, namespace = defaultNamespace) {
       unflattenedActions[nextActionType] = actionCreatorsMap[flattenedActionType];
     }
   }
+
   const unflattenedActions = {};
   Object
     .getOwnPropertyNames(actionCreatorsMap)
