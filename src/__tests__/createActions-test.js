@@ -11,13 +11,6 @@ describe('createActions', () => {
   });
 
   it('should throw an error when given bad payload creators', () => {
-    // expect(
-    //   () => createActions({ ACTION_1: {} })
-    // ).to.throw(
-    //   Error,
-    //   'Expected function, undefined, or array with payload and meta functions for ACTION_1'
-    // );
-
     expect(
       () => createActions({
         ACTION_1: () => {},
@@ -106,16 +99,16 @@ describe('createActions', () => {
   });
 
   it('should honor special delimiters in action types', () => {
-    const { 'p/actionOne': pActionOne, 'q/actionTwo': qActionTwo } = createActions({
+    const { p: { actionOne }, q: { actionTwo } } = createActions({
       'P/ACTION_ONE': (key, value) => ({ [key]: value }),
       'Q/ACTION_TWO': (first, second) => ([first, second])
     });
 
-    expect(pActionOne('value', 1)).to.deep.equal({
+    expect(actionOne('value', 1)).to.deep.equal({
       type: 'P/ACTION_ONE',
       payload: { value: 1 }
     });
-    expect(qActionTwo('value', 2)).to.deep.equal({
+    expect(actionTwo('value', 2)).to.deep.equal({
       type: 'Q/ACTION_TWO',
       payload: ['value', 2]
     });
@@ -265,7 +258,7 @@ describe('createActions', () => {
           (username, message) => ({ message: `${username}: ${message}` }),
           (username, message) => ({ username, message })
         ]
-      },
+      }
     });
 
     expect(actionCreators.app.counter.increment(1)).to.deep.equal({
@@ -298,7 +291,7 @@ describe('createActions', () => {
           (username, message) => ({ message: `${username}: ${message}` }),
           (username, message) => ({ username, message })
         ]
-      },
+      }
     }, { namespace: '--' });
 
     console.log(actionCreators);
