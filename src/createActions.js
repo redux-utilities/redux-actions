@@ -19,17 +19,17 @@ export default function createActions(actionsMap, ...identityActions) {
     'Expected optional object followed by string action types'
   );
   if (isString(actionsMap)) {
-    return fromIdentityActions([actionsMap, ...identityActions]);
+    return actionCreatorsFromIdentityActions([actionsMap, ...identityActions]);
   }
   return {
     ...unflattenActions(
-      fromActionsMap(
+      attachActionCreators(
         flattenActions(actionsMap, namespace),
         namespace
       ),
       namespace
     ),
-    ...fromIdentityActions(identityActions)
+    ...actionCreatorsFromIdentityActions(identityActions)
   };
 }
 
@@ -44,7 +44,7 @@ function isValidActionsMapValue(actionsMapValue) {
   return false;
 }
 
-function fromActionsMap(actionsMap) {
+function attachActionCreators(actionsMap) {
   return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
     const actionsMapValue = actionsMap[type];
     invariant(
@@ -59,8 +59,8 @@ function fromActionsMap(actionsMap) {
   }, {});
 }
 
-function fromIdentityActions(identityActions) {
-  const actionCreators = fromActionsMap(identityActions.reduce((actionsMap, actionType) => ({
+function actionCreatorsFromIdentityActions(identityActions) {
+  const actionCreators = attachActionCreators(identityActions.reduce((actionsMap, actionType) => ({
     ...actionsMap,
     [actionType]: identity
   })
