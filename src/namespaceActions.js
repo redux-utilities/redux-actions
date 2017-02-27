@@ -1,15 +1,17 @@
 import isFunction from 'lodash/isFunction';
+import camelCase from './camelCase';
 import isArray from 'lodash/isArray';
-const defaultNamespacer = '/';
+
+const defaultNamespace = '/';
 
 function flattenActions(
   actionsMap,
-  namespacer = defaultNamespacer,
+  namespace = defaultNamespace,
   flattenedActions = {},
   flattenedActionType = ''
 ) {
   function getNextActionType(actionType) {
-    return flattenedActionType ? `${flattenedActionType}${namespacer}${actionType}` : actionType;
+    return flattenedActionType ? `${flattenedActionType}${namespace}${actionType}` : actionType;
   }
   Object.getOwnPropertyNames(actionsMap).forEach(actionType => {
     const nextActionType = getNextActionType(actionType);
@@ -17,19 +19,19 @@ function flattenActions(
     if (isFunction(actionsMapValue) || isArray(actionsMapValue)) {
       flattenedActions[nextActionType] = actionsMap[actionType];
     } else {
-      flattenActions(actionsMap[actionType], namespacer, flattenedActions, nextActionType);
+      flattenActions(actionsMap[actionType], namespace, flattenedActions, nextActionType);
     }
   });
   return flattenedActions;
 }
 
-function unflattenActions(actionCreatorsMap, namespacer = defaultNamespacer) {
+function unflattenActions(actionCreatorsMap, namespace = defaultNamespace) {
   function unflatten(
     unflattenedActions = {},
     flattenedActionType,
     actionTypePath,
   ) {
-    const nextActionType = actionTypePath.shift();
+    const nextActionType = camelCase(actionTypePath.shift());
     if (actionTypePath.length) {
       if (!unflattenedActions[nextActionType]) {
         unflattenedActions[nextActionType] = {};
@@ -42,7 +44,7 @@ function unflattenActions(actionCreatorsMap, namespacer = defaultNamespacer) {
   const unflattenedActions = {};
   Object
     .getOwnPropertyNames(actionCreatorsMap)
-    .forEach(actionType => unflatten(unflattenedActions, actionType, actionType.split(namespacer)));
+    .forEach(actionType => unflatten(unflattenedActions, actionType, actionType.split(namespace)));
   return unflattenedActions;
 }
 

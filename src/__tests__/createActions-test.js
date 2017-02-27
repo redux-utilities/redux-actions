@@ -251,13 +251,13 @@ describe('createActions', () => {
     });
   });
 
-  it('should create actions with payload creators in array form', () => {
+  it('should create namesped actions with payload creators in array form', () => {
     const actionCreators = createActions({
       APP: {
         COUNTER: {
           INCREMENT: [
             amount => ({ amount }),
-            amount => ({ key: 'value' })
+            amount => ({ key: 'value', amount })
           ],
           DECREMENT: amount => ({ amount: -amount })
         },
@@ -271,7 +271,7 @@ describe('createActions', () => {
     expect(actionCreators.app.counter.increment(1)).to.deep.equal({
       type: 'APP/COUNTER/INCREMENT',
       payload: { amount: 1 },
-      meta: { key: 'value' }
+      meta: { key: 'value', amount: 1 }
     });
     expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
       type: 'APP/COUNTER/DECREMENT',
@@ -279,6 +279,40 @@ describe('createActions', () => {
     });
     expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
       type: 'APP/NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' },
+      meta: { username: 'yangmillstheory', message: 'Hello World' }
+    });
+  });
+
+  it('should create namespaced actions with a chosen namespace string', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      },
+    }, { namespace: '--' });
+
+    console.log(actionCreators);
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP--COUNTER--INCREMENT',
+      payload: { amount: 1 },
+      meta: { key: 'value', amount: 1 }
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP--COUNTER--DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP--NOTIFY',
       payload: { message: 'yangmillstheory: Hello World' },
       meta: { username: 'yangmillstheory', message: 'Hello World' }
     });

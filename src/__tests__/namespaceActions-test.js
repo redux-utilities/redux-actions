@@ -36,7 +36,7 @@ describe('flattenActions', () => {
     });
   });
 
-  it('should be case-sensitive', () => {
+  it('should be case-insensitive', () => {
     const actionsMap = {
       app: {
         counter: {
@@ -86,27 +86,27 @@ describe('unflattenActions', () => {
       LOGIN: username => ({ username })
     });
 
-    expect(actionsMap.LOGIN('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
-    expect(actionsMap.APP.NOTIFY('yangmillstheory', 'Hello World')).to.deep.equal({
+    expect(actionsMap.login('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
+    expect(actionsMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
       message: 'yangmillstheory: Hello World'
     });
-    expect(actionsMap.APP.COUNTER.INCREMENT(100)).to.deep.equal({ amount: 100 });
-    expect(actionsMap.APP.COUNTER.DECREMENT(100)).to.deep.equal({ amount: -100 });
+    expect(actionsMap.app.counter.increment(100)).to.deep.equal({ amount: 100 });
+    expect(actionsMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
   });
 
-  it('should do nothing to an already unflattened map', () => {
-    const actionsMap = {
-      APP: {
-        COUNTER: {
-          INCREMENT: amount => ({ amount }),
-          DECREMENT: amount => ({ amount: -amount })
-        },
-        NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
-      },
+  it('should unflatten a flattened actions map with custom namespace', () => {
+    const actionsMap = unflattenActions({
+      'APP--COUNTER--INCREMENT': amount => ({ amount }),
+      'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
+      'APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
       LOGIN: username => ({ username })
-    };
-    const unflattenedActionsMap = unflattenActions(actionsMap);
+    }, '--');
 
-    expect(unflattenedActionsMap).to.deep.equal(actionsMap);
+    expect(actionsMap.login('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
+    expect(actionsMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      message: 'yangmillstheory: Hello World'
+    });
+    expect(actionsMap.app.counter.increment(100)).to.deep.equal({ amount: 100 });
+    expect(actionsMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
   });
 });
