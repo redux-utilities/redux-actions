@@ -138,7 +138,7 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf the combined path to that leaf, given an optional prefix:
+If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf, given an optional prefix:
 
 ```js
 const actionCreators = createActions({

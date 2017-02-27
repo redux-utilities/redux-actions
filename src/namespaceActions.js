@@ -1,6 +1,4 @@
-import isFunction from 'lodash/isFunction';
 import camelCase from './camelCase';
-import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
