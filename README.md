@@ -138,7 +138,7 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf, given an optional prefix:
+If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf:
 
 ```js
 const actionCreators = createActions({
@@ -172,7 +172,7 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
   meta: { username: 'yangmillstheory', message: 'Hello World' }
 });
 ```
-When using this form, you can pass an object with key `namespace` to use your own namespace, instead of the default `/`.
+When using this form, you can pass an object with key `namespace` as the last positional argument, instead of the default `/`.
 
 ### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
