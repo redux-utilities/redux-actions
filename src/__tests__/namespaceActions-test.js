@@ -36,7 +36,7 @@ describe('flattenActions', () => {
     });
   });
 
-  it('should be case-insensitive', () => {
+  it('should be case-sensitive', () => {
     const actionsMap = {
       app: {
         counter: {
