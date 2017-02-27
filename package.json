@@ -1,6 +1,6 @@
 {
   "name": "redux-actions",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Flux Standard Action utlities for Redux",
   "main": "lib/index.js",
   "module": "es/index.js",
