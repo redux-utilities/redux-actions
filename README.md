@@ -24,7 +24,7 @@ If you don’t use [npm](https://www.npmjs.com), you may grab the latest [UMD](h
 import { createAction } from 'redux-actions';
 ```
 
-Wraps an action creator so that its return value is the payload of a Flux Standard Action. 
+Wraps an action creator so that its return value is the payload of a Flux Standard Action.
 
 `payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
@@ -97,13 +97,15 @@ import { createActions } from 'redux-actions';
 
 Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the string literals of `identityActions`; the values are the action creators.
 
-`actionsMap` is an optional object with action types as keys, and whose values **must** be either
+`actionsMap` is an optional object and a recursive data structure, with action types as keys, and whose values **must** be either
 
 - a function, which is the payload creator for that action
 - an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
     - `meta` is **required** in this case (otherwise use the function form above)
+- actions maps
 
 `identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
+
 
 ```js
 const { actionOne, actionTwo, actionThree } = createActions({
@@ -136,6 +138,42 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
+If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf the combined path to that leaf, given an optional prefix:
+
+```js
+const actionCreators = createActions({
+  APP: {
+    COUNTER: {
+      INCREMENT: [
+        amount => ({ amount }),
+        amount => ({ key: 'value', amount })
+      ],
+      DECREMENT: amount => ({ amount: -amount })
+    },
+    NOTIFY: [
+      (username, message) => ({ message: `${username}: ${message}` }),
+      (username, message) => ({ username, message })
+    ]
+  }
+});
+
+expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+  type: 'APP/COUNTER/INCREMENT',
+  payload: { amount: 1 },
+  meta: { key: 'value', amount: 1 }
+});
+expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+  type: 'APP/COUNTER/DECREMENT',
+  payload: { amount: -1 }
+});
+expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+  type: 'APP/NOTIFY',
+  payload: { message: 'yangmillstheory: Hello World' },
+  meta: { username: 'yangmillstheory', message: 'Hello World' }
+});
+```
+When using this form, you can pass an object with key `namespace` to use your own namespace, instead of the default `/`.
+
 ### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
 ```js
@@ -155,7 +193,7 @@ handleAction('FETCH_DATA', {
 }, defaultState);
 ```
 
-If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer. 
+If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer.
 
 If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identity function is used.
 
