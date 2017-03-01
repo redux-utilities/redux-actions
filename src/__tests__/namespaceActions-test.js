@@ -75,7 +75,7 @@ describe('namespacing actions', () => {
   });
 
   describe('unflattenActionCreators', () => {
-    it('should unflatten a flattened action creators map and camel-case keys', () => {
+    it('should unflatten a flattened action map and camel-case keys', () => {
       const actionsMap = unflattenActionCreators({
         'APP/COUNTER/INCREMENT': amount => ({ amount }),
         'APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
@@ -91,7 +91,7 @@ describe('namespacing actions', () => {
       expect(actionsMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
     });
 
-    it('should unflatten a flattened action creators map with custom namespace', () => {
+    it('should unflatten a flattened action map with custom namespace', () => {
       const actionsMap = unflattenActionCreators({
         'APP--COUNTER--INCREMENT': amount => ({ amount }),
         'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
