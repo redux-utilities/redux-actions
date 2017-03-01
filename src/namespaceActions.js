@@ -6,48 +6,52 @@ const defaultNamespace = '/';
 function flattenActionMap(
   actionMap,
   namespace = defaultNamespace,
-  flattenedActions = {},
-  flattenedActionType = ''
+  partialFlatActionMap = {},
+  partialFlatActionType = ''
 ) {
-  function getNextActionType(actionType) {
-    return flattenedActionType ? `${flattenedActionType}${namespace}${actionType}` : actionType;
+  function connectNamespace(type) {
+    return partialFlatActionType
+      ? `${partialFlatActionType}${namespace}${type}`
+      : type;
   }
 
-  Object.getOwnPropertyNames(actionMap).forEach(actionType => {
-    const nextActionType = getNextActionType(actionType);
-    const actionMapValue = actionMap[actionType];
+  Object.getOwnPropertyNames(actionMap).forEach(type => {
+    const nextNamespace = connectNamespace(type);
+    const actionMapValue = actionMap[type];
 
     if (!isPlainObject(actionMapValue)) {
-      flattenedActions[nextActionType] = actionMap[actionType];
+      partialFlatActionMap[nextNamespace] = actionMap[type];
     } else {
-      flattenActionMap(actionMap[actionType], namespace, flattenedActions, nextActionType);
+      flattenActionMap(actionMap[type], namespace, partialFlatActionMap, nextNamespace);
     }
   });
-  return flattenedActions;
+  return partialFlatActionMap;
 }
 
-function unflattenActionCreators(actionCreatorsMap, namespace = defaultNamespace) {
+function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
   function unflatten(
-    unflattenedActions = {},
-    flattenedActionType,
-    actionTypePath,
+    flatActionType,
+    partialNestedActionCreators = {},
+    partialFlatActionTypePath,
   ) {
-    const nextActionType = camelCase(actionTypePath.shift());
-    if (actionTypePath.length) {
-      if (!unflattenedActions[nextActionType]) {
-        unflattenedActions[nextActionType] = {};
+    const nextNamespace = camelCase(partialFlatActionTypePath.shift());
+    if (partialFlatActionTypePath.length) {
+      if (!partialNestedActionCreators[nextNamespace]) {
+        partialNestedActionCreators[nextNamespace] = {};
       }
-      unflatten(unflattenedActions[nextActionType], flattenedActionType, actionTypePath);
+      unflatten(
+        flatActionType, partialNestedActionCreators[nextNamespace], partialFlatActionTypePath
+      );
     } else {
-      unflattenedActions[nextActionType] = actionCreatorsMap[flattenedActionType];
+      partialNestedActionCreators[nextNamespace] = flatActionCreators[flatActionType];
     }
   }
 
-  const unflattenedActions = {};
+  const partialNestedActionCreators = {};
   Object
-    .getOwnPropertyNames(actionCreatorsMap)
-    .forEach(actionType => unflatten(unflattenedActions, actionType, actionType.split(namespace)));
-  return unflattenedActions;
+    .getOwnPropertyNames(flatActionCreators)
+    .forEach(type => unflatten(type, partialNestedActionCreators, type.split(namespace)));
+  return partialNestedActionCreators;
 }
 
 export { flattenActionMap, unflattenActionCreators };
