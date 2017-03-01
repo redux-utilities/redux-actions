@@ -7,7 +7,12 @@ import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 import invariant from 'invariant';
-import { defaultNamespace, flattenActions, unflattenActions } from './namespaceActions';
+import arrayToObject from './arrayToObject';
+import {
+  defaultNamespace,
+  flattenActionsMap,
+  unflattenActionCreators
+} from './namespaceActions';
 
 export default function createActions(actionsMap, ...identityActions) {
   const namespace = isPlainObject(last(identityActions))
@@ -22,8 +27,8 @@ export default function createActions(actionsMap, ...identityActions) {
     return actionCreatorsFromIdentityActions([actionsMap, ...identityActions]);
   }
   return {
-    ...unflattenActions(
-      attachActionCreators(flattenActions(actionsMap, namespace)),
+    ...unflattenActionCreators(
+      toActionCreators(flattenActionsMap(actionsMap, namespace)),
       namespace
     ),
     ...actionCreatorsFromIdentityActions(identityActions)
@@ -41,8 +46,8 @@ function isValidActionsMapValue(actionsMapValue) {
   return false;
 }
 
-function attachActionCreators(actionsMap) {
-  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
+function toActionCreators(actionsMap) {
+  return arrayToObject(Object.keys(actionsMap), (partialActionCreators, type) => {
     const actionsMapValue = actionsMap[type];
     invariant(
       isValidActionsMapValue(actionsMapValue),
@@ -52,18 +57,18 @@ function attachActionCreators(actionsMap) {
     const actionCreator = isArray(actionsMapValue)
       ? createAction(type, ...actionsMapValue)
       : createAction(type, actionsMapValue);
-    return { ...actionCreatorsMap, [type]: actionCreator };
-  }, {});
+    return { ...partialActionCreators, [type]: actionCreator };
+  });
 }
 
 function actionCreatorsFromIdentityActions(identityActions) {
-  const actionCreators = attachActionCreators(identityActions.reduce((actionsMap, actionType) => ({
-    ...actionsMap,
-    [actionType]: identity
-  })
-  , {}));
-  return Object.keys(actionCreators).reduce((actionCreatorsMap, actionType) => ({
-    ...actionCreatorsMap,
-    [camelCase(actionType)]: actionCreators[actionType]
-  }), {});
+  const actionsMap = arrayToObject(identityActions, (partialActionsMap, type) => ({
+    ...partialActionsMap,
+    [type]: identity
+  }));
+  const actionCreators = toActionCreators(actionsMap);
+  return arrayToObject(Object.keys(actionCreators), (partialActionCreators, type) => ({
+    ...partialActionCreators,
+    [camelCase(type)]: actionCreators[type]
+  }));
 }

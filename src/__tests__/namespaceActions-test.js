@@ -1,9 +1,9 @@
-import { flattenActions, unflattenActions } from '../namespaceActions';
+import { flattenActionsMap, unflattenActionCreators } from '../namespaceActions';
 import { expect } from 'chai';
 
 describe('namespacing actions', () => {
-  describe('flattenActions', () => {
-    it('should flatten an action creators map with the default namespacer', () => {
+  describe('flattenActionsMap', () => {
+    it('should flatten an actions map with the default namespacer', () => {
       const actionsMap = {
         APP: {
           COUNTER: {
@@ -15,7 +15,7 @@ describe('namespacing actions', () => {
         LOGIN: username => ({ username })
       };
 
-      expect(flattenActions(actionsMap)).to.deep.equal({
+      expect(flattenActionsMap(actionsMap)).to.deep.equal({
         'APP/COUNTER/INCREMENT': actionsMap.APP.COUNTER.INCREMENT,
         'APP/COUNTER/DECREMENT': actionsMap.APP.COUNTER.DECREMENT,
         'APP/NOTIFY': actionsMap.APP.NOTIFY,
@@ -30,7 +30,7 @@ describe('namespacing actions', () => {
         LOGIN: username => ({ username })
       };
 
-      expect(flattenActions(actionsMap)).to.deep.equal(actionsMap);
+      expect(flattenActionsMap(actionsMap)).to.deep.equal(actionsMap);
     });
 
     it('should be case-sensitive', () => {
@@ -45,7 +45,7 @@ describe('namespacing actions', () => {
         login: username => ({ username })
       };
 
-      expect(flattenActions(actionsMap)).to.deep.equal({
+      expect(flattenActionsMap(actionsMap)).to.deep.equal({
         'app/counter/increment': actionsMap.app.counter.increment,
         'app/counter/decrement': actionsMap.app.counter.decrement,
         'app/notify': actionsMap.app.notify,
@@ -65,7 +65,7 @@ describe('namespacing actions', () => {
         LOGIN: username => ({ username })
       };
 
-      expect(flattenActions(actionsMap, '-')).to.deep.equal({
+      expect(flattenActionsMap(actionsMap, '-')).to.deep.equal({
         'APP-COUNTER-INCREMENT': actionsMap.APP.COUNTER.INCREMENT,
         'APP-COUNTER-DECREMENT': actionsMap.APP.COUNTER.DECREMENT,
         'APP-NOTIFY': actionsMap.APP.NOTIFY,
@@ -74,9 +74,9 @@ describe('namespacing actions', () => {
     });
   });
 
-  describe('unflattenActions', () => {
-    it('should unflatten a flattened actions map and camel-case keys', () => {
-      const actionsMap = unflattenActions({
+  describe('unflattenActionCreators', () => {
+    it('should unflatten a flattened action creators map and camel-case keys', () => {
+      const actionsMap = unflattenActionCreators({
         'APP/COUNTER/INCREMENT': amount => ({ amount }),
         'APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
         'APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
@@ -91,8 +91,8 @@ describe('namespacing actions', () => {
       expect(actionsMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
     });
 
-    it('should unflatten a flattened actions map with custom namespace', () => {
-      const actionsMap = unflattenActions({
+    it('should unflatten a flattened action creators map with custom namespace', () => {
+      const actionsMap = unflattenActionCreators({
         'APP--COUNTER--INCREMENT': amount => ({ amount }),
         'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
         'APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),

@@ -3,7 +3,7 @@ import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
 
-function flattenActions(
+function flattenActionsMap(
   actionsMap,
   namespace = defaultNamespace,
   flattenedActions = {},
@@ -20,13 +20,13 @@ function flattenActions(
     if (!isPlainObject(actionsMapValue)) {
       flattenedActions[nextActionType] = actionsMap[actionType];
     } else {
-      flattenActions(actionsMap[actionType], namespace, flattenedActions, nextActionType);
+      flattenActionsMap(actionsMap[actionType], namespace, flattenedActions, nextActionType);
     }
   });
   return flattenedActions;
 }
 
-function unflattenActions(actionCreatorsMap, namespace = defaultNamespace) {
+function unflattenActionCreators(actionCreatorsMap, namespace = defaultNamespace) {
   function unflatten(
     unflattenedActions = {},
     flattenedActionType,
@@ -50,4 +50,4 @@ function unflattenActions(actionCreatorsMap, namespace = defaultNamespace) {
   return unflattenedActions;
 }
 
-export { flattenActions, unflattenActions };
+export { flattenActionsMap, unflattenActionCreators };
