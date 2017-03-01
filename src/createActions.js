@@ -4,6 +4,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import last from 'lodash/last';
 import isString from 'lodash/isString';
+import defaults from 'lodash/defaults';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 import invariant from 'invariant';
@@ -14,10 +15,15 @@ import {
   unflattenActionCreators
 } from './namespaceActions';
 
+const defaultOptions = { namespace: defaultNamespace };
+
 export default function createActions(actionsMap, ...identityActions) {
-  const namespace = isPlainObject(last(identityActions))
-    ? identityActions.pop().namespace
-    : defaultNamespace;
+  const { namespace } = defaults(
+    isPlainObject(last(identityActions))
+      ? identityActions.pop()
+      : {},
+    defaultOptions
+  );
   invariant(
     identityActions.every(isString) &&
     (isString(actionsMap) || isPlainObject(actionsMap)),
