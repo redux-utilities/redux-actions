@@ -31,19 +31,13 @@ export default function createActions(actionMap, ...identityActions) {
   if (isString(actionMap)) {
     return actionCreatorsFromIdentityActions([actionMap, ...identityActions]);
   }
-  const flatActionsMap = flattenActionMap(actionMap, namespace);
-  const flatActionCreators = toActionCreators(flatActionsMap);
-  const actionCreatorsFromActionsMap = unflattenActionCreators(
-    flatActionCreators,
-    namespace
-  );
   return {
-    ...actionCreatorsFromActionsMap,
+    ...actionCreatorsFromActionMap(actionMap, namespace),
     ...actionCreatorsFromIdentityActions(identityActions)
   };
 }
 
-function isValidActionsMapValue(actionMapValue) {
+function isValidActionMapValue(actionMapValue) {
   if (isFunction(actionMapValue)) {
     return true;
   } else if (isArray(actionMapValue)) {
@@ -58,7 +52,7 @@ function toActionCreators(actionMap) {
   return arrayToObject(Object.keys(actionMap), (partialActionCreators, type) => {
     const actionMapValue = actionMap[type];
     invariant(
-      isValidActionsMapValue(actionMapValue),
+      isValidActionMapValue(actionMapValue),
       'Expected function, undefined, or array with payload and meta ' +
       `functions for ${type}`
     );
@@ -70,8 +64,8 @@ function toActionCreators(actionMap) {
 }
 
 function actionCreatorsFromIdentityActions(identityActions) {
-  const actionMap = arrayToObject(identityActions, (partialActionsMap, type) => ({
-    ...partialActionsMap,
+  const actionMap = arrayToObject(identityActions, (partialActionMap, type) => ({
+    ...partialActionMap,
     [type]: identity
   }));
   const actionCreators = toActionCreators(actionMap);
@@ -79,4 +73,10 @@ function actionCreatorsFromIdentityActions(identityActions) {
     ...partialActionCreators,
     [camelCase(type)]: actionCreators[type]
   }));
+}
+
+function actionCreatorsFromActionMap(actionMap, namespace) {
+  const flatActionMap = flattenActionMap(actionMap, namespace);
+  const flatActionCreators = toActionCreators(flatActionMap);
+  return unflattenActionCreators(flatActionCreators, namespace);
 }
