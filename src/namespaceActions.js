@@ -32,7 +32,7 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   function unflatten(
     flatActionType,
     partialNestedActionCreators = {},
-    partialFlatActionTypePath,
+    partialFlatActionTypePath = [],
   ) {
     const nextNamespace = camelCase(partialFlatActionTypePath.shift());
     if (partialFlatActionTypePath.length) {
