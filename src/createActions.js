@@ -15,14 +15,13 @@ import {
   unflattenActionCreators
 } from './namespaceActions';
 
-const defaultOptions = { namespace: defaultNamespace };
+function getFullOptions(options = {}) {
+  return defaults(options, { namespace: defaultNamespace });
+}
 
 export default function createActions(actionsMap, ...identityActions) {
-  const { namespace } = defaults(
-    isPlainObject(last(identityActions))
-      ? identityActions.pop()
-      : {},
-    defaultOptions
+  const { namespace } = getFullOptions(
+    isPlainObject(last(identityActions)) ? identityActions.pop() : {}
   );
   invariant(
     identityActions.every(isString) &&
