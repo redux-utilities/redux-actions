@@ -42,7 +42,6 @@ function isValidActionMapValue(actionMapValue) {
     return true;
   } else if (isArray(actionMapValue)) {
     const [payload = identity, meta] = actionMapValue;
-
     return isFunction(payload) && isFunction(meta);
   }
   return false;
@@ -64,15 +63,21 @@ function toActionCreators(actionMap) {
 }
 
 function actionCreatorsFromIdentityActions(identityActions) {
-  const actionMap = arrayToObject(identityActions, (partialActionMap, type) => ({
-    ...partialActionMap,
-    [type]: identity
-  }));
+  const actionMap = arrayToObject(
+    identityActions,
+    (partialActionMap, type) => ({
+      ...partialActionMap,
+      [type]: identity
+    })
+  );
   const actionCreators = toActionCreators(actionMap);
-  return arrayToObject(Object.keys(actionCreators), (partialActionCreators, type) => ({
-    ...partialActionCreators,
-    [camelCase(type)]: actionCreators[type]
-  }));
+  return arrayToObject(
+    Object.keys(actionCreators),
+    (partialActionCreators, type) => ({
+      ...partialActionCreators,
+      [camelCase(type)]: actionCreators[type]
+    })
+  );
 }
 
 function actionCreatorsFromActionMap(actionMap, namespace) {
