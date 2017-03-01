@@ -15,11 +15,10 @@ import {
   unflattenActionCreators
 } from './namespaceActions';
 
-function getFullOptions(options = {}) {
-  return defaults(options, { namespace: defaultNamespace });
-}
-
 export default function createActions(actionMap, ...identityActions) {
+  function getFullOptions(options = {}) {
+    return defaults(options, { namespace: defaultNamespace });
+  }
   const { namespace } = getFullOptions(
     isPlainObject(last(identityActions)) ? identityActions.pop() : {}
   );
@@ -37,17 +36,23 @@ export default function createActions(actionMap, ...identityActions) {
   };
 }
 
-function isValidActionMapValue(actionMapValue) {
-  if (isFunction(actionMapValue)) {
-    return true;
-  } else if (isArray(actionMapValue)) {
-    const [payload = identity, meta] = actionMapValue;
-    return isFunction(payload) && isFunction(meta);
-  }
-  return false;
+function actionCreatorsFromActionMap(actionMap, namespace) {
+  const flatActionMap = flattenActionMap(actionMap, namespace);
+  const flatActionCreators = actionMapToActionCreators(flatActionMap);
+  return unflattenActionCreators(flatActionCreators, namespace);
 }
 
 function actionMapToActionCreators(actionMap) {
+  function isValidActionMapValue(actionMapValue) {
+    if (isFunction(actionMapValue)) {
+      return true;
+    } else if (isArray(actionMapValue)) {
+      const [payload = identity, meta] = actionMapValue;
+      return isFunction(payload) && isFunction(meta);
+    }
+    return false;
+  }
+
   return arrayToObject(Object.keys(actionMap), (partialActionCreators, type) => {
     const actionMapValue = actionMap[type];
     invariant(
@@ -78,10 +83,4 @@ function actionCreatorsFromIdentityActions(identityActions) {
       [camelCase(type)]: actionCreators[type]
     })
   );
-}
-
-function actionCreatorsFromActionMap(actionMap, namespace) {
-  const flatActionMap = flattenActionMap(actionMap, namespace);
-  const flatActionCreators = actionMapToActionCreators(flatActionMap);
-  return unflattenActionCreators(flatActionCreators, namespace);
 }
