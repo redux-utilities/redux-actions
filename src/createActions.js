@@ -16,12 +16,13 @@ import {
 } from './namespaceActions';
 
 export default function createActions(actionMap, ...identityActions) {
-  function getFullOptions(options = {}) {
-    return defaults(options, { namespace: defaultNamespace });
+  function getFullOptions() {
+    const partialOptions = isPlainObject(last(identityActions))
+      ? identityActions.pop()
+      : {};
+    return defaults(partialOptions, { namespace: defaultNamespace });
   }
-  const { namespace } = getFullOptions(
-    isPlainObject(last(identityActions)) ? identityActions.pop() : {}
-  );
+  const { namespace } = getFullOptions();
   invariant(
     identityActions.every(isString) &&
     (isString(actionMap) || isPlainObject(actionMap)),
