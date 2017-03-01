@@ -47,7 +47,7 @@ function isValidActionMapValue(actionMapValue) {
   return false;
 }
 
-function toActionCreators(actionMap) {
+function actionMapToActionCreators(actionMap) {
   return arrayToObject(Object.keys(actionMap), (partialActionCreators, type) => {
     const actionMapValue = actionMap[type];
     invariant(
@@ -70,7 +70,7 @@ function actionCreatorsFromIdentityActions(identityActions) {
       [type]: identity
     })
   );
-  const actionCreators = toActionCreators(actionMap);
+  const actionCreators = actionMapToActionCreators(actionMap);
   return arrayToObject(
     Object.keys(actionCreators),
     (partialActionCreators, type) => ({
@@ -82,6 +82,6 @@ function actionCreatorsFromIdentityActions(identityActions) {
 
 function actionCreatorsFromActionMap(actionMap, namespace) {
   const flatActionMap = flattenActionMap(actionMap, namespace);
-  const flatActionCreators = toActionCreators(flatActionMap);
+  const flatActionCreators = actionMapToActionCreators(flatActionMap);
   return unflattenActionCreators(flatActionCreators, namespace);
 }
