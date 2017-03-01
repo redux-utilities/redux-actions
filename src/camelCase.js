@@ -11,4 +11,4 @@ function camelCase(string) {
   , '');
 }
 
-export default actionType => actionType.split(namespacer).map(camelCase).join(namespacer);
+export default type => type.split(namespacer).map(camelCase).join(namespacer);
