@@ -178,7 +178,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should create actions from an actions map and action types', () => {
+  it('should create actions from an action map and action types', () => {
     const { action1, action2, action3, action4 } = createActions({
       ACTION_1: (key, value) => ({ [key]: value }),
       ACTION_2: [
@@ -206,7 +206,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should create actions from a namespaced actions map', () => {
+  it('should create actions from a namespaced action map', () => {
     const actionCreators = createActions({
       APP: {
         COUNTER: {

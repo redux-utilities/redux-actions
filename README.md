@@ -89,20 +89,20 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
-### `createActions(?actionsMap, ?...identityActions)`
+### `createActions(?actionMap, ?...identityActions)`
 
 ```js
 import { createActions } from 'redux-actions';
 ```
 
-Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionsMap` and the string literals of `identityActions`; the values are the action creators.
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionMap` and the string literals of `identityActions`; the values are the action creators.
 
-`actionsMap` is an optional object and a recursive data structure, with action types as keys, and whose values **must** be either
+`actionMap` is an optional object and a recursive data structure, with action types as keys, and whose values **must** be either
 
 - a function, which is the payload creator for that action
 - an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
     - `meta` is **required** in this case (otherwise use the function form above)
-- an `actionsMap`
+- an `actionMap`
 
 `identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
 
@@ -138,7 +138,7 @@ expect(actionThree(3)).to.deep.equal({
 });
 ```
 
-If `actionsMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf:
+If `actionMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf:
 
 ```js
 const actionCreators = createActions({

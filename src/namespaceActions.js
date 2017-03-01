@@ -3,8 +3,8 @@ import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
 
-function flattenActionsMap(
-  actionsMap,
+function flattenActionMap(
+  actionMap,
   namespace = defaultNamespace,
   flattenedActions = {},
   flattenedActionType = ''
@@ -13,14 +13,14 @@ function flattenActionsMap(
     return flattenedActionType ? `${flattenedActionType}${namespace}${actionType}` : actionType;
   }
 
-  Object.getOwnPropertyNames(actionsMap).forEach(actionType => {
+  Object.getOwnPropertyNames(actionMap).forEach(actionType => {
     const nextActionType = getNextActionType(actionType);
-    const actionsMapValue = actionsMap[actionType];
+    const actionMapValue = actionMap[actionType];
 
-    if (!isPlainObject(actionsMapValue)) {
-      flattenedActions[nextActionType] = actionsMap[actionType];
+    if (!isPlainObject(actionMapValue)) {
+      flattenedActions[nextActionType] = actionMap[actionType];
     } else {
-      flattenActionsMap(actionsMap[actionType], namespace, flattenedActions, nextActionType);
+      flattenActionMap(actionMap[actionType], namespace, flattenedActions, nextActionType);
     }
   });
   return flattenedActions;
@@ -50,4 +50,4 @@ function unflattenActionCreators(actionCreatorsMap, namespace = defaultNamespace
   return unflattenedActions;
 }
 
-export { flattenActionsMap, unflattenActionCreators };
+export { flattenActionMap, unflattenActionCreators };

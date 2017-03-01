@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import arrayToObject from './arrayToObject';
 import {
   defaultNamespace,
-  flattenActionsMap,
+  flattenActionMap,
   unflattenActionCreators
 } from './namespaceActions';
 
@@ -19,59 +19,62 @@ function getFullOptions(options = {}) {
   return defaults(options, { namespace: defaultNamespace });
 }
 
-export default function createActions(actionsMap, ...identityActions) {
+export default function createActions(actionMap, ...identityActions) {
   const { namespace } = getFullOptions(
     isPlainObject(last(identityActions)) ? identityActions.pop() : {}
   );
   invariant(
     identityActions.every(isString) &&
-    (isString(actionsMap) || isPlainObject(actionsMap)),
+    (isString(actionMap) || isPlainObject(actionMap)),
     'Expected optional object followed by string action types'
   );
-  if (isString(actionsMap)) {
-    return actionCreatorsFromIdentityActions([actionsMap, ...identityActions]);
+  if (isString(actionMap)) {
+    return actionCreatorsFromIdentityActions([actionMap, ...identityActions]);
   }
+  const flatActionsMap = flattenActionMap(actionMap, namespace);
+  const flatActionCreators = toActionCreators(flatActionsMap);
+  const actionCreatorsFromActionsMap = unflattenActionCreators(
+    flatActionCreators,
+    namespace
+  );
   return {
-    ...unflattenActionCreators(
-      toActionCreators(flattenActionsMap(actionsMap, namespace)),
-      namespace
-    ),
+    ...actionCreatorsFromActionsMap,
     ...actionCreatorsFromIdentityActions(identityActions)
   };
 }
 
-function isValidActionsMapValue(actionsMapValue) {
-  if (isFunction(actionsMapValue)) {
+function isValidActionsMapValue(actionMapValue) {
+  if (isFunction(actionMapValue)) {
     return true;
-  } else if (isArray(actionsMapValue)) {
-    const [payload = identity, meta] = actionsMapValue;
+  } else if (isArray(actionMapValue)) {
+    const [payload = identity, meta] = actionMapValue;
 
     return isFunction(payload) && isFunction(meta);
   }
   return false;
 }
 
-function toActionCreators(actionsMap) {
-  return arrayToObject(Object.keys(actionsMap), (partialActionCreators, type) => {
-    const actionsMapValue = actionsMap[type];
+function toActionCreators(actionMap) {
+  return arrayToObject(Object.keys(actionMap), (partialActionCreators, type) => {
+    const actionMapValue = actionMap[type];
     invariant(
-      isValidActionsMapValue(actionsMapValue),
+      isValidActionsMapValue(actionMapValue),
       'Expected function, undefined, or array with payload and meta ' +
       `functions for ${type}`
     );
-    const actionCreator = isArray(actionsMapValue)
-      ? createAction(type, ...actionsMapValue)
-      : createAction(type, actionsMapValue);
+    const actionCreator = isArray(actionMapValue)
+      ? createAction(type, ...actionMapValue)
+      : createAction(type, actionMapValue);
     return { ...partialActionCreators, [type]: actionCreator };
   });
 }
 
 function actionCreatorsFromIdentityActions(identityActions) {
-  const actionsMap = arrayToObject(identityActions, (partialActionsMap, type) => ({
+  const actionMap = arrayToObject(identityActions, (partialActionsMap, type) => ({
     ...partialActionsMap,
     [type]: identity
   }));
-  const actionCreators = toActionCreators(actionsMap);
+  const actionCreators = toActionCreators(actionMap);
   return arrayToObject(Object.keys(actionCreators), (partialActionCreators, type) => ({
     ...partialActionCreators,
     [camelCase(type)]: actionCreators[type]
