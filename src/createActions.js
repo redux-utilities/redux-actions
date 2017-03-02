@@ -71,10 +71,7 @@ function actionMapToActionCreators(actionMap) {
 function actionCreatorsFromIdentityActions(identityActions) {
   const actionMap = arrayToObject(
     identityActions,
-    (partialActionMap, type) => ({
-      ...partialActionMap,
-      [type]: identity
-    })
+    (partialActionMap, type) => ({ ...partialActionMap, [type]: identity })
   );
   const actionCreators = actionMapToActionCreators(actionMap);
   return arrayToObject(
