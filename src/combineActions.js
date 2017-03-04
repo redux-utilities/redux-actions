@@ -7,15 +7,15 @@ import invariant from 'invariant';
 
 export const ACTION_TYPE_DELIMITER = '||';
 
-function isValidActionType(actionType) {
-  return isString(actionType) || isFunction(actionType) || isSymbol(actionType);
+function isValidActionType(type) {
+  return isString(type) || isFunction(type) || isSymbol(type);
 }
 
-function isValidActionTypes(actionTypes) {
-  if (isEmpty(actionTypes)) {
+function isValidActionTypes(types) {
+  if (isEmpty(types)) {
     return false;
   }
-  return actionTypes.every(isValidActionType);
+  return types.every(isValidActionType);
 }
 
 export default function combineActions(...actionsTypes) {

@@ -12,13 +12,6 @@ describe('createActions', () => {
 
   it('should throw an error when given bad payload creators', () => {
     expect(
-      () => createActions({ ACTION_1: {} })
-    ).to.throw(
-      Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
-    );
-
-    expect(
       () => createActions({
         ACTION_1: () => {},
         ACTION_2: 'string'
@@ -106,16 +99,16 @@ describe('createActions', () => {
   });
 
   it('should honor special delimiters in action types', () => {
-    const { 'p/actionOne': pActionOne, 'q/actionTwo': qActionTwo } = createActions({
+    const { p: { actionOne }, q: { actionTwo } } = createActions({
       'P/ACTION_ONE': (key, value) => ({ [key]: value }),
       'Q/ACTION_TWO': (first, second) => ([first, second])
     });
 
-    expect(pActionOne('value', 1)).to.deep.equal({
+    expect(actionOne('value', 1)).to.deep.equal({
       type: 'P/ACTION_ONE',
       payload: { value: 1 }
     });
-    expect(qActionTwo('value', 2)).to.deep.equal({
+    expect(actionTwo('value', 2)).to.deep.equal({
       type: 'Q/ACTION_TWO',
       payload: ['value', 2]
     });
@@ -185,7 +178,7 @@ describe('createActions', () => {
     });
   });
 
-  it('should create actions from an actions map and action types', () => {
+  it('should create actions from an action map and action types', () => {
     const { action1, action2, action3, action4 } = createActions({
       ACTION_1: (key, value) => ({ [key]: value }),
       ACTION_2: [
@@ -210,6 +203,110 @@ describe('createActions', () => {
     expect(action4(4)).to.deep.equal({
       type: 'ACTION_4',
       payload: 4
+    });
+  });
+
+  it('should create actions from a namespaced action map', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: amount => ({ amount }),
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+      },
+      LOGIN: username => ({ username })
+    }, 'ACTION_ONE', 'ACTION_TWO');
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP/COUNTER/INCREMENT',
+      payload: { amount: 1 }
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP/COUNTER/DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP/NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' }
+    });
+    expect(actionCreators.login('yangmillstheory')).to.deep.equal({
+      type: 'LOGIN',
+      payload: { username: 'yangmillstheory' }
+    });
+    expect(actionCreators.actionOne('one')).to.deep.equal({
+      type: 'ACTION_ONE',
+      payload: 'one'
+    });
+    expect(actionCreators.actionTwo('two')).to.deep.equal({
+      type: 'ACTION_TWO',
+      payload: 'two'
+    });
+  });
+
+  it('should create namespaced actions with payload creators in array form', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      }
+    });
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP/COUNTER/INCREMENT',
+      payload: { amount: 1 },
+      meta: { key: 'value', amount: 1 }
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP/COUNTER/DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP/NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' },
+      meta: { username: 'yangmillstheory', message: 'Hello World' }
+    });
+  });
+
+  it('should create namespaced actions with a chosen namespace string', () => {
+    const actionCreators = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      }
+    }, { namespace: '--' });
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'APP--COUNTER--INCREMENT',
+      payload: { amount: 1 },
+      meta: { key: 'value', amount: 1 }
+    });
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'APP--COUNTER--DECREMENT',
+      payload: { amount: -1 }
+    });
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'APP--NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' },
+      meta: { username: 'yangmillstheory', message: 'Hello World' }
     });
   });
 });

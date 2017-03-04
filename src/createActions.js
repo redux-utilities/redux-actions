@@ -1,52 +1,84 @@
-import identity from 'lodash/identity';
 import camelCase from './camelCase';
+import identity from 'lodash/identity';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
+import last from 'lodash/last';
 import isString from 'lodash/isString';
+import defaults from 'lodash/defaults';
 import isFunction from 'lodash/isFunction';
 import createAction from './createAction';
 import invariant from 'invariant';
+import arrayToObject from './arrayToObject';
+import {
+  defaultNamespace,
+  flattenActionMap,
+  unflattenActionCreators
+} from './namespaceActions';
 
-export default function createActions(actionsMap, ...identityActions) {
+export default function createActions(actionMap, ...identityActions) {
+  function getFullOptions() {
+    const partialOptions = isPlainObject(last(identityActions))
+      ? identityActions.pop()
+      : {};
+    return defaults(partialOptions, { namespace: defaultNamespace });
+  }
+  const { namespace } = getFullOptions();
   invariant(
     identityActions.every(isString) &&
-    (isString(actionsMap) || isPlainObject(actionsMap)),
+    (isString(actionMap) || isPlainObject(actionMap)),
     'Expected optional object followed by string action types'
   );
-  if (isString(actionsMap)) {
-    return fromIdentityActions([actionsMap, ...identityActions]);
+  if (isString(actionMap)) {
+    return actionCreatorsFromIdentityActions([actionMap, ...identityActions]);
   }
-  return { ...fromActionsMap(actionsMap), ...fromIdentityActions(identityActions) };
+  return {
+    ...actionCreatorsFromActionMap(actionMap, namespace),
+    ...actionCreatorsFromIdentityActions(identityActions)
+  };
 }
 
-function isValidActionsMapValue(actionsMapValue) {
-  if (isFunction(actionsMapValue)) {
-    return true;
-  } else if (isArray(actionsMapValue)) {
-    const [payload = identity, meta] = actionsMapValue;
-
-    return isFunction(payload) && isFunction(meta);
-  }
-  return false;
+function actionCreatorsFromActionMap(actionMap, namespace) {
+  const flatActionMap = flattenActionMap(actionMap, namespace);
+  const flatActionCreators = actionMapToActionCreators(flatActionMap);
+  return unflattenActionCreators(flatActionCreators, namespace);
 }
 
-function fromActionsMap(actionsMap) {
-  return Object.keys(actionsMap).reduce((actionCreatorsMap, type) => {
-    const actionsMapValue = actionsMap[type];
+function actionMapToActionCreators(actionMap) {
+  function isValidActionMapValue(actionMapValue) {
+    if (isFunction(actionMapValue)) {
+      return true;
+    } else if (isArray(actionMapValue)) {
+      const [payload = identity, meta] = actionMapValue;
+      return isFunction(payload) && isFunction(meta);
+    }
+    return false;
+  }
+
+  return arrayToObject(Object.keys(actionMap), (partialActionCreators, type) => {
+    const actionMapValue = actionMap[type];
     invariant(
-      isValidActionsMapValue(actionsMapValue),
+      isValidActionMapValue(actionMapValue),
       'Expected function, undefined, or array with payload and meta ' +
       `functions for ${type}`
     );
-    const actionCreator = isArray(actionsMapValue)
-      ? createAction(type, ...actionsMapValue)
-      : createAction(type, actionsMapValue);
-    return { ...actionCreatorsMap, [camelCase(type)]: actionCreator };
-  }, {});
+    const actionCreator = isArray(actionMapValue)
+      ? createAction(type, ...actionMapValue)
+      : createAction(type, actionMapValue);
+    return { ...partialActionCreators, [type]: actionCreator };
+  });
 }
 
-function fromIdentityActions(identityActions) {
-  return fromActionsMap(identityActions.reduce(
-    (actionsMap, actionType) => ({ ...actionsMap, [actionType]: identity })
-  , {}));
+function actionCreatorsFromIdentityActions(identityActions) {
+  const actionMap = arrayToObject(
+    identityActions,
+    (partialActionMap, type) => ({ ...partialActionMap, [type]: identity })
+  );
+  const actionCreators = actionMapToActionCreators(actionMap);
+  return arrayToObject(
+    Object.keys(actionCreators),
+    (partialActionCreators, type) => ({
+      ...partialActionCreators,
+      [camelCase(type)]: actionCreators[type]
+    })
+  );
 }
