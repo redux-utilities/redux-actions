@@ -47,11 +47,11 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
     }
   }
 
-  const partialNestedActionCreators = {};
+  const nestedActionCreators = {};
   Object
     .getOwnPropertyNames(flatActionCreators)
-    .forEach(type => unflatten(type, partialNestedActionCreators, type.split(namespace)));
-  return partialNestedActionCreators;
+    .forEach(type => unflatten(type, nestedActionCreators, type.split(namespace)));
+  return nestedActionCreators;
 }
 
 export { flattenActionMap, unflattenActionCreators, defaultNamespace };
