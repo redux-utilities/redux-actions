@@ -1,8 +1,6 @@
 import camelCase from './camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 
-export const defaultNamespace = '/';
-
 function flattenActionMap(
   actionMap,
   namespace = defaultNamespace,
@@ -55,3 +53,4 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
 }
 
 export { flattenActionMap, unflattenActionCreators };
+export const defaultNamespace = '/';
