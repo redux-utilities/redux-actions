@@ -1,7 +1,7 @@
 import camelCase from './camelCase';
 import isPlainObject from 'lodash/isPlainObject';
 
-const defaultNamespace = '/';
+export const defaultNamespace = '/';
 
 function flattenActionMap(
   actionMap,
