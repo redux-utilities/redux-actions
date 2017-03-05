@@ -54,4 +54,4 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   return partialNestedActionCreators;
 }
 
-export { flattenActionMap, unflattenActionCreators };
+export { flattenActionMap, unflattenActionCreators, defaultNamespace };
