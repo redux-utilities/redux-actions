@@ -11,5 +11,5 @@ export default function handleActions(handlers, defaultState) {
     )
   );
   const reducer = reduceReducers(...reducers);
-  return (state, action) => reducer(state, action);
+  return (state = defaultState, action) => reducer(state, action);
 }

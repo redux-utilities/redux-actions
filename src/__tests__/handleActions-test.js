@@ -236,4 +236,9 @@ describe('handleActions', () => {
       message: 'hello---me: goodbye'
     });
   });
+
+  it('should still return defaultState when no handlers where provided', () => {
+    const reducer = handleActions({}, defaultState);
+    expect(reducer()).to.deep.equal({ counter: 0 });
+  });
 });
