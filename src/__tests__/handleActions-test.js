@@ -237,8 +237,9 @@ describe('handleActions', () => {
     });
   });
 
-  it('should still return defaultState when no handlers where provided', () => {
+  it('should always return defaultState when no handlers where provided', () => {
     const reducer = handleActions({}, defaultState);
+    expect(reducer()).to.deep.equal({ counter: 0 });
     expect(reducer()).to.deep.equal({ counter: 0 });
   });
 });
