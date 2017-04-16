@@ -237,12 +237,11 @@ describe('handleActions', () => {
     });
   });
 
-  it('accepts a default state when previous state is undefined and no handlers where provided',
-    () => {
+  it('accepts a default state when previous state is undefined and no handlers where provided', () => {
       const { unhandledAction } = createActions('UNHANDLED_ACTION');
-
       const reducer = handleActions({}, defaultState);
-      expect(reducer(undefined, unhandledAction)).to.deep.equal({ counter: 0 });
+
+      expect(reducer(undefined, unhandledAction)).to.deep.equal(defaultState);
     }
   );
 
