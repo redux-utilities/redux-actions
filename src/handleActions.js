@@ -7,7 +7,7 @@ import ownKeys from './ownKeys';
 export default function handleActions(handlers, defaultState) {
   invariant(
     isPlainObject(handlers),
-    'Expected handlers to be an object with reducers'
+    'Expected handlers to be an plain object.'
   );
   const reducers = ownKeys(handlers).map(type =>
     handleAction(
