@@ -236,4 +236,28 @@ describe('handleActions', () => {
       message: 'hello---me: goodbye'
     });
   });
+
+  it('should return default state with empty handlers and undefined previous state', () => {
+    const { unhandled } = createActions('UNHANDLED');
+    const reducer = handleActions({}, defaultState);
+
+    expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
+  });
+
+  it('should return previous defined state with empty handlers', () => {
+    const { unhandled } = createActions('UNHANDLED');
+    const reducer = handleActions({}, defaultState);
+
+    expect(reducer({ counter: 10 }, unhandled())).to.deep.equal({ counter: 10 });
+  });
+
+  it('should throw an error if handlers object has the wrong type', () => {
+    const wrongTypeHandlers = [1, 'string', [], null];
+
+    wrongTypeHandlers.forEach(wrongTypeHandler => {
+      expect(
+        () => handleActions(wrongTypeHandler, defaultState)
+      ).to.throw(Error, 'Expected handlers to be an plain object.');
+    });
+  });
 });
