@@ -249,7 +249,7 @@ describe('handleActions', () => {
     const { unhandled } = createActions('UNHANDLED');
     const reducer = handleActions({}, defaultState);
 
-    expect(reducer({ counter: 0 }, unhandled())).to.deep.equal({ counter: 0 });
+    expect(reducer({ counter: 10 }, unhandled())).to.deep.equal({ counter: 10 });
   });
 
   it('throws an error if handlers object has the wrong type', () => {
