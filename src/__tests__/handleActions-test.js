@@ -238,30 +238,27 @@ describe('handleActions', () => {
   });
 
   it('accepts a default state when previous state is undefined and no handlers where provided', () => {
-      const { unhandledAction } = createActions('UNHANDLED_ACTION');
+      const { unhandled } = createActions('UNHANDLED');
       const reducer = handleActions({}, defaultState);
 
-      expect(reducer(undefined, unhandledAction)).to.deep.equal(defaultState);
+      expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
     }
   );
 
   it('returns unmodified state when called with an action and no handlers where provided', () => {
-    const { unhandledAction } = createActions('UNHANDLED_ACTION');
-
+    const { unhandled } = createActions('UNHANDLED');
     const reducer = handleActions({}, defaultState);
-    expect(reducer({ counter: 0 }, unhandledAction)).to.deep.equal({ counter: 0 });
+
+    expect(reducer({ counter: 0 }, unhandled())).to.deep.equal({ counter: 0 });
   });
 
   it('throws an error if handlers object has the wrong type', () => {
     const wrongTypeHandlers = [1, 'string', [], null];
 
     wrongTypeHandlers.forEach(wrongTypeHandler => {
-      expect(() => {
-        handleActions(wrongTypeHandler, defaultState);
-      }).to.throw(
-        Error,
-        'Expected handlers to be an object with reducers'
-      );
+      expect(
+        () => handleActions(wrongTypeHandler, defaultState)
+      ).to.throw(Error, 'Expected handlers to be an object with reducers');
     });
   });
 });
