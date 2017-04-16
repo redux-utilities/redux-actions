@@ -237,22 +237,21 @@ describe('handleActions', () => {
     });
   });
 
-  it('accepts a default state when previous state is undefined and no handlers where provided', () => {
-      const { unhandled } = createActions('UNHANDLED');
-      const reducer = handleActions({}, defaultState);
+  it('should return default state with empty handlers and undefined previous state', () => {
+    const { unhandled } = createActions('UNHANDLED');
+    const reducer = handleActions({}, defaultState);
 
-      expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
-    }
-  );
+    expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
+  });
 
-  it('returns unmodified state when called with an action and no handlers where provided', () => {
+  it('should return previous defined state with empty handlers', () => {
     const { unhandled } = createActions('UNHANDLED');
     const reducer = handleActions({}, defaultState);
 
     expect(reducer({ counter: 10 }, unhandled())).to.deep.equal({ counter: 10 });
   });
 
-  it('throws an error if handlers object has the wrong type', () => {
+  it('should throw an error if handlers object has the wrong type', () => {
     const wrongTypeHandlers = [1, 'string', [], null];
 
     wrongTypeHandlers.forEach(wrongTypeHandler => {
