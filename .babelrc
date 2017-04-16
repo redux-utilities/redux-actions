@@ -2,5 +2,12 @@
   "presets": [
     "./build/preset-es2015",
     "stage-0"
-  ]
+  ],
+  "env": {
+    "es": {
+      "plugins": [
+        "./build/use-lodash-es"
+      ]
+    }
+  }
 }
