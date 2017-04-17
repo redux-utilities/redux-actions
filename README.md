@@ -31,6 +31,8 @@ Wraps an action creator so that its return value is the payload of a Flux Standa
 Example:
 
 ```js
+import { createAction } from 'redux-actions';
+
 let increment = createAction('INCREMENT', amount => amount);
 // same as
 increment = createAction('INCREMENT');
