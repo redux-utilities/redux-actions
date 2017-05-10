@@ -7,7 +7,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
   invariant(
     isFunction(payloadCreator) || isNull(payloadCreator),
     'Expected payloadCreator to be a function, undefined or null'
-  )
+  );
 
   const finalPayloadCreator = isNull(payloadCreator) || payloadCreator === identity
     ? identity
