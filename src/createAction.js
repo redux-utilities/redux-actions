@@ -23,7 +23,11 @@ export default function createAction(type, payloadCreator = identity, metaCreato
 
   const actionCreator = (...args) => {
     const payload = finalPayloadCreator(...args);
-    const action = { type, error: payload instanceof Error };
+    const action = { type };
+
+    if (payload instanceof Error) {
+      action.error = true;
+    }
 
     if (payload !== undefined) {
       action.payload = payload;
