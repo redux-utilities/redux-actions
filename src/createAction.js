@@ -28,7 +28,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     if (payload !== undefined) {
       action.payload = payload;
     }
-    
+
     if (hasMeta) {
       action.meta = metaCreator(...args);
     }
