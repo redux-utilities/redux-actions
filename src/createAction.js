@@ -7,18 +7,19 @@ export default function createAction(type, payloadCreator = identity, metaCreato
   invariant(
     isFunction(payloadCreator) || isNull(payloadCreator),
     'Expected payloadCreator to be a function, undefined or null'
-  );
+  )
 
-  const finalPayloadCreator = payloadCreator === null || payloadCreator === identity
+  const finalPayloadCreator = isNull(payloadCreator) || payloadCreator === identity
     ? identity
-    : (head, ...args) => head instanceof Error ?
-        head : payloadCreator(head, ...args);
+    : ((head, ...args) => head instanceof Error ? head : payloadCreator(head, ...args));
   
   const hasMeta = isFunction(metaCreator);
+  
+  const typeString = type.toString();
 
   const actionCreator = (...args) => {
     const payload = finalPayloadCreator(...args);
-    const action = { type, error: payload instanceof Error };
+    const action = {type, error: payload instanceof Error};
     
     if (payload !== undefined) {
       action.payload = payload;
@@ -31,8 +32,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     return action;
   };
 
-  const typeStr = type.toString();
-  actionCreator.toString = () => typeStr;
+  actionCreator.toString = () => typeString;
 
   return actionCreator;
 }
