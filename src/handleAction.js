@@ -7,8 +7,14 @@ import includes from 'lodash/includes';
 import invariant from 'invariant';
 import { ACTION_TYPE_DELIMITER } from './combineActions';
 
-export default function handleAction(type, reducer = identity, defaultState) {
-  const types = type.toString().split(ACTION_TYPE_DELIMITER);
+export default function handleAction(typeObj, reducer = identity, defaultState) {
+  const type = typeObj.toString();
+  const types = type.split(ACTION_TYPE_DELIMITER);
+  // Common-case optimization: most handlers are only handling one action
+  const actionMatches = types.length === 1 ?
+    actionType => actionType === type :
+    actionType => includes(types, actionType);
+  
   invariant(
     !isUndefined(defaultState),
     `defaultState for reducer handling ${types.join(', ')} should be defined`
@@ -22,12 +28,8 @@ export default function handleAction(type, reducer = identity, defaultState) {
     ? [reducer, reducer]
     : [reducer.next, reducer.throw].map(aReducer => (isNil(aReducer) ? identity : aReducer));
 
-  return (state = defaultState, action) => {
-    const { type: actionType } = action;
-    if (!actionType || !includes(types, actionType.toString())) {
-      return state;
-    }
-
-    return (action.error === true ? throwReducer : nextReducer)(state, action);
-  };
+  return (state = defaultState, action) =>
+    actionMatches(action.type.toString()) ?
+      (action.error === true ? throwReducer : nextReducer)(state, action) :
+      state
 }
