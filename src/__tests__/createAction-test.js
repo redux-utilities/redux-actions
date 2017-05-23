@@ -23,6 +23,18 @@ describe('createAction()', () => {
       });
     });
 
+    it('returns a null payload by default when passed a synthetic event', () => {
+      const actionCreator = createAction(type);
+      const syntheticEvent = {
+        persist: () => 'foo'
+      };
+      const action = actionCreator(syntheticEvent);
+      expect(action).to.deep.equal({
+        type,
+        payload: null
+      });
+    });
+
     it('should throw an error if payloadCreator is not a function, undefined, null', () => {
       const wrongTypePayloadCreators = [1, false, 'string', {}, []];
 
