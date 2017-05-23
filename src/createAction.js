@@ -1,16 +1,22 @@
-import identity from 'lodash/identity';
 import isFunction from 'lodash/isFunction';
 import isNull from 'lodash/isNull';
 import invariant from 'invariant';
 
-export default function createAction(type, payloadCreator = identity, metaCreator) {
+const defaultPayloadCreator = (arg) => {
+  if (arg && typeof arg.persist === 'function') {
+    return null;
+  }
+  return arg;
+};
+
+export default function createAction(type, payloadCreator = defaultPayloadCreator, metaCreator) {
   invariant(
     isFunction(payloadCreator) || isNull(payloadCreator),
     'Expected payloadCreator to be a function, undefined or null'
   );
 
-  const finalPayloadCreator = isNull(payloadCreator) || payloadCreator === identity
-    ? identity
+  const finalPayloadCreator = isNull(payloadCreator) || payloadCreator === defaultPayloadCreator
+    ? defaultPayloadCreator
     : (head, ...args) => (head instanceof Error
       ? head : payloadCreator(head, ...args));
 
