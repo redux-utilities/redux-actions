@@ -48,7 +48,7 @@ redux-actions will automatically set ```action.error``` to true.
 Example:
 
 ```js
-const NOOP = createAction('NOOP');
+const noop = createAction('NOOP');
 
 const error = new TypeError('not a number');
 expect(noop(error)).to.deep.equal({
