@@ -31,12 +31,12 @@ Wraps an action creator so that its return value is the payload of a Flux Standa
 Example:
 
 ```js
-let increment = createAction('INCREMENT', amount => amount);
+let noop = createAction('NOOP', amount => amount);
 // same as
-increment = createAction('INCREMENT');
+noop = createAction('NOOP');
 
-expect(increment(42)).to.deep.equal({
-  type: 'INCREMENT',
+expect(noop(42)).to.deep.equal({
+  type: 'NOOP',
   payload: 42
 });
 ```
@@ -48,11 +48,11 @@ redux-actions will automatically set ```action.error``` to true.
 Example:
 
 ```js
-const increment = createAction('INCREMENT');
+const NOOP = createAction('NOOP');
 
 const error = new TypeError('not a number');
-expect(increment(error)).to.deep.equal({
-  type: 'INCREMENT',
+expect(noop(error)).to.deep.equal({
+  type: 'NOOP',
   payload: error,
   error: true
 });
@@ -63,17 +63,17 @@ expect(increment(error)).to.deep.equal({
 Example:
 
 ```js
-const increment = createAction('INCREMENT');
+const noop = createAction('INCREMENT');
 
 // As parameter in handleAction:
-handleAction(increment, {
+handleAction(noop, {
   next(state, action) {...},
   throw(state, action) {...}
 });
 
 // As object key in handleActions:
 const reducer = handleActions({
-  [increment]: (state, action) => ({
+  [noop]: (state, action) => ({
     counter: state.counter + action.payload
   })
 }, { counter: 0 });
