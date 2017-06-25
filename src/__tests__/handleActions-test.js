@@ -260,4 +260,60 @@ describe('handleActions', () => {
       ).to.throw(Error, 'Expected handlers to be an plain object.');
     });
   });
+
+  it('should work with nested reducerMap', () => {
+    const {
+      app: {
+        counter: {
+          increment,
+          decrement
+        },
+        notify
+      }
+    } = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      }
+    });
+
+    // note: we should be using combineReducers in production, but this is just a test
+    const reducer = handleActions({
+      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
+        counter: counter + amount,
+        message
+      }),
+
+      APP: {
+        NOTIFY: {
+          next: ({ counter, message }, { payload }) => ({
+            counter,
+            message: `${message}---${payload.message}`
+          })
+        }
+      }
+    }, { counter: 0, message: '' });
+
+    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
+      counter: 5,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
+      counter: 7,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
+      counter: 10,
+      message: 'hello---me: goodbye'
+    });
+  });
 });

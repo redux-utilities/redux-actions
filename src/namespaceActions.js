@@ -1,12 +1,22 @@
 import camelCase from './camelCase';
+import ownKeys from './ownKeys';
 import isPlainObject from 'lodash/isPlainObject';
+import includes from 'lodash/includes';
 
 const defaultNamespace = '/';
 
-function flattenActionMap(
-  actionMap,
+function hasGeneratorInterface(handler) {
+  const generatorFnNames = ['next', 'throw'];
+  const keys = Object.getOwnPropertyNames(handler);
+  const onlyInterfaceFns = keys.every((fnName) => includes(generatorFnNames, fnName));
+  return (keys.length && keys.length <= 2 && onlyInterfaceFns);
+}
+
+const flattenBy = (predicate) =>
+function flatten(
+  map,
   namespace = defaultNamespace,
-  partialFlatActionMap = {},
+  partialFlatMap = {},
   partialFlatActionType = ''
 ) {
   function connectNamespace(type) {
@@ -15,18 +25,22 @@ function flattenActionMap(
       : type;
   }
 
-  Object.getOwnPropertyNames(actionMap).forEach(type => {
+  ownKeys(map).forEach(type => {
     const nextNamespace = connectNamespace(type);
-    const actionMapValue = actionMap[type];
+    const mapValue = map[type];
 
-    if (!isPlainObject(actionMapValue)) {
-      partialFlatActionMap[nextNamespace] = actionMap[type];
+    if (!predicate(mapValue)) {
+      partialFlatMap[nextNamespace] = map[type];
     } else {
-      flattenActionMap(actionMap[type], namespace, partialFlatActionMap, nextNamespace);
+      flatten(map[type], namespace, partialFlatMap, nextNamespace);
     }
   });
-  return partialFlatActionMap;
-}
+
+  return partialFlatMap;
+};
+
+const flattenActionMap = flattenBy((node) => isPlainObject(node));
+const flattenReducerMap = flattenBy((node) => isPlainObject(node) && !hasGeneratorInterface(node));
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
   function unflatten(
@@ -54,4 +68,4 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   return nestedActionCreators;
 }
 
-export { flattenActionMap, unflattenActionCreators, defaultNamespace };
+export { flattenActionMap, flattenReducerMap, unflattenActionCreators, defaultNamespace };
