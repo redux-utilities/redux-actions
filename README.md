@@ -207,6 +207,9 @@ import { handleActions } from 'redux-actions';
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
 
+If `reducerMap` has a recursive structure, its leaves are used as reducers, and the action type for each leaf is the combined path to that leaf.
+If a nodes only children are `next()` and `throw()`, the node will be treated as a reducer leaf.
+
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
