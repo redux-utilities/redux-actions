@@ -18,7 +18,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_2'
+      'Expected function, undefined, null, or array with payload and meta functions for ACTION_2'
     );
   });
 
@@ -32,7 +32,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
+      'Expected function, undefined, null, or array with payload and meta functions for ACTION_1'
     );
 
     expect(
@@ -48,26 +48,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_2'
-    );
-  });
-
-  it('should throw an error if the reducer value is undefined in object form', () => {
-    expect(
-      () => createActions({ ACTION_1: undefined }, 'ACTION_2')
-    ).to.throw(
-      Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
-    );
-
-    expect(
-      () => createActions({
-        ACTION_1: () => {},
-        ACTION_2: undefined
-      })
-    ).to.throw(
-      Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_2'
+      'Expected function, undefined, null, or array with payload and meta functions for ACTION_2'
     );
   });
 
@@ -78,7 +59,7 @@ describe('createActions', () => {
       })
     ).to.throw(
       Error,
-      'Expected function, undefined, or array with payload and meta functions for ACTION_1'
+      'Expected function, undefined, null, or array with payload and meta functions for ACTION_1'
     );
   });
 
@@ -211,7 +192,8 @@ describe('createActions', () => {
       APP: {
         COUNTER: {
           INCREMENT: amount => ({ amount }),
-          DECREMENT: amount => ({ amount: -amount })
+          DECREMENT: amount => ({ amount: -amount }),
+          SET: undefined
         },
         NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
       },
@@ -225,6 +207,10 @@ describe('createActions', () => {
     expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
       type: 'APP/COUNTER/DECREMENT',
       payload: { amount: -1 }
+    });
+    expect(actionCreators.app.counter.set(8)).to.deep.equal({
+      type: 'APP/COUNTER/SET',
+      payload: 8
     });
     expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
       type: 'APP/NOTIFY',
