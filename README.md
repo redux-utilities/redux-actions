@@ -171,10 +171,6 @@ expect(actionCreators.app.counter.set(8)).to.deep.equal({
   type: 'APP/COUNTER/SET',
   payload: 8
 });
-expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
-  type: 'APP/COUNTER/DECREMENT',
-  payload: { amount: -1 }
-});
 expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
   type: 'APP/NOTIFY',
   payload: { message: 'yangmillstheory: Hello World' },
