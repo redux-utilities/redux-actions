@@ -60,6 +60,7 @@
     "eslint-plugin-import": "^1.5.0",
     "eslint-watch": "^2.1.13",
     "flux-standard-action": "^1.0.0",
+    "gitbook-cli": "^2.3.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.5.3",
     "webpack": "^1.13.1"
