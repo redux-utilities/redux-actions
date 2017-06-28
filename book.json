@@ -1,0 +1,22 @@
+{
+  "gitbook": ">= 3.0.0",
+  "plugins": ["prism@1.0.0", "-highlight", "github"],
+  "pluginsConfig": {
+    "github": {
+      "url": "https://github.com/redux-saga/redux-saga/"
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false,
+      "instapaper": false,
+      "vk": false
+    },
+    "theme-default": {
+      "styles": {
+        "website": "build/gitbook.css"
+      }
+    }
+  }
+}
