@@ -162,3 +162,97 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
 
 When using this form, you can pass an object with key `namespace` as the last positional argument, instead of the default `/`.
 
+
+### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
+
+```js
+import { handleAction } from 'redux-actions';
+```
+
+Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
+
+If a `reducer` function is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
+
+Otherwise, you can specify separate reducers for `next()` and `throw()` using the `reducerMap` form. This API is inspired by the ES6 generator interface.
+
+```js
+handleAction('FETCH_DATA', {
+  next(state, action) {...},
+  throw(state, action) {...}
+}, defaultState);
+```
+
+If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer.
+
+If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identity function is used.
+
+The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
+
+### `handleActions(reducerMap, defaultState)`
+
+```js
+import { handleActions } from 'redux-actions';
+```
+
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
+
+The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
+
+(Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
+
+Example:
+
+```js
+const reducer = handleActions({
+  INCREMENT: (state, action) => ({
+    counter: state.counter + action.payload
+  }),
+
+  DECREMENT: (state, action) => ({
+    counter: state.counter - action.payload
+  })
+}, { counter: 0 });
+```
+
+### `combineActions(...types)`
+
+Combine any number of action types or action creators. `types` is a list of positional arguments which can be action type strings, symbols, or action creators.
+
+This allows you to reduce multiple distinct actions with the same reducer.
+
+```js
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount }),
+})
+
+const reducer = handleAction(combineActions(increment, decrement), {
+  next: (state, { payload: { amount } }) => ({ ...state, counter: state.counter + amount }),
+  throw: state => ({ ...state, counter: 0 }),
+}, { counter: 10 })
+
+expect(reducer(undefined, increment(1)).to.deep.equal({ counter: 11 })
+expect(reducer(undefined, decrement(1)).to.deep.equal({ counter: 9 })
+expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
+expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
+```
+
+Here's an example using `handleActions`:
+
+```js
+const { increment, decrement } = createActions({
+  INCREMENT: amount => ({ amount }),
+  DECREMENT: amount => ({ amount: -amount })
+});
+
+const reducer = handleActions({
+  [combineActions(increment, decrement)](state, { payload: { amount } }) {
+    return { ...state, counter: state.counter + amount };
+  }
+}, { counter: 10 });
+
+expect(reducer({ counter: 5 }, increment(5))).to.deep.equal({ counter: 10 });
+expect(reducer({ counter: 5 }, decrement(5))).to.deep.equal({ counter: 0 });
+expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({ counter: 5 });
+expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
+```
