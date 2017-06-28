@@ -6,8 +6,5 @@
 * [2. API Reference](/docs/api/README.md)
 * [3. Middleware](/docs/middleware/README.md)
 * [4. External Resources](/docs/ExternalResources.md)
-
-
-
-
+* [5. Change Log](/docs/ChangeLog.md)
 
