@@ -122,7 +122,17 @@ expect(noop(42)).to.deep.equal({
 ###### EXAMPLE
 
 ```js
-TODO METACREATOR EXAMPLE
+const updateAdminUser = createAction('UPDATE_ADMIN_USER',
+  (updates) => updates,
+  () => ({ admin: true })
+)
+
+updateAdminUser({ name: 'Foo' })
+// {
+//   type: 'UPDATE_ADMIN_USER',
+//   payload: { name: 'Foo' },
+//   meta: { admin: true },
+// }
 ```
 
 ### createActions
