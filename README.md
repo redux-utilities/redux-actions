@@ -18,13 +18,13 @@
 ## Installation
 
 ```bash
-npm install --save redux-actions
+$ npm install --save redux-actions
 ```
 
 or
 
 ```
-yarn add redux-actions
+$ yarn add redux-actions
 ```
 
 The [npm](https://www.npmjs.com) package provides a [CommonJS](http://webpack.github.io/docs/commonjs.html) build for use in Node.js, and with bundlers like [Webpack](http://webpack.github.io/) and [Browserify](http://browserify.org/). It also includes an [ES modules](http://jsmodules.io/) build that works well with [Rollup](http://rollupjs.org/) and [Webpack2](https://webpack.js.org)'s tree-shaking.
