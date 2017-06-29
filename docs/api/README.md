@@ -1,16 +1,33 @@
 # API Reference
 
 * [Methods](#methods)
-  * [`createAction\(type, payloadCreator = Identity, ?metaCreator\)`](#createactiontype-payloadcreator--identity-metacreator)
-  * [`createActions\(?actionMap, ?...identityActions\)`](#createactionsactionmap-identityactions)
+  * [createAction](#createaction)
+    * [`createAction(type, payloadCreator = Identity, ?metaCreator)`](#createactiontype-payloadcreator--identity-metacreator)
+  * [createActions](#createactions)
+    * [`createActions(?actionMap, ?...identityActions)`](#createactionsactionmap-identityactions)
+  * [handleAction](#handleaction)
+  * [handleActions](#handleactions)
+  * [combineActions](#combineactions)
 
 ## Methods
 
-### `createAction(type, payloadCreator = Identity, ?metaCreator)` {#createactiontype-payloadcreator--identity-metacreator}
+### createAction
 
 ```js
 import { createAction } from 'redux-actions';
 ```
+
+**NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
+
+#### `createAction(type)`
+
+###### EXAMPLE
+
+```js
+TODO
+```
+
+#### `createAction(type, payloadCreator = Identity, ?metaCreator)` {#createactiontype-payloadcreator--identity-metacreator}
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action.
 
@@ -66,9 +83,6 @@ const reducer = handleActions({
   })
 }, { counter: 0 });
 ```
-
-**NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
-
 Use the identity form to create one-off actions:
 
 ```js
@@ -77,11 +91,13 @@ createAction('ADD_TODO')('Use Redux');
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
-### `createActions(?actionMap, ?...identityActions)`{#createactionsactionmap-identityactions}
+### createActions
 
 ```js
 import { createActions } from 'redux-actions';
 ```
+
+#### `createActions(?actionMap, ?...identityActions)`{#createactionsactionmap-identityactions}
 
 Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionMap` and the string literals of `identityActions`; the values are the action creators.
 
@@ -162,12 +178,13 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
 
 When using this form, you can pass an object with key `namespace` as the last positional argument, instead of the default `/`.
 
-
-### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
+### handleAction
 
 ```js
 import { handleAction } from 'redux-actions';
 ```
+
+#### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
@@ -188,11 +205,13 @@ If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identi
 
 The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
-### `handleActions(reducerMap, defaultState)`
+### handleActions
 
 ```js
 import { handleActions } from 'redux-actions';
 ```
+
+#### `handleActions(reducerMap, defaultState)`
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
 
@@ -214,7 +233,13 @@ const reducer = handleActions({
 }, { counter: 0 });
 ```
 
-### `combineActions(...types)`
+### combineActions
+
+```js
+import { combineActions } from 'redux-actions';
+```
+
+#### `combineActions(...types)`
 
 Combine any number of action types or action creators. `types` is a list of positional arguments which can be action type strings, symbols, or action creators.
 
