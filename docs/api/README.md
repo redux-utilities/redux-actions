@@ -52,7 +52,7 @@ decrement([1, 42]) // { type: 'DECREMENT', payload: [1, 42] }
 
 `payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
-###### Example
+###### EXAMPLE
 
 ```js
 let noop = createAction('NOOP', amount => amount);
@@ -80,7 +80,7 @@ If the payload is an instance of an [Error
 object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),  
 redux-actions will automatically set `action.error` to true.
 
-###### Example
+###### EXAMPLE
 
 ```js
 const noop = createAction('NOOP');
@@ -95,7 +95,7 @@ expect(noop(error)).to.deep.equal({
 
 `createAction` also returns its `type` when used as type in `handleAction` or `handleActions`.
 
-###### Example
+###### EXAMPLE
 
 ```js
 const noop = createAction('INCREMENT');
@@ -281,7 +281,7 @@ The second parameter `defaultState` is required, and is used when `undefined` is
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
 
-Example:
+###### EXAMPLE
 
 ```js
 const reducer = handleActions({
