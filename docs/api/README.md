@@ -2,6 +2,7 @@
 
 * [Methods](#methods)
   * [createAction](#createaction)
+    * [`createAction(type)`](#createactiontype)
     * [`createAction(type, payloadCreator = Identity, ?metaCreator)`](#createactiontype-payloadcreator--identity-metacreator)
   * [createActions](#createactions)
     * [`createActions(?actionMap, ?...identityActions)`](#createactionsactionmap-identityactions)
@@ -19,12 +20,18 @@ import { createAction } from 'redux-actions';
 
 **NOTE:** The more correct name for this function is probably `createActionCreator()`, but that seems a bit redundant.
 
-#### `createAction(type)`
+#### `createAction(type)` {#createactiontype}
 
 ###### EXAMPLE
 
 ```js
-TODO
+export const increment = createAction('INCREMENT')
+export const decrement = createAction('DECREMENT')
+
+increment() // { type: 'INCREMENT' }
+decrement() // { type: 'DECREMENT' }
+increment(10) // { type: 'INCREMENT', payload: 10 }
+decrement([1, 42]) // { type: 'DECREMENT', payload: [1, 42] }
 ```
 
 #### `createAction(type, payloadCreator = Identity, ?metaCreator)` {#createactiontype-payloadcreator--identity-metacreator}
@@ -33,7 +40,7 @@ Wraps an action creator so that its return value is the payload of a Flux Standa
 
 `payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
-For Example
+###### Example
 
 ```js
 let noop = createAction('NOOP', amount => amount);
@@ -50,7 +57,7 @@ If the payload is an instance of an [Error
 object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),  
 redux-actions will automatically set `action.error` to true.
 
-For Example
+###### Example
 
 ```js
 const noop = createAction('NOOP');
@@ -65,7 +72,7 @@ expect(noop(error)).to.deep.equal({
 
 `createAction` also returns its `type` when used as type in `handleAction` or `handleActions`.
 
-For Example
+###### Example
 
 ```js
 const noop = createAction('INCREMENT');
