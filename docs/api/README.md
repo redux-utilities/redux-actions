@@ -9,6 +9,8 @@
     * [`createActions(actionMap)`](#createactionsactionmap)
     * [`createActions(actionMap, ...identityActions)`](#createactionsactionmap-identityactions)
   * [handleAction](#handleaction)
+    * [`handleAction(type, reducer, defaultState)`](#handleactiontype-reducer-defaultstate)
+    * [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
   * [handleActions](#handleactions)
   * [combineActions](#combineactions)
 
@@ -235,14 +237,26 @@ expect(actionThree(3)).to.deep.equal({
 ### handleAction
 
 ```js
-import { handleAction } from 'redux-actions';
+handleAction(
+  type,
+  reducer | reducerMap = Identity,
+  defaultState,
+)
 ```
-
-#### `handleAction(type, reducer | reducerMap = Identity, defaultState)`
 
 Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
 
+```js
+import { handleAction } from 'redux-actions';
+```
+
+#### `handleAction(type, reducer, defaultState)`{#handleactiontype-reducer-defaultstate}
+
 If a `reducer` function is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
+
+If the reducer argument (`reducer`) is `undefined`, then the identity function is used.
+
+The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 ###### EXAMPLE
 ```js
@@ -251,7 +265,11 @@ handleAction('APP/COUNTER/INCREMENT', (state, action) => ({
 }), defaultState);
 ```
 
+#### `handleAction(type, reducerMap, defaultState)`{#handleactiontype-reducermap-defaultstate}
+
 Otherwise, you can specify separate reducers for `next()` and `throw()` using the `reducerMap` form. This API is inspired by the ES6 generator interface.
+
+If the reducer argument (`reducerMap`) is `undefined`, then the identity function is used.
 
 ###### EXAMPLE
 ```js
@@ -262,10 +280,6 @@ handleAction('FETCH_DATA', {
 ```
 
 If either `next()` or `throw()` are `undefined` or `null`, then the identity function is used for that reducer.
-
-If the reducer argument (`reducer | reducerMap`) is `undefined`, then the identity function is used.
-
-The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 ### handleActions
 
