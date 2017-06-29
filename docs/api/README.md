@@ -13,6 +13,7 @@
     * [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
   * [handleActions](#handleactions)
   * [combineActions](#combineactions)
+    * [`combineActions(...types)`](#combineactionstypes)
 
 ## Methods
 
@@ -312,12 +313,18 @@ const reducer = handleActions({
 ### combineActions
 
 ```js
+combineActions(
+  ...types,
+)
+```
+
+Combine any number of action types or action creators. `types` is a list of positional arguments which can be action type strings, symbols, or action creators.
+
+```js
 import { combineActions } from 'redux-actions';
 ```
 
-#### `combineActions(...types)`
-
-Combine any number of action types or action creators. `types` is a list of positional arguments which can be action type strings, symbols, or action creators.
+#### `combineActions(...types)` {#combineactionstypes}
 
 This allows you to reduce multiple distinct actions with the same reducer.
 
@@ -338,8 +345,9 @@ expect(reducer(undefined, increment(new Error)).to.deep.equal({ counter: 0 })
 expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 ```
 
-Here's an example using `handleActions`:
+Below is how you would use `combineActions` and `handleActions` together
 
+###### EXAMPLE
 ```js
 const { increment, decrement } = createActions({
   INCREMENT: amount => ({ amount }),
