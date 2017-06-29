@@ -3,7 +3,8 @@
 * [Methods](#methods)
   * [createAction](#createaction)
     * [`createAction(type)`](#createactiontype)
-    * [`createAction(type, payloadCreator = Identity, ?metaCreator)`](#createactiontype-payloadcreator--identity-metacreator)
+    * [`createAction(type, payloadCreator)`](#createactiontype-payloadcreator)
+    * [`createAction(type, payloadCreator, metaCreator)`](#createactiontype-payloadcreator-metacreator)
   * [createActions](#createactions)
     * [`createActions(?actionMap, ?...identityActions)`](#createactionsactionmap-identityactions)
   * [handleAction](#handleaction)
@@ -15,6 +16,16 @@
 ### createAction
 
 ```js
+createAction(
+  type, 
+  payloadCreator = Identity, 
+  ?metaCreator
+)
+```
+
+Wraps an action creator so that its return value is the payload of a Flux Standard Action.
+
+```js
 import { createAction } from 'redux-actions';
 ```
 
@@ -22,7 +33,7 @@ import { createAction } from 'redux-actions';
 
 #### `createAction(type)` {#createactiontype}
 
-Calling `createAction` with a `type` will return an `actionCreator` for dispatching actions. `type` must implement `toString` and is the only required parameter for `createAction`.
+Calling `createAction` with a `type` will return an action creator for dispatching actions. `type` must implement `toString` and is the only required parameter for `createAction`.
 
 ###### EXAMPLE
 
@@ -36,9 +47,7 @@ increment(10) // { type: 'INCREMENT', payload: 10 }
 decrement([1, 42]) // { type: 'DECREMENT', payload: [1, 42] }
 ```
 
-#### `createAction(type, payloadCreator = Identity, ?metaCreator)` {#createactiontype-payloadcreator--identity-metacreator}
-
-Wraps an action creator so that its return value is the payload of a Flux Standard Action.
+#### `createAction(type, payloadCreator)` {#createactiontype-payloadcreator}
 
 `payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
@@ -53,6 +62,17 @@ expect(noop(42)).to.deep.equal({
   type: 'NOOP',
   payload: 42
 });
+```
+
+
+#### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payload-metacreator}
+
+`metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
+
+###### EXAMPLE
+
+```js
+TODO METACREATOR EXAMPLE
 ```
 
 If the payload is an instance of an [Error  
