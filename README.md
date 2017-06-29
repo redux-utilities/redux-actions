@@ -6,6 +6,15 @@
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
+### Table of Contents
+* [Getting Started](#gettingstarted)
+  * [Installation](#installation)
+  * [Usage](#usage)
+* [Documentation](#documentation)
+
+
+# Getting Started {#gettingstarted}
+
 ## Installation
 
 ```bash
@@ -45,7 +54,7 @@ export default reducer;
 
 For more complex scenarios we recommend reading our documentation.
 
-## [Documentation](https://vinnymac.gitbooks.io/redux-actions/content/)
+# [Documentation](https://vinnymac.gitbooks.io/redux-actions/content/)
 
 * [Introduction](/docs/introduction)
 * [API](/docs/api)
