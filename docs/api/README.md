@@ -12,6 +12,7 @@
     * [`handleAction(type, reducer, defaultState)`](#handleactiontype-reducer-defaultstate)
     * [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
   * [handleActions](#handleactions)
+    * [`handleActions(reducerMap, defaultState)`](#handleactionsreducermap-defaultstate)
   * [combineActions](#combineactions)
     * [`combineActions(...types)`](#combineactionstypes)
 
@@ -285,12 +286,19 @@ If either `next()` or `throw()` are `undefined` or `null`, then the identity fun
 ### handleActions
 
 ```js
+handleActions(
+  reducerMap,
+  defaultState,
+)
+```
+
+Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
+
+```js
 import { handleActions } from 'redux-actions';
 ```
 
-#### `handleActions(reducerMap, defaultState)`
-
-Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
+#### `handleActions(reducerMap, defaultState)` {#handleactionsreducermap-defaultstate}
 
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
