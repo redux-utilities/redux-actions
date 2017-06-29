@@ -52,37 +52,8 @@ increment(10) // { type: 'INCREMENT', payload: 10 }
 decrement([1, 42]) // { type: 'DECREMENT', payload: [1, 42] }
 ```
 
-#### `createAction(type, payloadCreator)` {#createactiontype-payloadcreator}
-
-`payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
-
-###### EXAMPLE
-
-```js
-let noop = createAction('NOOP', amount => amount);
-// same as
-noop = createAction('NOOP');
-
-expect(noop(42)).to.deep.equal({
-  type: 'NOOP',
-  payload: 42
-});
-```
-
-
-#### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payloadcreator-metacreator}
-
-`metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
-
-###### EXAMPLE
-
-```js
-TODO METACREATOR EXAMPLE
-```
-
-If the payload is an instance of an [Error  
-object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),  
-redux-actions will automatically set `action.error` to true.
+If the payload is an instance of an [Error object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),
+ `redux-actions` will automatically set `action.error` to true.
 
 ###### EXAMPLE
 
@@ -117,10 +88,41 @@ const reducer = handleActions({
   })
 }, { counter: 0 });
 ```
-Use the identity form to create one-off actions:
+
+Use the identity form to create one-off actions.
+
+###### EXAMPLE
 
 ```js
 createAction('ADD_TODO')('Use Redux');
+```
+
+#### `createAction(type, payloadCreator)` {#createactiontype-payloadcreator}
+
+`payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
+
+###### EXAMPLE
+
+```js
+let noop = createAction('NOOP', amount => amount);
+// same as
+noop = createAction('NOOP');
+
+expect(noop(42)).to.deep.equal({
+  type: 'NOOP',
+  payload: 42
+});
+```
+
+
+#### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payloadcreator-metacreator}
+
+`metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
+
+###### EXAMPLE
+
+```js
+TODO METACREATOR EXAMPLE
 ```
 
 ### createActions
