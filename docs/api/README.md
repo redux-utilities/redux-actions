@@ -17,8 +17,8 @@
 
 ```js
 createAction(
-  type, 
-  payloadCreator = Identity, 
+  type,
+  payloadCreator = Identity,
   ?metaCreator
 )
 ```
@@ -65,7 +65,7 @@ expect(noop(42)).to.deep.equal({
 ```
 
 
-#### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payload-metacreator}
+#### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payloadcreator-metacreator}
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
 
