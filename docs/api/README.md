@@ -6,7 +6,8 @@
     * [`createAction(type, payloadCreator)`](#createactiontype-payloadcreator)
     * [`createAction(type, payloadCreator, metaCreator)`](#createactiontype-payloadcreator-metacreator)
   * [createActions](#createactions)
-    * [`createActions(?actionMap, ?...identityActions)`](#createactionsactionmap-identityactions)
+    * [`createActions(actionMap)`](#createactionsactionmap)
+    * [`createActions(actionMap, ...identityActions)`](#createactionsactionmap-identityactions)
   * [handleAction](#handleaction)
   * [handleActions](#handleactions)
   * [combineActions](#combineactions)
@@ -118,60 +119,44 @@ Use the identity form to create one-off actions:
 createAction('ADD_TODO')('Use Redux');
 ```
 
-`metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
-
 ### createActions
+
+```js
+createActions(
+  actionMap,
+  ?...identityActions,
+)
+```
+
+Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionMap` and the string literals of `identityActions`; the values are the action creators.
 
 ```js
 import { createActions } from 'redux-actions';
 ```
 
-#### `createActions(?actionMap, ?...identityActions)`{#createactionsactionmap-identityactions}
+#### `createActions(actionMap)` {#createactionsactionmap}
 
-Returns an object mapping action types to action creators. The keys of this object are camel-cased from the keys in `actionMap` and the string literals of `identityActions`; the values are the action creators.
-
-`actionMap` is an optional object and a recursive data structure, with action types as keys, and whose values **must** be either
+`actionMap` is an object which can optionally have a recursive data structure, with action types as keys, and whose values **must** be either
 
 * a function, which is the payload creator for that action
-* an array with `payload` and `meta` functions in that order, as in [`createAction`](#createactiontype-payloadcreator--identity-metacreator)
+* an array with `payload` and `meta` functions in that order, as in [`createAction`](#createaction)
   * `meta` is **required** in this case \(otherwise use the function form above\)
 * an `actionMap`
 
-`identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
-
+###### EXAMPLE
 ```js
-const { actionOne, actionTwo, actionThree } = createActions({
-  // function form; payload creator defined inline
-  ACTION_ONE: (key, value) => ({ [key]: value }),
-
-  // array form
-  ACTION_TWO: [
-    (first) => [first],             // payload
-    (first, second) => ({ second }) // meta
-  ],
-
-  // trailing action type string form; payload creator is the identity
-}, 'ACTION_THREE');
-
-expect(actionOne('key', 1)).to.deep.equal({
-  type: 'ACTION_ONE',
-  payload: { key: 1 }
-});
-
-expect(actionTwo('first', 'second')).to.deep.equal({
-  type: 'ACTION_TWO',
-  payload: ['first'],
-  meta: { second: 'second' }
-});
-
-expect(actionThree(3)).to.deep.equal({
-  type: 'ACTION_THREE',
-  payload: 3,
+createActions({
+  ADD_TODO: todo => ({ todo }) // payload creator,
+  REMOVE_TODO: [
+    todo => ({ todo }), // payload creator
+    (todo, warn) => ({ todo, warn }) // meta
+  ]
 });
 ```
 
 If `actionMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf:
 
+###### EXAMPLE
 ```js
 const actionCreators = createActions({
   APP: {
@@ -206,6 +191,46 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
 ```
 
 When using this form, you can pass an object with key `namespace` as the last positional argument, instead of the default `/`.
+
+###### EXAMPLE
+```js
+createActions({ ... }, 'INCREMENT', { namespace: '--' })
+```
+
+#### `createActions(actionMap, ...identityActions)`{#createactionsactionmap-identityactions}
+
+`identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
+
+```js
+const { actionOne, actionTwo, actionThree } = createActions({
+  // function form; payload creator defined inline
+  ACTION_ONE: (key, value) => ({ [key]: value }),
+
+  // array form
+  ACTION_TWO: [
+    (first) => [first],             // payload
+    (first, second) => ({ second }) // meta
+  ],
+
+  // trailing action type string form; payload creator is the identity
+}, 'ACTION_THREE');
+
+expect(actionOne('key', 1)).to.deep.equal({
+  type: 'ACTION_ONE',
+  payload: { key: 1 }
+});
+
+expect(actionTwo('first', 'second')).to.deep.equal({
+  type: 'ACTION_TWO',
+  payload: ['first'],
+  meta: { second: 'second' }
+});
+
+expect(actionThree(3)).to.deep.equal({
+  type: 'ACTION_THREE',
+  payload: 3,
+});
+```
 
 ### handleAction
 
