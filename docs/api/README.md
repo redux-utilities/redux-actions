@@ -22,6 +22,8 @@ import { createAction } from 'redux-actions';
 
 #### `createAction(type)` {#createactiontype}
 
+Calling `createAction` with a `type` will return an `actionCreator` for dispatching actions. `type` must implement `toString` and is the only required parameter for `createAction`.
+
 ###### EXAMPLE
 
 ```js
