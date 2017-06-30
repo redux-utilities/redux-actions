@@ -81,7 +81,7 @@ Next lets create our first action, 'increment', using `createAction`.
 const increment = createAction('INCREMENT');
 ```
 
-Next we are going to handle that action with `handleAction`. We can provide it our action to let it know which action to handle. A method to handle our state transformation, and the default state.
+Next we are going to handle that action with `handleAction`. We can provide it our `increment` action to let it know which action to handle. A method to handle our state transformation, and the default state.
 
 ```js
 const reducer = handleAction(increment, (state, action) => ({
