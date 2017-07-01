@@ -148,7 +148,8 @@ const actionCreators = createActions({
         amount => ({ amount }),
         amount => ({ key: 'value', amount })
       ],
-      DECREMENT: amount => ({ amount: -amount })
+      DECREMENT: amount => ({ amount: -amount }),
+      SET: undefined // given undefined, the identity function will be used
     },
     NOTIFY: [
       (username, message) => ({ message: `${username}: ${message}` }),
@@ -165,6 +166,10 @@ expect(actionCreators.app.counter.increment(1)).to.deep.equal({
 expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
   type: 'APP/COUNTER/DECREMENT',
   payload: { amount: -1 }
+});
+expect(actionCreators.app.counter.set(100)).to.deep.equal({
+  type: 'APP/COUNTER/SET',
+  payload: 100
 });
 expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
   type: 'APP/NOTIFY',
