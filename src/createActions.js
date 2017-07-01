@@ -6,8 +6,7 @@ import last from 'lodash/last';
 import isString from 'lodash/isString';
 import defaults from 'lodash/defaults';
 import isFunction from 'lodash/isFunction';
-import isUndefined from 'lodash/isUndefined';
-import isNull from 'lodash/isNull';
+import isNil from 'lodash/isNil';
 import createAction from './createAction';
 import invariant from 'invariant';
 import arrayToObject from './arrayToObject';
@@ -47,7 +46,7 @@ function actionCreatorsFromActionMap(actionMap, namespace) {
 
 function actionMapToActionCreators(actionMap) {
   function isValidActionMapValue(actionMapValue) {
-    if (isFunction(actionMapValue) || isUndefined(actionMapValue) || isNull(actionMapValue)) {
+    if (isFunction(actionMapValue) || isNil(actionMapValue)) {
       return true;
     } else if (isArray(actionMapValue)) {
       const [payload = identity, meta] = actionMapValue;
