@@ -31,7 +31,7 @@ const flattenWhenNode = predicate => function flatten(
   return partialFlatMap;
 };
 
-const flattenActionMap = flattenWhenNode(isPlainObject);
+const flattenActionMap  = flattenWhenNode(isPlainObject);
 const flattenReducerMap = flattenWhenNode(
   node => isPlainObject(node) && !hasGeneratorInterface(node)
 );
@@ -62,4 +62,4 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   return nestedActionCreators;
 }
 
-export { flattenActionMap, flattenReducerMap, unflattenActionCreators, defaultNamespace };
+export { flattenActionMap, flattenReducerMap, unflattenActionCreators };
