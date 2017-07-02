@@ -52,9 +52,9 @@ const reducer = handleActions({
 export default reducer;
 ```
 
-For more complex scenarios we recommend reading our documentation.
+For more complex scenarios we recommend reading our [documentation](https://vinnymac.gitbooks.io/redux-actions/content/).
 
-# [Documentation](https://vinnymac.gitbooks.io/redux-actions/content/)
+# Documentation
 
 * [Introduction](/docs/introduction)
 * [API](/docs/api)
