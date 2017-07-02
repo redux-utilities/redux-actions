@@ -7,3 +7,4 @@
   * [Tutorial](/docs/introduction/Tutorial.md)
 * [External Resources](/docs/ExternalResources.md)
 * [Change Log](/docs/ChangeLog.md)
+* [Contributors](/docs/Contributors.md)

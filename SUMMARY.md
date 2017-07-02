@@ -8,3 +8,4 @@
 * [3. Middleware](/docs/middleware/README.md)
 * [4. External Resources](/docs/ExternalResources.md)
 * [5. Change Log](/docs/ChangeLog.md)
+* [6. Contributors](/docs/Contributors.md)

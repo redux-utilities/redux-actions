@@ -61,3 +61,4 @@ For more complex scenarios we recommend reading our documentation.
 * [Middleware](/docs/middleware)
 * [External Resources](/docs/ExternalResources.md)
 * [Change Log](/docs/ChangeLog.md)
+* [Contributors](/docs/Contributors.md)
