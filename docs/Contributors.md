@@ -1,38 +1,38 @@
 # Contributors
 
-acdlite
-yangmillstheory
-timche
-JaKXz
-jaridmargolin
-krisaoe
-ggilberth
-goto-bus-stop
-ruszki
-xiaohanzhang
-jayphelps
-crw
-andrewsuzuki
-nikita-graf
-seniorquico
-jreinert
-sorrycc
-nixpulvis
-albertogasparin
-SPARTAN563
-contra
-grifotv
-danny-andrews
-evgenyrodionov
-lukewestby
-ngokevin
-dbachrach
-deoxxa
-dbrans
-johanneslumpe
-ustccjw
-dustyburwell
-Lucretiel
-webholics
-JasonKid
-vinnymac
+* acdlite
+* yangmillstheory
+* timche
+* JaKXz
+* jaridmargolin
+* krisaoe
+* ggilberth
+* goto-bus-stop
+* ruszki
+* xiaohanzhang
+* jayphelps
+* crw
+* andrewsuzuki
+* nikita-graf
+* seniorquico
+* jreinert
+* sorrycc
+* nixpulvis
+* albertogasparin
+* SPARTAN563
+* contra
+* grifotv
+* danny-andrews
+* evgenyrodionov
+* lukewestby
+* ngokevin
+* dbachrach
+* deoxxa
+* dbrans
+* johanneslumpe
+* ustccjw
+* dustyburwell
+* Lucretiel
+* webholics
+* JasonKid
+* vinnymac
