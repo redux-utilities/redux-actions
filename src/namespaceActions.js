@@ -1,12 +1,14 @@
 import camelCase from './camelCase';
+import ownKeys from './ownKeys';
+import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
 
-function flattenActionMap(
-  actionMap,
+const flattenWhenNode = predicate => function flatten(
+  map,
   namespace = defaultNamespace,
-  partialFlatActionMap = {},
+  partialFlatMap = {},
   partialFlatActionType = ''
 ) {
   function connectNamespace(type) {
@@ -15,18 +17,24 @@ function flattenActionMap(
       : type;
   }
 
-  Object.getOwnPropertyNames(actionMap).forEach(type => {
+  ownKeys(map).forEach(type => {
     const nextNamespace = connectNamespace(type);
-    const actionMapValue = actionMap[type];
+    const mapValue = map[type];
 
-    if (!isPlainObject(actionMapValue)) {
-      partialFlatActionMap[nextNamespace] = actionMap[type];
+    if (!predicate(mapValue)) {
+      partialFlatMap[nextNamespace] = map[type];
     } else {
-      flattenActionMap(actionMap[type], namespace, partialFlatActionMap, nextNamespace);
+      flatten(map[type], namespace, partialFlatMap, nextNamespace);
     }
   });
-  return partialFlatActionMap;
-}
+
+  return partialFlatMap;
+};
+
+const flattenActionMap = flattenWhenNode(isPlainObject);
+const flattenReducerMap = flattenWhenNode(
+  node => isPlainObject(node) && !hasGeneratorInterface(node)
+);
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
   function unflatten(
@@ -54,4 +62,4 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   return nestedActionCreators;
 }
 
-export { flattenActionMap, unflattenActionCreators, defaultNamespace };
+export { flattenActionMap, flattenReducerMap, unflattenActionCreators, defaultNamespace };
