@@ -5,12 +5,12 @@ import handleAction from './handleAction';
 import ownKeys from './ownKeys';
 import { flattenReducerMap } from './namespaceActions';
 
-export default function handleActions(handlers, defaultState) {
+export default function handleActions(handlers, defaultState, { namespace } = {}) {
   invariant(
     isPlainObject(handlers),
     'Expected handlers to be an plain object.'
   );
-  const flattenedReducerMap = flattenReducerMap(handlers);
+  const flattenedReducerMap = flattenReducerMap(handlers, namespace);
   const reducers = ownKeys(flattenedReducerMap).map(type =>
     handleAction(
       type,

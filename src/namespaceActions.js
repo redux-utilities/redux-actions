@@ -32,7 +32,9 @@ const flattenWhenNode = predicate => function flatten(
 };
 
 const flattenActionMap = flattenWhenNode(isPlainObject);
-const flattenReducerMap = flattenWhenNode(node => isPlainObject(node) && !hasGeneratorInterface(node));
+const flattenReducerMap = flattenWhenNode(
+  node => isPlainObject(node) && !hasGeneratorInterface(node)
+);
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
   function unflatten(
