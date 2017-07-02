@@ -1,4 +1,4 @@
-# handleAction(s)
+# API Reference for handleAction(s)
 
 * [Methods](#methods)
   * [handleAction](#handleaction)

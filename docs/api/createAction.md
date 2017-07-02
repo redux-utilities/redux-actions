@@ -1,4 +1,4 @@
-# createAction(s)
+# API Reference for createAction(s)
 
 * [Methods](#methods)
   * [createAction](#createaction)

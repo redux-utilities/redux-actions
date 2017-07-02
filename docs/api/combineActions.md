@@ -1,4 +1,4 @@
-# combineActions
+# API Reference for combineActions
 
 * [Methods](#methods)
   * [combineActions](#combineactions)
