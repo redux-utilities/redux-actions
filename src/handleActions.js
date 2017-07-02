@@ -10,11 +10,11 @@ export default function handleActions(handlers, defaultState) {
     isPlainObject(handlers),
     'Expected handlers to be an plain object.'
   );
-  const flatHandlers = flattenReducerMap(handlers);
-  const reducers = ownKeys(flatHandlers).map(type =>
+  const flattenedReducerMap = flattenReducerMap(handlers);
+  const reducers = ownKeys(flattenedReducerMap).map(type =>
     handleAction(
       type,
-      flatHandlers[type],
+      flattenedReducerMap[type],
       defaultState
     )
   );

@@ -298,6 +298,10 @@ describe('handleActions', () => {
           next: ({ counter, message }, { payload }) => ({
             counter,
             message: `${message}---${payload.message}`
+          }),
+          throw: ({ counter, message }, { payload }) => ({
+            counter: 0,
+            message: `${message}-x-${payload.message}`
           })
         }
       }
@@ -314,6 +318,45 @@ describe('handleActions', () => {
     expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
       counter: 10,
       message: 'hello---me: goodbye'
+    });
+
+    const error = new Error('no notification');
+    expect(reducer({ counter: 10, message: 'hello' }, notify(error))).to.deep.equal({
+      counter: 0,
+      message: 'hello-x-no notification'
+    });
+  });
+
+  it('should work with nested reducerMap and identity handlers', () => {
+    const noop = createAction('APP/NOOP');
+    const increment = createAction('APP/INCREMENT');
+
+    const reducer = handleActions({
+      APP: {
+        NOOP: undefined,
+        INCREMENT: {
+          next: (state, { payload }) => ({
+            ...state,
+            counter: state.counter + payload
+          }),
+          throw: null
+        }
+      }
+    }, { counter: 0, message: '' });
+
+    expect(reducer({ counter: 3, message: 'hello' }, noop('anything'))).to.deep.equal({
+      counter: 3,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
+      counter: 5,
+      message: 'hello'
+    });
+
+    const error = new Error('cannot increment by Infinity');
+    expect(reducer({ counter: 3, message: 'hello' }, increment(error))).to.deep.equal({
+      counter: 3,
+      message: 'hello'
     });
   });
 });

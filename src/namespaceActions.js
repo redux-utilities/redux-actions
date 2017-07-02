@@ -1,16 +1,9 @@
 import camelCase from './camelCase';
 import ownKeys from './ownKeys';
+import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
-import includes from 'lodash/includes';
 
 const defaultNamespace = '/';
-
-function hasGeneratorInterface(handler) {
-  const generatorFnNames = ['next', 'throw'];
-  const keys = Object.getOwnPropertyNames(handler);
-  const onlyInterfaceFns = keys.every((fnName) => includes(generatorFnNames, fnName));
-  return (keys.length && keys.length <= 2 && onlyInterfaceFns);
-}
 
 const flattenBy = (predicate) =>
 function flatten(
@@ -39,7 +32,7 @@ function flatten(
   return partialFlatMap;
 };
 
-const flattenActionMap = flattenBy((node) => isPlainObject(node));
+const flattenActionMap = flattenBy(isPlainObject);
 const flattenReducerMap = flattenBy((node) => isPlainObject(node) && !hasGeneratorInterface(node));
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
