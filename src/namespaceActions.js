@@ -5,8 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 
 const defaultNamespace = '/';
 
-const flattenBy = (predicate) =>
-function flatten(
+const flattenWhenNode = predicate => function flatten(
   map,
   namespace = defaultNamespace,
   partialFlatMap = {},
@@ -32,8 +31,8 @@ function flatten(
   return partialFlatMap;
 };
 
-const flattenActionMap = flattenBy(isPlainObject);
-const flattenReducerMap = flattenBy((node) => isPlainObject(node) && !hasGeneratorInterface(node));
+const flattenActionMap = flattenWhenNode(isPlainObject);
+const flattenReducerMap = flattenWhenNode(node => isPlainObject(node) && !hasGeneratorInterface(node));
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
   function unflatten(
