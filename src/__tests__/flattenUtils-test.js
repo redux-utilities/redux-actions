@@ -1,4 +1,4 @@
-import { flattenActionMap, unflattenActionCreators } from '../namespaceActions';
+import { flattenActionMap, unflattenActionCreators } from '../flattenUtils';
 import { expect } from 'chai';
 
 describe('namespacing actions', () => {

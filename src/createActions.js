@@ -12,7 +12,7 @@ import arrayToObject from './arrayToObject';
 import {
   flattenActionMap,
   unflattenActionCreators
-} from './namespaceActions';
+} from './flattenUtils';
 
 export default function createActions(actionMap, ...identityActions) {
   const { namespace } = isPlainObject(last(identityActions))
