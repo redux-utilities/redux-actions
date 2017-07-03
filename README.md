@@ -52,7 +52,7 @@ const reducer = handleActions({
 export default reducer;
 ```
 
-For more complex scenarios we recommend reading our [documentation](https://redux-actions.js.org/).
+[See the full API documentation.](https://redux-actions.js.org/)
 
 # Documentation
 
