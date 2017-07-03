@@ -3,16 +3,18 @@ import reduceReducers from 'reduce-reducers';
 import invariant from 'invariant';
 import handleAction from './handleAction';
 import ownKeys from './ownKeys';
+import { flattenReducerMap } from './namespaceActions';
 
-export default function handleActions(handlers, defaultState) {
+export default function handleActions(handlers, defaultState, { namespace } = {}) {
   invariant(
     isPlainObject(handlers),
     'Expected handlers to be an plain object.'
   );
-  const reducers = ownKeys(handlers).map(type =>
+  const flattenedReducerMap = flattenReducerMap(handlers, namespace);
+  const reducers = ownKeys(flattenedReducerMap).map(type =>
     handleAction(
       type,
-      handlers[type],
+      flattenedReducerMap[type],
       defaultState
     )
   );
