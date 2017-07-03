@@ -13,7 +13,7 @@
 * [Documentation](#documentation)
 
 
-# Getting Started {#gettingstarted}
+# Getting Started
 
 ## Installation
 
@@ -56,9 +56,9 @@ export default reducer;
 
 # Documentation
 
-* [Introduction](/docs/introduction)
-* [API](/docs/api)
-* [Middleware](/docs/middleware)
-* [External Resources](/docs/ExternalResources.md)
-* [Change Log](/docs/ChangeLog.md)
-* [Contributors](/docs/Contributors.md)
+* [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
+* [API](https://redux-actions.js.org/docs/api/index.html)
+* [Middleware](https://redux-actions.js.org/docs/middleware/index.html)
+* [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
+* [Change Log](https://redux-actions.js.org/docs/ChangeLog.html)
+* [Contributors](https://redux-actions.js.org/docs/Contributors.html)
