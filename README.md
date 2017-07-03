@@ -13,7 +13,7 @@
 * [Documentation](#documentation)
 
 
-# Getting Started {#gettingstarted}
+# Getting Started
 
 ## Installation
 
