@@ -204,7 +204,7 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
 });
 ```
 
-When using this form, you can pass an object with key `namespace` as the last positional argument, instead of the default `/`.
+When using this form, you can pass an object with key `namespace` as the last positional argument (the default is `/`).
 
 ###### EXAMPLE
 ```js
