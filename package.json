@@ -17,7 +17,12 @@
     "lint:watch": "npm run lint -- --watch",
     "prepublish": "npm run lint && npm run test && npm run build",
     "test": "mocha --compilers js:babel-register src/**/*-test.js",
-    "test:watch": "npm run test -- --watch src/**/*-test.js"
+    "test:watch": "npm run test -- --watch src/**/*-test.js",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && gitbook build -g acdlite/redux-actions",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:acdlite/redux-actions gh-pages --force"
   },
   "files": [
     "es",
@@ -55,6 +60,7 @@
     "eslint-plugin-import": "^1.5.0",
     "eslint-watch": "^2.1.13",
     "flux-standard-action": "^1.0.0",
+    "gitbook-cli": "^2.3.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.5.3",
     "webpack": "^1.13.1"
