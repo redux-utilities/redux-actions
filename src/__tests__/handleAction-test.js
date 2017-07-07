@@ -252,4 +252,23 @@ describe('handleAction()', () => {
         .to.deep.equal({ number: 3 });
     });
   });
+
+  describe('with shorthand arguments', () => {
+    it('recieves shorthand arguments', () => {
+      const reducer = handleAction(
+        type,
+        (state, action, payloadArg, metaArg, errorArg) =>
+          ({ ...state, payloadArg, metaArg, errorArg }),
+        prevState,
+      );
+
+      const error = new Error();
+      expect(reducer(prevState, { type, payload: 123 }))
+        .to.deep.equal({ ...prevState, payloadArg: 123, metaArg: undefined, errorArg: false });
+      expect(reducer(prevState, { type, payload: 123, meta: 456 }))
+        .to.deep.equal({ ...prevState, payloadArg: 123, metaArg: 456, errorArg: false });
+      expect(reducer(prevState, { type, payload: error, meta: 456, error: true }))
+        .to.deep.equal({ ...prevState, payloadArg: error, metaArg: 456, errorArg: true });
+    });
+  });
 });

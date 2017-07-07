@@ -28,6 +28,12 @@ export default function handleAction(type, reducer = identity, defaultState) {
       return state;
     }
 
-    return (action.error === true ? throwReducer : nextReducer)(state, action);
+    return (action.error === true ? throwReducer : nextReducer)(
+      state,
+      action,
+      action.payload,
+      action.meta,
+      action.error === true
+    );
   };
 }

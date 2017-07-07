@@ -29,13 +29,24 @@ import { handleAction } from 'redux-actions';
 
 If a `reducer` function is passed, it is used to handle both normal actions and failed actions. (A failed action is analogous to a rejected promise.) You can use this form if you know a certain type of action will never fail, like the increment example above.
 
+The reducer function gets recieves the following arguments
+
+1. `state`: The current redux state
+
+1. `action`: The redux action
+	
+ and as a shorthand, for easier desctructuring:
+3. `payload`: The fsa payload of the action, *action.payload*
+4. `meta`: The metadata of the action, *action.meta*
+5. `error`: Boolean flag determining if this is an error, *action.error*
+
 If the reducer argument (`reducer`) is `undefined`, then the identity function is used.
 
 The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 ###### EXAMPLE
 ```js
-handleAction('APP/COUNTER/INCREMENT', (state, action) => ({
+handleAction('APP/COUNTER/INCREMENT', (state, action, payload, meta, error) => ({
   counter: state.counter + action.payload.amount,
 }), defaultState);
 ```
