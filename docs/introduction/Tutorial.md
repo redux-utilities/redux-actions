@@ -130,12 +130,8 @@ const {
 } = window.ReduxActions;
 
 const reducer = handleActions({
-  [increment](state) {
-    return { counter: state.counter + 1 }
-  },
-  [decrement](state) {
-    return { counter: state.counter - 1 }
-  }
+  [increment]: ({ counter }) => ({ counter: counter + 1 },
+  [decrement]: ({ counter }) => ({ counter: counter - 1 },
 }, defaultState);
 ```
 
