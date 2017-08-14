@@ -165,10 +165,10 @@ const { increment, decrement } = createActions({
 });
 
 const reducer = handleActions({
-  [increment]: ({ counter }, { payload: { amount } }) {
+  [increment]: ({ counter }, { payload: { amount } }) => {
     return { counter: counter + amount }
   },
-  [decrement]: ({ counter }, { payload: { amount } }) {
+  [decrement]: ({ counter }, { payload: { amount } }) => {
     return { counter: counter + amount }
   }
 }, defaultState);
