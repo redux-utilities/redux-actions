@@ -130,12 +130,8 @@ const {
 } = window.ReduxActions;
 
 const reducer = handleActions({
-  [increment](state) {
-    return { counter: state.counter + 1 }
-  },
-  [decrement](state) {
-    return { counter: state.counter - 1 }
-  }
+  [increment]: ({ counter }) => ({ counter: counter + 1 },
+  [decrement]: ({ counter }) => ({ counter: counter - 1 },
 }, defaultState);
 ```
 
@@ -169,11 +165,11 @@ const { increment, decrement } = createActions({
 });
 
 const reducer = handleActions({
-  [increment](state, { payload: { amount } }) {
-    return { counter: state.counter + amount }
+  [increment]: ({ counter }, { payload: { amount } }) => {
+    return { counter: counter + amount }
   },
-  [decrement](state, { payload: { amount } }) {
-    return { counter: state.counter + amount }
+  [decrement]: ({ counter }, { payload: { amount } }) => {
+    return { counter: counter + amount }
   }
 }, defaultState);
 ```
@@ -188,7 +184,7 @@ const {
 } = window.ReduxActions;
 
 const reducer = handleActions({
-  [combineActions(increment, decrement)](state, { payload: { amount } }) {
+  [combineActions(increment, decrement)]: (state, { payload: { amount } }) => {
     return { ...state, counter: state.counter + amount };
   }
 }, defaultState);
