@@ -169,7 +169,7 @@ const reducer = handleActions({
     return { counter: counter + amount }
   },
   [decrement]: ({ counter }, { payload: { amount } }) => {
-    return { counter: counter + amount }
+    return { counter: counter - amount }
   }
 }, defaultState);
 ```
