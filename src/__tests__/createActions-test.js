@@ -120,6 +120,31 @@ describe('createActions', () => {
     });
   });
 
+  it('should use the identity if the payload creator is null in array form', () => {
+    const { action1, action2 } = createActions({
+      ACTION_1: [
+        null,
+        meta1 => ({ meta1 })
+      ],
+      ACTION_2: [
+        null,
+        ({ value }) => ({ meta2: value })
+      ]
+    });
+
+    expect(action1(1)).to.deep.equal({
+      type: 'ACTION_1',
+      payload: 1,
+      meta: { meta1: 1 }
+    });
+
+    expect(action2({ value: 2 })).to.deep.equal({
+      type: 'ACTION_2',
+      payload: { value: 2 },
+      meta: { meta2: 2 }
+    });
+  });
+
   it('should use the identity and meta creators in array form', () => {
     const { action1, action2 } = createActions({
       ACTION_1: [
