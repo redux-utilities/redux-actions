@@ -7,7 +7,7 @@
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
 ### Table of Contents
-* [Getting Started](#gettingstarted)
+* [Getting Started](#getting-started)
   * [Installation](#installation)
   * [Usage](#usage)
 * [Documentation](#documentation)
