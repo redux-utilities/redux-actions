@@ -8,7 +8,10 @@ import invariant from 'invariant';
 import { ACTION_TYPE_DELIMITER } from './combineActions';
 
 export default function handleAction(type, reducer = identity, defaultState) {
-  const types = type.toString().split(ACTION_TYPE_DELIMITER);
+  type = type.toString();
+  const match = type.match(/^\/(.*)\/$/);
+  const regexp = match ? new RegExp(match[1]) : undefined;
+  const types = !regexp ? type.split(ACTION_TYPE_DELIMITER) : [];
   invariant(
     !isUndefined(defaultState),
     `defaultState for reducer handling ${types.join(', ')} should be defined`
@@ -23,8 +26,8 @@ export default function handleAction(type, reducer = identity, defaultState) {
     : [reducer.next, reducer.throw].map(aReducer => (isNil(aReducer) ? identity : aReducer));
 
   return (state = defaultState, action) => {
-    const { type: actionType } = action;
-    if (!actionType || !includes(types, actionType.toString())) {
+    const actionType = action.type ? action.type.toString() : undefined;
+    if (!(actionType && (regexp && regexp.test(actionType) || includes(types, actionType)))) {
       return state;
     }
 

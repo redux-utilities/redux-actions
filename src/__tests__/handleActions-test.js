@@ -126,6 +126,30 @@ describe('handleActions', () => {
     expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 5 });
   });
 
+  it('should accept a regexp as action types in single reducer form', () => {
+    const { a: { action1, b: { action2 } }, c: { actionX } } = createActions({
+      a: {
+        action1: undefined,
+        b: {
+          action2: undefined
+        }
+      },
+      c: {
+        actionX: undefined
+      }
+    });
+
+    const reducer = handleActions({
+      [/.*action(\d+)?$/](state, { payload: value }) {
+        return value;
+      }
+    }, {});
+
+    expect(reducer(undefined, action1(1))).to.deep.equal(1);
+    expect(reducer(undefined, action2(2))).to.deep.equal(2);
+    expect(reducer(0, actionX('x'))).to.deep.equal(0);
+  });
+
   it('should accept combined actions as action types in the next/throw form', () => {
     const { increment, decrement } = createActions({
       INCREMENT: amount => ({ amount }),
