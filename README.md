@@ -6,6 +6,12 @@
 
 [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
+## Looking for Maintainers!
+
+We are currently looking for people who can maintain and improve this library.
+
+See [#251](https://github.com/reduxactions/redux-actions/issues/251) for more.
+
 ### Table of Contents
 * [Getting Started](#getting-started)
   * [Installation](#installation)
