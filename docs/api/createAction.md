@@ -94,6 +94,9 @@ createAction('ADD_TODO')('Use Redux');
 
 `payloadCreator` must be a function, `undefined`, or `null`. If `payloadCreator` is `undefined` or `null`, the identity function is used.
 
+**NOTE:** If payload is an instance of an [Error object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),
+`payloadCreator` will not be called.
+
 ###### EXAMPLE
 
 ```js
