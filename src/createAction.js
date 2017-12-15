@@ -15,7 +15,7 @@ export default function createAction(type, payloadCreator = identity, metaCreato
       ? head : payloadCreator(head, ...args));
 
   const hasMeta = isFunction(metaCreator);
-  const typeString = type.toString();
+  const typeString = type && type.toString();
 
   const actionCreator = (...args) => {
     const payload = finalPayloadCreator(...args);
