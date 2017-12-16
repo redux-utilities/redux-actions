@@ -8,7 +8,7 @@ import { flattenReducerMap } from './flattenUtils';
 export default function handleActions(handlers, defaultState, { namespace } = {}) {
   invariant(
     isPlainObject(handlers),
-    'Expected handlers to be an plain object.'
+    'Expected handlers to be a plain object.'
   );
   const flattenedReducerMap = flattenReducerMap(handlers, namespace);
   const reducers = ownKeys(flattenedReducerMap).map(type =>
