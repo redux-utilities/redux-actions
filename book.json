@@ -1,0 +1,22 @@
+{
+  "gitbook": ">= 3.0.0",
+  "title": "Redux Actions",
+  "plugins": ["edit-link", "prism", "-highlight", "github", "anchorjs"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/acdlite/redux-actions/tree/master",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/acdlite/redux-actions/"
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false,
+      "instapaper": false,
+      "vk": false
+    }
+  }
+}

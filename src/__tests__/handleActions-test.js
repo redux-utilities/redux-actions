@@ -236,4 +236,195 @@ describe('handleActions', () => {
       message: 'hello---me: goodbye'
     });
   });
+
+  it('should return default state with empty handlers and undefined previous state', () => {
+    const { unhandled } = createActions('UNHANDLED');
+    const reducer = handleActions({}, defaultState);
+
+    expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
+  });
+
+  it('should return previous defined state with empty handlers', () => {
+    const { unhandled } = createActions('UNHANDLED');
+    const reducer = handleActions({}, defaultState);
+
+    expect(reducer({ counter: 10 }, unhandled())).to.deep.equal({ counter: 10 });
+  });
+
+  it('should throw an error if handlers object has the wrong type', () => {
+    const wrongTypeHandlers = [1, 'string', [], null];
+
+    wrongTypeHandlers.forEach(wrongTypeHandler => {
+      expect(
+        () => handleActions(wrongTypeHandler, defaultState)
+      ).to.throw(Error, 'Expected handlers to be an plain object.');
+    });
+  });
+
+  it('should work with nested reducerMap', () => {
+    const {
+      app: {
+        counter: {
+          increment,
+          decrement
+        },
+        notify
+      }
+    } = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      }
+    });
+
+    // note: we should be using combineReducers in production, but this is just a test
+    const reducer = handleActions({
+      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
+        counter: counter + amount,
+        message
+      }),
+
+      APP: {
+        NOTIFY: {
+          next: ({ counter, message }, { payload }) => ({
+            counter,
+            message: `${message}---${payload.message}`
+          }),
+          throw: ({ counter, message }, { payload }) => ({
+            counter: 0,
+            message: `${message}-x-${payload.message}`
+          })
+        }
+      }
+    }, { counter: 0, message: '' });
+
+    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
+      counter: 5,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
+      counter: 7,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
+      counter: 10,
+      message: 'hello---me: goodbye'
+    });
+
+    const error = new Error('no notification');
+    expect(reducer({ counter: 10, message: 'hello' }, notify(error))).to.deep.equal({
+      counter: 0,
+      message: 'hello-x-no notification'
+    });
+  });
+
+  it('should work with nested reducerMap and namespace', () => {
+    const {
+      app: {
+        counter: {
+          increment,
+          decrement
+        },
+        notify
+      }
+    } = createActions({
+      APP: {
+        COUNTER: {
+          INCREMENT: [
+            amount => ({ amount }),
+            amount => ({ key: 'value', amount })
+          ],
+          DECREMENT: amount => ({ amount: -amount })
+        },
+        NOTIFY: [
+          (username, message) => ({ message: `${username}: ${message}` }),
+          (username, message) => ({ username, message })
+        ]
+      }
+    }, { namespace: ':' });
+
+    // note: we should be using combineReducers in production, but this is just a test
+    const reducer = handleActions({
+      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
+        counter: counter + amount,
+        message
+      }),
+
+      APP: {
+        NOTIFY: {
+          next: ({ counter, message }, { payload }) => ({
+            counter,
+            message: `${message}---${payload.message}`
+          }),
+          throw: ({ counter, message }, { payload }) => ({
+            counter: 0,
+            message: `${message}-x-${payload.message}`
+          })
+        }
+      }
+    }, { counter: 0, message: '' }, { namespace: ':' });
+
+    expect(String(increment)).to.equal('APP:COUNTER:INCREMENT');
+
+    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
+      counter: 5,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
+      counter: 7,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
+      counter: 10,
+      message: 'hello---me: goodbye'
+    });
+
+    const error = new Error('no notification');
+    expect(reducer({ counter: 10, message: 'hello' }, notify(error))).to.deep.equal({
+      counter: 0,
+      message: 'hello-x-no notification'
+    });
+  });
+
+  it('should work with nested reducerMap and identity handlers', () => {
+    const noop = createAction('APP/NOOP');
+    const increment = createAction('APP/INCREMENT');
+
+    const reducer = handleActions({
+      APP: {
+        NOOP: undefined,
+        INCREMENT: {
+          next: (state, { payload }) => ({
+            ...state,
+            counter: state.counter + payload
+          }),
+          throw: null
+        }
+      }
+    }, { counter: 0, message: '' });
+
+    expect(reducer({ counter: 3, message: 'hello' }, noop('anything'))).to.deep.equal({
+      counter: 3,
+      message: 'hello'
+    });
+    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
+      counter: 5,
+      message: 'hello'
+    });
+
+    const error = new Error('cannot increment by Infinity');
+    expect(reducer({ counter: 3, message: 'hello' }, increment(error))).to.deep.equal({
+      counter: 3,
+      message: 'hello'
+    });
+  });
 });

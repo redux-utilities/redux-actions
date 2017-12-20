@@ -4,25 +4,20 @@ import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import last from 'lodash/last';
 import isString from 'lodash/isString';
-import defaults from 'lodash/defaults';
 import isFunction from 'lodash/isFunction';
+import isNil from 'lodash/isNil';
 import createAction from './createAction';
 import invariant from 'invariant';
 import arrayToObject from './arrayToObject';
 import {
-  defaultNamespace,
   flattenActionMap,
   unflattenActionCreators
-} from './namespaceActions';
+} from './flattenUtils';
 
 export default function createActions(actionMap, ...identityActions) {
-  function getFullOptions() {
-    const partialOptions = isPlainObject(last(identityActions))
-      ? identityActions.pop()
-      : {};
-    return defaults(partialOptions, { namespace: defaultNamespace });
-  }
-  const { namespace } = getFullOptions();
+  const { namespace } = isPlainObject(last(identityActions))
+    ? identityActions.pop()
+    : {};
   invariant(
     identityActions.every(isString) &&
     (isString(actionMap) || isPlainObject(actionMap)),
@@ -45,7 +40,7 @@ function actionCreatorsFromActionMap(actionMap, namespace) {
 
 function actionMapToActionCreators(actionMap) {
   function isValidActionMapValue(actionMapValue) {
-    if (isFunction(actionMapValue)) {
+    if (isFunction(actionMapValue) || isNil(actionMapValue)) {
       return true;
     } else if (isArray(actionMapValue)) {
       const [payload = identity, meta] = actionMapValue;
@@ -58,7 +53,7 @@ function actionMapToActionCreators(actionMap) {
     const actionMapValue = actionMap[type];
     invariant(
       isValidActionMapValue(actionMapValue),
-      'Expected function, undefined, or array with payload and meta ' +
+      'Expected function, undefined, null, or array with payload and meta ' +
       `functions for ${type}`
     );
     const actionCreator = isArray(actionMapValue)
