@@ -257,7 +257,7 @@ describe('handleActions', () => {
     wrongTypeHandlers.forEach(wrongTypeHandler => {
       expect(
         () => handleActions(wrongTypeHandler, defaultState)
-      ).to.throw(Error, 'Expected handlers to be an plain object.');
+      ).to.throw(Error, 'Expected handlers to be a plain object.');
     });
   });
 
