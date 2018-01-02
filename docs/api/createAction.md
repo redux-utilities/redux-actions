@@ -158,7 +158,7 @@ import { createActions } from 'redux-actions';
 ###### EXAMPLE
 ```js
 createActions({
-  ADD_TODO: todo => ({ todo }) // payload creator,
+  ADD_TODO: todo => ({ todo }), // payload creator
   REMOVE_TODO: [
     todo => ({ todo }), // payload creator
     (todo, warn) => ({ todo, warn }) // meta
