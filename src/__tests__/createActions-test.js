@@ -349,4 +349,61 @@ describe('createActions', () => {
       payload: 'two'
     });
   });
+
+  it('should properly handle `prefix` and `namespace` options provided together', () => {
+    const actionCreators = createActions(
+      {
+        APP: {
+          COUNTER: {
+            INCREMENT: amount => ({ amount }),
+            DECREMENT: amount => ({ amount: -amount }),
+            SET: undefined
+          },
+          NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+        },
+        LOGIN: username => ({ username })
+      },
+      'ACTION_ONE',
+      'ACTION_TWO',
+      {
+        prefix: 'my-awesome-feature',
+        namespace: '--'
+      },
+    );
+
+    expect(actionCreators.app.counter.increment(1)).to.deep.equal({
+      type: 'my-awesome-feature--APP--COUNTER--INCREMENT',
+      payload: { amount: 1 }
+    });
+
+    expect(actionCreators.app.counter.decrement(1)).to.deep.equal({
+      type: 'my-awesome-feature--APP--COUNTER--DECREMENT',
+      payload: { amount: -1 }
+    });
+
+    expect(actionCreators.app.counter.set(100)).to.deep.equal({
+      type: 'my-awesome-feature--APP--COUNTER--SET',
+      payload: 100
+    });
+
+    expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+      type: 'my-awesome-feature--APP--NOTIFY',
+      payload: { message: 'yangmillstheory: Hello World' }
+    });
+
+    expect(actionCreators.login('yangmillstheory')).to.deep.equal({
+      type: 'my-awesome-feature--LOGIN',
+      payload: { username: 'yangmillstheory' }
+    });
+
+    expect(actionCreators.actionOne('one')).to.deep.equal({
+      type: 'my-awesome-feature--ACTION_ONE',
+      payload: 'one'
+    });
+
+    expect(actionCreators.actionTwo('two')).to.deep.equal({
+      type: 'my-awesome-feature--ACTION_TWO',
+      payload: 'two'
+    });
+  });
 });
