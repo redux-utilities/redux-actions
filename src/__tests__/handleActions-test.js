@@ -60,6 +60,36 @@ describe('handleActions', () => {
       });
   });
 
+  it('create a single handler from a JavaScript Map of multiple action handlers', () => {
+    const reducer = handleActions(
+      new Map([
+        [
+          'INCREMENT',
+          (state, action) => ({
+            counter: state.counter + action.payload
+          })
+        ],
+
+        [
+          'DECREMENT',
+          (state, action) => ({
+            counter: state.counter - action.payload
+          })
+        ]
+      ]),
+      defaultState
+    );
+
+    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
+      .to.deep.equal({
+        counter: 10
+      });
+    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
+      .to.deep.equal({
+        counter: 3
+      });
+  });
+
   it('works with symbol action types', () => {
     const INCREMENT = Symbol();
 
