@@ -92,3 +92,25 @@ const reducer = handleActions({
   })
 }, { counter: 0 });
 ```
+Or using a JavaScript `Map` type:
+
+```js
+const reducer = handleActions(
+  new Map([
+    [
+      INCREMENT,
+      (state, action) => ({
+        counter: state.counter + action.payload
+      })
+    ],
+
+    [
+      DECREMENT,
+      (state, action) => ({
+        counter: state.counter - action.payload
+      })
+    ]
+  ]),
+  { counter: 0 }
+);
+```
