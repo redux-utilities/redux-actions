@@ -2,8 +2,13 @@ import camelCase from './camelCase';
 import ownKeys from './ownKeys';
 import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
+import isMap from 'lodash/isMap';
 
 const defaultNamespace = '/';
+
+function get(key, x) {
+  return isMap(x) ? x.get(key) : x[key];
+}
 
 const flattenWhenNode = predicate => function flatten(
   map,
@@ -19,12 +24,12 @@ const flattenWhenNode = predicate => function flatten(
 
   ownKeys(map).forEach(type => {
     const nextNamespace = connectNamespace(type);
-    const mapValue = map[type];
+    const mapValue = get(type, map);
 
     if (!predicate(mapValue)) {
-      partialFlatMap[nextNamespace] = map[type];
+      partialFlatMap[nextNamespace] = mapValue;
     } else {
-      flatten(map[type], namespace, partialFlatMap, nextNamespace);
+      flatten(mapValue, namespace, partialFlatMap, nextNamespace);
     }
   });
 
@@ -33,7 +38,7 @@ const flattenWhenNode = predicate => function flatten(
 
 const flattenActionMap  = flattenWhenNode(isPlainObject);
 const flattenReducerMap = flattenWhenNode(
-  node => isPlainObject(node) && !hasGeneratorInterface(node)
+  node => (isPlainObject(node) || isMap(node)) && !hasGeneratorInterface(node)
 );
 
 function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
