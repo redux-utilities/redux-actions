@@ -90,6 +90,39 @@ describe('handleActions', () => {
       });
   });
 
+  it('works with function action types', () => {
+    const increment = createAction('INCREMENT');
+    const decrement = createAction('DECREMENT');
+
+    const reducer = handleActions(
+      new Map([
+        [
+          increment,
+          (state, action) => ({
+            counter: state.counter + action.payload
+          })
+        ],
+
+        [
+          decrement,
+          (state, action) => ({
+            counter: state.counter - action.payload
+          })
+        ]
+      ]),
+      defaultState
+    );
+
+    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
+      .to.deep.equal({
+        counter: 10
+      });
+    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
+      .to.deep.equal({
+        counter: 3
+      });
+  });
+
   it('works with symbol action types', () => {
     const INCREMENT = Symbol();
 
