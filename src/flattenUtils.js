@@ -7,7 +7,9 @@ const defaultNamespace = '/';
 
 const flattenWhenNode = predicate => function flatten(
   map,
-  namespace = defaultNamespace,
+  {
+    namespace = defaultNamespace
+  } = {},
   partialFlatMap = {},
   partialFlatActionType = ''
 ) {
@@ -24,7 +26,7 @@ const flattenWhenNode = predicate => function flatten(
     if (!predicate(mapValue)) {
       partialFlatMap[nextNamespace] = map[type];
     } else {
-      flatten(map[type], namespace, partialFlatMap, nextNamespace);
+      flatten(map[type], { namespace }, partialFlatMap, nextNamespace);
     }
   });
 
@@ -36,7 +38,12 @@ const flattenReducerMap = flattenWhenNode(
   node => isPlainObject(node) && !hasGeneratorInterface(node)
 );
 
-function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
+function unflattenActionCreators(
+  flatActionCreators,
+  {
+    namespace = defaultNamespace
+  } = {}
+) {
   function unflatten(
     flatActionType,
     partialNestedActionCreators = {},

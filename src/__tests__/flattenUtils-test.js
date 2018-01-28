@@ -65,7 +65,7 @@ describe('namespacing actions', () => {
         LOGIN: username => ({ username })
       };
 
-      expect(flattenActionMap(actionMap, '-')).to.deep.equal({
+      expect(flattenActionMap(actionMap, { namespace: '-' })).to.deep.equal({
         'APP-COUNTER-INCREMENT': actionMap.APP.COUNTER.INCREMENT,
         'APP-COUNTER-DECREMENT': actionMap.APP.COUNTER.DECREMENT,
         'APP-NOTIFY': actionMap.APP.NOTIFY,
@@ -97,7 +97,7 @@ describe('namespacing actions', () => {
         'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
         'APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
         LOGIN: username => ({ username })
-      }, '--');
+      }, { namespace: '--' });
 
       expect(actionMap.login('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
       expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({

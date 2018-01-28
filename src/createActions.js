@@ -15,7 +15,7 @@ import {
 } from './flattenUtils';
 
 export default function createActions(actionMap, ...identityActions) {
-  const { namespace } = isPlainObject(last(identityActions))
+  const options = isPlainObject(last(identityActions))
     ? identityActions.pop()
     : {};
   invariant(
@@ -27,7 +27,7 @@ export default function createActions(actionMap, ...identityActions) {
     return actionCreatorsFromIdentityActions([actionMap, ...identityActions]);
   }
   return {
-    ...actionCreatorsFromActionMap(actionMap, namespace),
+    ...actionCreatorsFromActionMap(actionMap, options),
     ...actionCreatorsFromIdentityActions(identityActions)
   };
 }
