@@ -152,7 +152,7 @@ describe('namespacing actions', () => {
         'my/APP/COUNTER/INCREMENT': amount => ({ amount }),
         'my/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
         'my/APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
-        LOGIN: username => ({ username })
+        'my/LOGIN': username => ({ username })
       }, { prefix: 'my' });
 
       expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
@@ -168,7 +168,7 @@ describe('namespacing actions', () => {
         'my--APP--COUNTER--INCREMENT': amount => ({ amount }),
         'my--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
         'my--APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
-        LOGIN: username => ({ username })
+        'my--LOGIN': username => ({ username })
       }, { namespace: '--', prefix: 'my' });
 
       expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
