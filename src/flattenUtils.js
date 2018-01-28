@@ -13,7 +13,8 @@ function get(key, x) {
 const flattenWhenNode = predicate => function flatten(
   map,
   {
-    namespace = defaultNamespace
+    namespace = defaultNamespace,
+    prefix
   } = {},
   partialFlatMap = {},
   partialFlatActionType = ''
@@ -24,14 +25,22 @@ const flattenWhenNode = predicate => function flatten(
       : type;
   }
 
+  function connectPrefix(type) {
+    if (partialFlatActionType || !prefix) {
+      return type;
+    }
+
+    return `${prefix}${namespace}${type}`;
+  }
+
   ownKeys(map).forEach(type => {
-    const nextNamespace = connectNamespace(type);
+    const nextNamespace = connectPrefix(connectNamespace(type));
     const mapValue = get(type, map);
 
     if (!predicate(mapValue)) {
       partialFlatMap[nextNamespace] = mapValue;
     } else {
-      flatten(mapValue, { namespace }, partialFlatMap, nextNamespace);
+      flatten(mapValue, { namespace, prefix }, partialFlatMap, nextNamespace);
     }
   });
 
@@ -46,7 +55,8 @@ const flattenReducerMap = flattenWhenNode(
 function unflattenActionCreators(
   flatActionCreators,
   {
-    namespace = defaultNamespace
+    namespace = defaultNamespace,
+    prefix
   } = {}
 ) {
   function unflatten(
@@ -71,7 +81,8 @@ function unflattenActionCreators(
   Object
     .getOwnPropertyNames(flatActionCreators)
     .forEach(type => unflatten(type, nestedActionCreators, type.split(namespace)));
-  return nestedActionCreators;
+
+  return prefix ? nestedActionCreators[prefix] : nestedActionCreators;
 }
 
 export { flattenActionMap, flattenReducerMap, unflattenActionCreators };

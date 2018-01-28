@@ -73,7 +73,7 @@ describe('namespacing actions', () => {
       });
     });
 
-    it.skip('should handle prefix option', () => {
+    it('should handle prefix option', () => {
       const actionMap = {
         APP: {
           COUNTER: {
@@ -93,7 +93,7 @@ describe('namespacing actions', () => {
       });
     });
 
-    it.skip('should handle prefix + namespace options', () => {
+    it('should handle prefix + namespace options', () => {
       const actionMap = {
         APP: {
           COUNTER: {
@@ -147,7 +147,7 @@ describe('namespacing actions', () => {
       expect(actionMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
     });
 
-    it.skip('should unflatten a flattened action map with prefix', () => {
+    it('should unflatten a flattened action map with prefix', () => {
       const actionMap = unflattenActionCreators({
         'my/APP/COUNTER/INCREMENT': amount => ({ amount }),
         'my/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
@@ -163,7 +163,7 @@ describe('namespacing actions', () => {
       expect(actionMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
     });
 
-    it.skip('should unflatten a flattened action map with custom namespace and prefix', () => {
+    it('should unflatten a flattened action map with custom namespace and prefix', () => {
       const actionMap = unflattenActionCreators({
         'my--APP--COUNTER--INCREMENT': amount => ({ amount }),
         'my--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
