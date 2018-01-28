@@ -92,3 +92,52 @@ const reducer = handleActions({
   })
 }, { counter: 0 });
 ```
+Or using a JavaScript `Map` type:
+
+```js
+const reducer = handleActions(
+  new Map([
+    [
+      INCREMENT,
+      (state, action) => ({
+        counter: state.counter + action.payload
+      })
+    ],
+
+    [
+      DECREMENT,
+      (state, action) => ({
+        counter: state.counter - action.payload
+      })
+    ]
+  ]),
+  { counter: 0 }
+);
+```
+
+You can also use an action function as the key to a reduce function instead of using a string const:
+
+
+```js
+const increment = createAction(INCREMENT);
+const decrement = createAction(DECREMENT);
+
+const reducer = handleActions(
+  new Map([
+    [
+      increment,
+      (state, action) => ({
+        counter: state.counter + action.payload
+      })
+    ],
+
+    [
+      decrement,
+      (state, action) => ({
+        counter: state.counter - action.payload
+      })
+    ]
+  ]),
+  { counter: 0 }
+);
+```

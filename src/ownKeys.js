@@ -1,4 +1,11 @@
+import isMap from 'lodash/isMap';
+
 export default function ownKeys(object) {
+
+  if (isMap(object)) {
+    return Array.from(object.keys());
+  }
+
   if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
     return Reflect.ownKeys(object);
   }
