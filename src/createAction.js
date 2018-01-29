@@ -24,15 +24,20 @@ export default function createAction(type, payloadCreator = identity, metaCreato
     if (payload instanceof Error) {
       action.error = true;
     }
-
     if (payload !== undefined) {
       action.payload = payload;
     }
-
+    
+    
     if (hasMeta) {
       action.meta = metaCreator(...args);
     }
-
+    
+    if(isFunction(payload)){
+      return (dispatch, getState) => dispatch(Object.assign(action, {
+        payload:payload(getState)
+      }))
+    }
     return action;
   };
 
