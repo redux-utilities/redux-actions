@@ -149,11 +149,11 @@ describe('namespacing actions', () => {
 
     it('should unflatten a flattened action map with prefix', () => {
       const actionMap = unflattenActionCreators({
-        'my/APP/COUNTER/INCREMENT': amount => ({ amount }),
-        'my/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
-        'my/APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
-        'my/LOGIN': username => ({ username })
-      }, { prefix: 'my' });
+        'my/feature/APP/COUNTER/INCREMENT': amount => ({ amount }),
+        'my/feature/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
+        'my/feature/APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
+        'my/feature/LOGIN': username => ({ username })
+      }, { prefix: 'my/feature' });
 
       expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
       expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
@@ -165,11 +165,11 @@ describe('namespacing actions', () => {
 
     it('should unflatten a flattened action map with custom namespace and prefix', () => {
       const actionMap = unflattenActionCreators({
-        'my--APP--COUNTER--INCREMENT': amount => ({ amount }),
-        'my--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
-        'my--APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
-        'my--LOGIN': username => ({ username })
-      }, { namespace: '--', prefix: 'my' });
+        'my--feature--APP--COUNTER--INCREMENT': amount => ({ amount }),
+        'my--feature--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
+        'my--feature--APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
+        'my--feature--LOGIN': username => ({ username })
+      }, { namespace: '--', prefix: 'my--feature' });
 
       expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
       expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
