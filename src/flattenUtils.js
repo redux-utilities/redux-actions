@@ -4,7 +4,7 @@ import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
 import isMap from 'lodash/isMap';
 
-const defaultNamespace = '/';
+export const defaultNamespace = '/';
 
 function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];
@@ -82,7 +82,7 @@ function unflattenActionCreators(
     .getOwnPropertyNames(flatActionCreators)
     .forEach(type => unflatten(type, nestedActionCreators, type.split(namespace)));
 
-  return prefix ? nestedActionCreators[prefix] : nestedActionCreators;
+  return prefix ? nestedActionCreators[camelCase(prefix)] : nestedActionCreators;
 }
 
 export { flattenActionMap, flattenReducerMap, unflattenActionCreators };
