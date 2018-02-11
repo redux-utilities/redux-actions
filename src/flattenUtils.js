@@ -80,9 +80,12 @@ function unflattenActionCreators(
   const nestedActionCreators = {};
   Object
     .getOwnPropertyNames(flatActionCreators)
-    .forEach(type => unflatten(type, nestedActionCreators, type.split(namespace)));
+    .forEach(type => {
+      const unprefixedType = prefix ? type.replace(`${prefix}${namespace}`, '') : type;
+      return unflatten(type, nestedActionCreators, unprefixedType.split(namespace));
+    });
 
-  return prefix ? nestedActionCreators[camelCase(prefix)] : nestedActionCreators;
+  return nestedActionCreators;
 }
 
 export { flattenActionMap, flattenReducerMap, unflattenActionCreators };
