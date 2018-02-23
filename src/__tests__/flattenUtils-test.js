@@ -65,11 +65,51 @@ describe('namespacing actions', () => {
         LOGIN: username => ({ username })
       };
 
-      expect(flattenActionMap(actionMap, '-')).to.deep.equal({
+      expect(flattenActionMap(actionMap, { namespace: '-' })).to.deep.equal({
         'APP-COUNTER-INCREMENT': actionMap.APP.COUNTER.INCREMENT,
         'APP-COUNTER-DECREMENT': actionMap.APP.COUNTER.DECREMENT,
         'APP-NOTIFY': actionMap.APP.NOTIFY,
         LOGIN: actionMap.LOGIN
+      });
+    });
+
+    it('should handle prefix option', () => {
+      const actionMap = {
+        APP: {
+          COUNTER: {
+            INCREMENT: amount => ({ amount }),
+            DECREMENT: amount => ({ amount: -amount })
+          },
+          NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+        },
+        LOGIN: username => ({ username })
+      };
+
+      expect(flattenActionMap(actionMap, { prefix: 'my' })).to.deep.equal({
+        'my/APP/COUNTER/INCREMENT': actionMap.APP.COUNTER.INCREMENT,
+        'my/APP/COUNTER/DECREMENT': actionMap.APP.COUNTER.DECREMENT,
+        'my/APP/NOTIFY': actionMap.APP.NOTIFY,
+        'my/LOGIN': actionMap.LOGIN
+      });
+    });
+
+    it('should handle prefix + namespace options', () => {
+      const actionMap = {
+        APP: {
+          COUNTER: {
+            INCREMENT: amount => ({ amount }),
+            DECREMENT: amount => ({ amount: -amount })
+          },
+          NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
+        },
+        LOGIN: username => ({ username })
+      };
+
+      expect(flattenActionMap(actionMap, { namespace: '-', prefix: 'my' })).to.deep.equal({
+        'my-APP-COUNTER-INCREMENT': actionMap.APP.COUNTER.INCREMENT,
+        'my-APP-COUNTER-DECREMENT': actionMap.APP.COUNTER.DECREMENT,
+        'my-APP-NOTIFY': actionMap.APP.NOTIFY,
+        'my-LOGIN': actionMap.LOGIN
       });
     });
   });
@@ -97,9 +137,41 @@ describe('namespacing actions', () => {
         'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
         'APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
         LOGIN: username => ({ username })
-      }, '--');
+      }, { namespace: '--' });
 
       expect(actionMap.login('yangmillstheory')).to.deep.equal({ username: 'yangmillstheory' });
+      expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+        message: 'yangmillstheory: Hello World'
+      });
+      expect(actionMap.app.counter.increment(100)).to.deep.equal({ amount: 100 });
+      expect(actionMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
+    });
+
+    it('should unflatten a flattened action map with prefix', () => {
+      const actionMap = unflattenActionCreators({
+        'my/feature/APP/COUNTER/INCREMENT': amount => ({ amount }),
+        'my/feature/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
+        'my/feature/APP/NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
+        'my/feature/LOGIN': username => ({ username })
+      }, { prefix: 'my/feature' });
+
+      expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
+      expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+        message: 'yangmillstheory: Hello World'
+      });
+      expect(actionMap.app.counter.increment(100)).to.deep.equal({ amount: 100 });
+      expect(actionMap.app.counter.decrement(100)).to.deep.equal({ amount: -100 });
+    });
+
+    it('should unflatten a flattened action map with custom namespace and prefix', () => {
+      const actionMap = unflattenActionCreators({
+        'my--feature--APP--COUNTER--INCREMENT': amount => ({ amount }),
+        'my--feature--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
+        'my--feature--APP--NOTIFY': (username, message) => ({ message: `${username}: ${message}` }),
+        'my--feature--LOGIN': username => ({ username })
+      }, { namespace: '--', prefix: 'my--feature' });
+
+      expect(actionMap.login('test')).to.deep.equal({ username: 'test' });
       expect(actionMap.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
         message: 'yangmillstheory: Hello World'
       });

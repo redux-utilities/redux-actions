@@ -4,7 +4,7 @@ import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
 import isMap from 'lodash/isMap';
 
-const defaultNamespace = '/';
+export const defaultNamespace = '/';
 
 function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];
@@ -12,7 +12,10 @@ function get(key, x) {
 
 const flattenWhenNode = predicate => function flatten(
   map,
-  namespace = defaultNamespace,
+  {
+    namespace = defaultNamespace,
+    prefix
+  } = {},
   partialFlatMap = {},
   partialFlatActionType = ''
 ) {
@@ -22,14 +25,22 @@ const flattenWhenNode = predicate => function flatten(
       : type;
   }
 
+  function connectPrefix(type) {
+    if (partialFlatActionType || !prefix) {
+      return type;
+    }
+
+    return `${prefix}${namespace}${type}`;
+  }
+
   ownKeys(map).forEach(type => {
-    const nextNamespace = connectNamespace(type);
+    const nextNamespace = connectPrefix(connectNamespace(type));
     const mapValue = get(type, map);
 
     if (!predicate(mapValue)) {
       partialFlatMap[nextNamespace] = mapValue;
     } else {
-      flatten(mapValue, namespace, partialFlatMap, nextNamespace);
+      flatten(mapValue, { namespace, prefix }, partialFlatMap, nextNamespace);
     }
   });
 
@@ -41,7 +52,13 @@ const flattenReducerMap = flattenWhenNode(
   node => (isPlainObject(node) || isMap(node)) && !hasGeneratorInterface(node)
 );
 
-function unflattenActionCreators(flatActionCreators, namespace = defaultNamespace) {
+function unflattenActionCreators(
+  flatActionCreators,
+  {
+    namespace = defaultNamespace,
+    prefix
+  } = {}
+) {
   function unflatten(
     flatActionType,
     partialNestedActionCreators = {},
@@ -63,7 +80,11 @@ function unflattenActionCreators(flatActionCreators, namespace = defaultNamespac
   const nestedActionCreators = {};
   Object
     .getOwnPropertyNames(flatActionCreators)
-    .forEach(type => unflatten(type, nestedActionCreators, type.split(namespace)));
+    .forEach(type => {
+      const unprefixedType = prefix ? type.replace(`${prefix}${namespace}`, '') : type;
+      return unflatten(type, nestedActionCreators, unprefixedType.split(namespace));
+    });
+
   return nestedActionCreators;
 }
 

@@ -11,11 +11,12 @@ import invariant from 'invariant';
 import arrayToObject from './arrayToObject';
 import {
   flattenActionMap,
-  unflattenActionCreators
+  unflattenActionCreators,
+  defaultNamespace
 } from './flattenUtils';
 
 export default function createActions(actionMap, ...identityActions) {
-  const { namespace } = isPlainObject(last(identityActions))
+  const options = isPlainObject(last(identityActions))
     ? identityActions.pop()
     : {};
   invariant(
@@ -24,21 +25,21 @@ export default function createActions(actionMap, ...identityActions) {
     'Expected optional object followed by string action types'
   );
   if (isString(actionMap)) {
-    return actionCreatorsFromIdentityActions([actionMap, ...identityActions]);
+    return actionCreatorsFromIdentityActions([actionMap, ...identityActions], options);
   }
   return {
-    ...actionCreatorsFromActionMap(actionMap, namespace),
-    ...actionCreatorsFromIdentityActions(identityActions)
+    ...actionCreatorsFromActionMap(actionMap, options),
+    ...actionCreatorsFromIdentityActions(identityActions, options)
   };
 }
 
-function actionCreatorsFromActionMap(actionMap, namespace) {
-  const flatActionMap = flattenActionMap(actionMap, namespace);
+function actionCreatorsFromActionMap(actionMap, options) {
+  const flatActionMap = flattenActionMap(actionMap, options);
   const flatActionCreators = actionMapToActionCreators(flatActionMap);
-  return unflattenActionCreators(flatActionCreators, namespace);
+  return unflattenActionCreators(flatActionCreators, options);
 }
 
-function actionMapToActionCreators(actionMap) {
+function actionMapToActionCreators(actionMap, { prefix, namespace = defaultNamespace } = {}) {
   function isValidActionMapValue(actionMapValue) {
     if (isFunction(actionMapValue) || isNil(actionMapValue)) {
       return true;
@@ -56,19 +57,20 @@ function actionMapToActionCreators(actionMap) {
       'Expected function, undefined, null, or array with payload and meta ' +
       `functions for ${type}`
     );
+    const prefixedType = prefix ? `${prefix}${namespace}${type}` : type;
     const actionCreator = isArray(actionMapValue)
-      ? createAction(type, ...actionMapValue)
-      : createAction(type, actionMapValue);
+      ? createAction(prefixedType, ...actionMapValue)
+      : createAction(prefixedType, actionMapValue);
     return { ...partialActionCreators, [type]: actionCreator };
   });
 }
 
-function actionCreatorsFromIdentityActions(identityActions) {
+function actionCreatorsFromIdentityActions(identityActions, options) {
   const actionMap = arrayToObject(
     identityActions,
     (partialActionMap, type) => ({ ...partialActionMap, [type]: identity })
   );
-  const actionCreators = actionMapToActionCreators(actionMap);
+  const actionCreators = actionMapToActionCreators(actionMap, options);
   return arrayToObject(
     Object.keys(actionCreators),
     (partialActionCreators, type) => ({

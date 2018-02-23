@@ -10,12 +10,12 @@ function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];
 }
 
-export default function handleActions(handlers, defaultState, { namespace } = {}) {
+export default function handleActions(handlers, defaultState, options = {}) {
   invariant(
     isPlainObject(handlers) || isMap(handlers),
     'Expected handlers to be a plain object.'
   );
-  const flattenedReducerMap = flattenReducerMap(handlers, namespace);
+  const flattenedReducerMap = flattenReducerMap(handlers, options);
   const reducers = ownKeys(flattenedReducerMap).map(type =>
     handleAction(
       type,
