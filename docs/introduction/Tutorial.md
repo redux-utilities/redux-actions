@@ -85,6 +85,7 @@ Next we are going to handle that action with `handleAction`. We can provide it o
 
 ```js
 const reducer = handleAction(increment, (state, action) => ({
+  ...state,
   counter: state.counter + 1
 }), defaultState);
 ```
@@ -130,8 +131,8 @@ const {
 } = window.ReduxActions;
 
 const reducer = handleActions({
-  [increment]: ({ counter }) => ({ counter: counter + 1 },
-  [decrement]: ({ counter }) => ({ counter: counter - 1 },
+  [increment]: (state) => ({ ...state, counter: state.counter + 1 },
+  [decrement]: (state) => ({ ...state, counter: state.counter - 1 },
 }, defaultState);
 ```
 
@@ -160,16 +161,16 @@ We can still do better though. What if we want an action like `'INCREMENT_FIVE'`
 
 ```js
 const { increment, decrement } = createActions({
-  'INCREMENT': amount => ({ amount: 1 }),
-  'DECREMENT': amount => ({ amount: -1 })
+  'INCREMENT': (amount = 1) => ({ amount }),
+  'DECREMENT': (amount = 1) => ({ amount: -amount })
 });
 
 const reducer = handleActions({
-  [increment]: ({ counter }, { payload: { amount } }) => {
-    return { counter: counter + amount }
+  [increment]: (state, { payload: { amount } }) => {
+    return { ...state, counter: state.counter + amount }
   },
-  [decrement]: ({ counter }, { payload: { amount } }) => {
-    return { counter: counter - amount }
+  [decrement]: (state, { payload: { amount } }) => {
+    return { ...state, counter: state.counter + amount }
   }
 }, defaultState);
 ```
