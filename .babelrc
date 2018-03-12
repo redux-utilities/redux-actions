@@ -1,10 +1,11 @@
 {
   "presets": [
-    "./build/preset-es2015",
+    "env",
     "stage-0"
   ],
   "env": {
     "es": {
+      "presets": [["env", { modules: false }]],
       "plugins": [
         "./build/use-lodash-es"
       ]
