@@ -5,6 +5,7 @@ es
 lib
 dist
 .idea
+yarn.lock
 
 # docs generated files
 _book
