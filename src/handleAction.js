@@ -26,7 +26,7 @@ export default function handleAction(type, reducer = identity, defaultState) {
     if (isUndefined(state)) {
       state = typeof defaultState === 'function'
         ? defaultState()
-        : defaultState
+        : defaultState;
     }
 
     const { type: actionType } = action;
