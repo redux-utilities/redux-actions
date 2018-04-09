@@ -6,6 +6,11 @@ describe('createAction()', () => {
   describe('resulting action creator', () => {
     const type = 'TYPE';
 
+    it('should not throw error if type of null is passed', () => {
+      const action = createAction(null);
+      expect(action()).to.deep.equal({type: null});
+    });
+
     it('returns a valid FSA', () => {
       const actionCreator = createAction(type, b => b);
       const foobar = { foo: 'bar' };
