@@ -6,6 +6,7 @@ import last from 'lodash/last';
 import isString from 'lodash/isString';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
+import isNull from 'lodash/isNull';
 import createAction from './createAction';
 import invariant from 'invariant';
 import arrayToObject from './arrayToObject';
@@ -45,7 +46,7 @@ function actionMapToActionCreators(actionMap, { prefix, namespace = defaultNames
       return true;
     } else if (isArray(actionMapValue)) {
       const [payload = identity, meta] = actionMapValue;
-      return isFunction(payload) && isFunction(meta);
+      return (isFunction(payload) || isNull(payload)) && isFunction(meta);
     }
     return false;
   }
