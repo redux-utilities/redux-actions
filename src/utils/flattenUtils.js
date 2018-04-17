@@ -3,8 +3,7 @@ import ownKeys from './ownKeys';
 import hasGeneratorInterface from './hasGeneratorInterface';
 import isPlainObject from 'lodash/isPlainObject';
 import isMap from 'lodash/isMap';
-
-export const defaultNamespace = '/';
+import { DEFAULT_NAMESPACE } from '../constants';
 
 function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];
@@ -13,7 +12,7 @@ function get(key, x) {
 const flattenWhenNode = predicate => function flatten(
   map,
   {
-    namespace = defaultNamespace,
+    namespace = DEFAULT_NAMESPACE,
     prefix
   } = {},
   partialFlatMap = {},
@@ -55,7 +54,7 @@ const flattenReducerMap = flattenWhenNode(
 function unflattenActionCreators(
   flatActionCreators,
   {
-    namespace = defaultNamespace,
+    namespace = DEFAULT_NAMESPACE,
     prefix
   } = {}
 ) {

@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
 import includes from 'lodash/includes';
 import invariant from 'invariant';
-import { ACTION_TYPE_DELIMITER } from './combineActions';
+import { ACTION_TYPE_DELIMITER } from './constants';
 
 export default function handleAction(type, reducer = identity, defaultState) {
   const types = type.toString().split(ACTION_TYPE_DELIMITER);

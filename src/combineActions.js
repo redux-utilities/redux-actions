@@ -4,8 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import toString from 'lodash/toString';
 import isSymbol from 'lodash/isSymbol';
 import invariant from 'invariant';
-
-export const ACTION_TYPE_DELIMITER = '||';
+import { ACTION_TYPE_DELIMITER } from './constants';
 
 function isValidActionType(type) {
   return isString(type) || isFunction(type) || isSymbol(type);
