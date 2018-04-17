@@ -1,4 +1,6 @@
-module.exports = function useLodashEs() {
+/* eslint-disable unicorn/filename-case */
+
+module.exports = () => {
   return {
     visitor: {
       ImportDeclaration(path) {

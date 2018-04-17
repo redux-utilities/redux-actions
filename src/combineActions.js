@@ -22,6 +22,8 @@ export default function combineActions(...actionsTypes) {
     isValidActionTypes(actionsTypes),
     'Expected action types to be strings, symbols, or action creators'
   );
-  const combinedActionType = actionsTypes.map(toString).join(ACTION_TYPE_DELIMITER);
+  const combinedActionType = actionsTypes
+    .map(toString)
+    .join(ACTION_TYPE_DELIMITER);
   return { toString: () => combinedActionType };
 }

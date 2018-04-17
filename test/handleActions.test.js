@@ -1,46 +1,13 @@
-import { expect } from 'chai';
-import { handleActions, createAction, createActions, combineActions } from '../';
+import handleActions from '../src/handleActions';
+import createAction from '../src/createAction';
+import createActions from '../src/createActions';
+import combineActions from '../src/combineActions';
 
-describe('handleActions', () => {
-  const defaultState = { counter: 0 };
+const defaultState = { counter: 0 };
 
-  it('should throw an error when defaultState is not defined', () => {
-    expect(() => {
-      handleActions({
-        INCREMENT: ({ counter }, { payload: amount }) => ({
-          counter: counter + amount
-        }),
-
-        DECREMENT: ({ counter }, { payload: amount }) => ({
-          counter: counter - amount
-        })
-      });
-    }).to.throw(
-      Error,
-      'defaultState for reducer handling INCREMENT should be defined'
-    );
-  });
-
-  it('should throw an error when defaultState is not defined for combinedActions', () => {
-    expect(() => {
-      handleActions({
-        [
-          combineActions(
-            'INCREMENT',
-            'DECREMENT'
-          )
-        ]: ({ counter }, { type, payload: amount }) => ({
-          counter: counter + (type === 'INCREMENT' ? +1 : -1) * amount
-        })
-      });
-    }).to.throw(
-      Error,
-      'defaultState for reducer handling INCREMENT, DECREMENT should be defined'
-    );
-  });
-
-  it('create a single handler from a map of multiple action handlers', () => {
-    const reducer = handleActions({
+test('throws an error when defaultState is not defined', () => {
+  expect(() => {
+    handleActions({
       INCREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       }),
@@ -48,98 +15,126 @@ describe('handleActions', () => {
       DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
       })
-    }, defaultState);
+    });
+  }).toThrow('defaultState for reducer handling INCREMENT should be defined');
+});
 
-    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 10
-      });
-    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 3
-      });
+test('throws an error when defaultState is not defined for combinedActions', () => {
+  expect(() => {
+    handleActions({
+      [combineActions('INCREMENT', 'DECREMENT')]: (
+        { counter },
+        { type, payload: amount }
+      ) => ({
+        counter: counter + (type === 'INCREMENT' ? +1 : -1) * amount
+      })
+    });
+  }).toThrow(
+    'defaultState for reducer handling INCREMENT, DECREMENT should be defined'
+  );
+});
+
+test('creates a single handler from a map of multiple action handlers', () => {
+  const reducer = handleActions(
+    {
+      INCREMENT: ({ counter }, { payload: amount }) => ({
+        counter: counter + amount
+      }),
+
+      DECREMENT: ({ counter }, { payload: amount }) => ({
+        counter: counter - amount
+      })
+    },
+    defaultState
+  );
+
+  expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 })).toEqual({
+    counter: 10
   });
-
-  it('create a single handler from a JavaScript Map of multiple action handlers', () => {
-    const reducer = handleActions(
-      new Map([
-        [
-          'INCREMENT',
-          (state, action) => ({
-            counter: state.counter + action.payload
-          })
-        ],
-
-        [
-          'DECREMENT',
-          (state, action) => ({
-            counter: state.counter - action.payload
-          })
-        ]
-      ]),
-      defaultState
-    );
-
-    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 10
-      });
-    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 3
-      });
+  expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 })).toEqual({
+    counter: 3
   });
+});
 
-  it('works with function action types', () => {
-    const increment = createAction('INCREMENT');
-    const decrement = createAction('DECREMENT');
+test('creates a single handler from a JavaScript Map of multiple action handlers', () => {
+  const reducer = handleActions(
+    new Map([
+      [
+        'INCREMENT',
+        (state, action) => ({
+          counter: state.counter + action.payload
+        })
+      ],
 
-    const reducer = handleActions(
-      new Map([
-        [
-          increment,
-          (state, action) => ({
-            counter: state.counter + action.payload
-          })
-        ],
+      [
+        'DECREMENT',
+        (state, action) => ({
+          counter: state.counter - action.payload
+        })
+      ]
+    ]),
+    defaultState
+  );
 
-        [
-          decrement,
-          (state, action) => ({
-            counter: state.counter - action.payload
-          })
-        ]
-      ]),
-      defaultState
-    );
-
-    expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 10
-      });
-    expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 3
-      });
+  expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 })).toEqual({
+    counter: 10
   });
+  expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 })).toEqual({
+    counter: 3
+  });
+});
 
-  it('works with symbol action types', () => {
-    const INCREMENT = Symbol();
+test('works with function action types', () => {
+  const increment = createAction('INCREMENT');
+  const decrement = createAction('DECREMENT');
 
-    const reducer = handleActions({
+  const reducer = handleActions(
+    new Map([
+      [
+        increment,
+        (state, action) => ({
+          counter: state.counter + action.payload
+        })
+      ],
+
+      [
+        decrement,
+        (state, action) => ({
+          counter: state.counter - action.payload
+        })
+      ]
+    ]),
+    defaultState
+  );
+
+  expect(reducer({ counter: 3 }, { type: 'INCREMENT', payload: 7 })).toEqual({
+    counter: 10
+  });
+  expect(reducer({ counter: 10 }, { type: 'DECREMENT', payload: 7 })).toEqual({
+    counter: 3
+  });
+});
+
+test('works with symbol action types', () => {
+  const INCREMENT = Symbol('increment');
+
+  const reducer = handleActions(
+    {
       [INCREMENT]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
-    }, defaultState);
+    },
+    defaultState
+  );
 
-    expect(reducer({ counter: 3 }, { type: INCREMENT, payload: 7 }))
-      .to.deep.equal({
-        counter: 10
-      });
+  expect(reducer({ counter: 3 }, { type: INCREMENT, payload: 7 })).toEqual({
+    counter: 10
   });
+});
 
-  it('accepts a default state used when previous state is undefined', () => {
-    const reducer = handleActions({
+test('accepts a default state used when previous state is undefined', () => {
+  const reducer = handleActions(
+    {
       INCREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       }),
@@ -147,59 +142,78 @@ describe('handleActions', () => {
       DECREMENT: ({ counter }, { payload: amount }) => ({
         counter: counter - amount
       })
-    }, { counter: 3 });
+    },
+    { counter: 3 }
+  );
 
-    expect(reducer(undefined, { type: 'INCREMENT', payload: 7 }))
-      .to.deep.equal({
-        counter: 10
-      });
+  expect(reducer(undefined, { type: 'INCREMENT', payload: 7 })).toEqual({
+    counter: 10
   });
+});
 
-  it('accepts action function as action type', () => {
-    const incrementAction = createAction('INCREMENT');
-    const reducer = handleActions({
+test('accepts action function as action type', () => {
+  const incrementAction = createAction('INCREMENT');
+  const reducer = handleActions(
+    {
       [incrementAction]: ({ counter }, { payload: amount }) => ({
         counter: counter + amount
       })
-    }, defaultState);
+    },
+    defaultState
+  );
 
-    expect(reducer({ counter: 3 }, incrementAction(7)))
-      .to.deep.equal({
-        counter: 10
-      });
+  expect(reducer({ counter: 3 }, incrementAction(7))).toEqual({
+    counter: 10
+  });
+});
+
+test('accepts combined actions as action types in single reducer form', () => {
+  const { increment, decrement } = createActions({
+    INCREMENT: amount => ({ amount }),
+    DECREMENT: amount => ({ amount: -amount })
   });
 
-  it('should accept combined actions as action types in single reducer form', () => {
-    const { increment, decrement } = createActions({
-      INCREMENT: amount => ({ amount }),
-      DECREMENT: amount => ({ amount: -amount })
-    });
+  const initialState = { counter: 10 };
 
-    const initialState = { counter: 10 };
-
-    const reducer = handleActions({
-      [combineActions(increment, decrement)](state, { payload: { amount } }) {
+  const reducer = handleActions(
+    {
+      [combineActions(increment, decrement)](
+        state,
+        {
+          payload: { amount }
+        }
+      ) {
         return { ...state, counter: state.counter + amount };
       }
-    }, defaultState);
+    },
+    defaultState
+  );
 
-    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
-    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
-    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 5 });
+  expect(reducer(initialState, increment(5))).toEqual({ counter: 15 });
+  expect(reducer(initialState, decrement(5))).toEqual({ counter: 5 });
+  expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).toBe(
+    initialState
+  );
+  expect(reducer(undefined, increment(5))).toEqual({ counter: 5 });
+});
+
+test('accepts combined actions as action types in the next/throw form', () => {
+  const { increment, decrement } = createActions({
+    INCREMENT: amount => ({ amount }),
+    DECREMENT: amount => ({ amount: -amount })
   });
 
-  it('should accept combined actions as action types in the next/throw form', () => {
-    const { increment, decrement } = createActions({
-      INCREMENT: amount => ({ amount }),
-      DECREMENT: amount => ({ amount: -amount })
-    });
+  const initialState = { counter: 10 };
 
-    const initialState = { counter: 10 };
-
-    const reducer = handleActions({
+  const reducer = handleActions(
+    {
       [combineActions(increment, decrement)]: {
-        next(state, { payload: { amount } }) {
+        next(
+          state,
+          {
+            payload: { amount }
+          }
+        ) {
           return { ...state, counter: state.counter + amount };
         },
 
@@ -207,28 +221,31 @@ describe('handleActions', () => {
           return { ...state, counter: 0 };
         }
       }
-    }, defaultState);
-    const error = new Error;
+    },
+    defaultState
+  );
+  const error = new Error();
 
-    // non-errors
-    expect(reducer(initialState, increment(5))).to.deep.equal({ counter: 15 });
-    expect(reducer(initialState, decrement(5))).to.deep.equal({ counter: 5 });
-    expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).to.equal(initialState);
-    expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 5 });
+  // Non-Errors
+  expect(reducer(initialState, increment(5))).toEqual({ counter: 15 });
+  expect(reducer(initialState, decrement(5))).toEqual({ counter: 5 });
+  expect(reducer(initialState, { type: 'NOT_TYPE', payload: 1000 })).toBe(
+    initialState
+  );
+  expect(reducer(undefined, increment(5))).toEqual({ counter: 5 });
 
-    // errors
-    expect(
-      reducer(initialState, { type: 'INCREMENT', payload: error, error: true })
-    ).to.deep.equal({ counter: 0 });
-    expect(
-      reducer(initialState, decrement(error))
-    ).to.deep.equal({ counter: 0 });
-  });
+  // Errors
+  expect(
+    reducer(initialState, { type: 'INCREMENT', payload: error, error: true })
+  ).toEqual({ counter: 0 });
+  expect(reducer(initialState, decrement(error))).toEqual({ counter: 0 });
+});
 
-  it('should work with createActions action creators', () => {
-    const { increment, decrement } = createActions('INCREMENT', 'DECREMENT');
+test('works with createActions action creators', () => {
+  const { increment, decrement } = createActions('INCREMENT', 'DECREMENT');
 
-    const reducer = handleActions({
+  const reducer = handleActions(
+    {
       [increment]: ({ counter }, { payload }) => ({
         counter: counter + payload
       }),
@@ -236,46 +253,47 @@ describe('handleActions', () => {
       [decrement]: ({ counter }, { payload }) => ({
         counter: counter - payload
       })
-    }, defaultState);
+    },
+    defaultState
+  );
 
-    expect(reducer({ counter: 3 }, increment(2)))
-      .to.deep.equal({
-        counter: 5
-      });
-    expect(reducer({ counter: 10 }, decrement(3)))
-      .to.deep.equal({
-        counter: 7
-      });
+  expect(reducer({ counter: 3 }, increment(2))).toEqual({
+    counter: 5
+  });
+  expect(reducer({ counter: 10 }, decrement(3))).toEqual({
+    counter: 7
+  });
+});
+
+test('works with namespaced actions', () => {
+  const {
+    app: {
+      counter: { increment, decrement },
+      notify
+    }
+  } = createActions({
+    APP: {
+      COUNTER: {
+        INCREMENT: [
+          amount => ({ amount }),
+          amount => ({ key: 'value', amount })
+        ],
+        DECREMENT: amount => ({ amount: -amount })
+      },
+      NOTIFY: [
+        (username, message) => ({ message: `${username}: ${message}` }),
+        (username, message) => ({ username, message })
+      ]
+    }
   });
 
-  it('should work with namespaced actions', () => {
-    const {
-      app: {
-        counter: {
-          increment,
-          decrement
-        },
-        notify
-      }
-    } = createActions({
-      APP: {
-        COUNTER: {
-          INCREMENT: [
-            amount => ({ amount }),
-            amount => ({ key: 'value', amount })
-          ],
-          DECREMENT: amount => ({ amount: -amount })
-        },
-        NOTIFY: [
-          (username, message) => ({ message: `${username}: ${message}` }),
-          (username, message) => ({ username, message })
-        ]
-      }
-    });
-
-    // note: we should be using combineReducers in production, but this is just a test
-    const reducer = handleActions({
-      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
+  // NOTE: We should be using combineReducers in production, but this is just a test.
+  const reducer = handleActions(
+    {
+      [combineActions(increment, decrement)]: (
+        { counter, message },
+        { payload: { amount } }
+      ) => ({
         counter: counter + amount,
         message
       }),
@@ -284,56 +302,129 @@ describe('handleActions', () => {
         counter,
         message: `${message}---${payload.message}`
       })
-    }, { counter: 0, message: '' });
+    },
+    { counter: 0, message: '' }
+  );
 
-    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
-      counter: 5,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
-      counter: 7,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
-      counter: 10,
-      message: 'hello---me: goodbye'
-    });
+  expect(reducer({ counter: 3, message: 'hello' }, increment(2))).toEqual({
+    counter: 5,
+    message: 'hello'
+  });
+  expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).toEqual({
+    counter: 7,
+    message: 'hello'
+  });
+  expect(
+    reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))
+  ).toEqual({
+    counter: 10,
+    message: 'hello---me: goodbye'
+  });
+});
+
+test('returns default state with empty handlers and undefined previous state', () => {
+  const { unhandled } = createActions('UNHANDLED');
+  const reducer = handleActions({}, defaultState);
+
+  expect(reducer(undefined, unhandled())).toEqual(defaultState);
+});
+
+test('returns previous defined state with empty handlers', () => {
+  const { unhandled } = createActions('UNHANDLED');
+  const reducer = handleActions({}, defaultState);
+
+  expect(reducer({ counter: 10 }, unhandled())).toEqual({ counter: 10 });
+});
+
+test('throws an error if handlers object has the wrong type', () => {
+  const wrongTypeHandlers = [1, 'string', [], null];
+
+  wrongTypeHandlers.forEach(wrongTypeHandler => {
+    expect(() => handleActions(wrongTypeHandler, defaultState)).toThrow(
+      'Expected handlers to be a plain object.'
+    );
+  });
+});
+
+test('works with nested reducerMap', () => {
+  const {
+    app: {
+      counter: { increment, decrement },
+      notify
+    }
+  } = createActions({
+    APP: {
+      COUNTER: {
+        INCREMENT: [
+          amount => ({ amount }),
+          amount => ({ key: 'value', amount })
+        ],
+        DECREMENT: amount => ({ amount: -amount })
+      },
+      NOTIFY: [
+        (username, message) => ({ message: `${username}: ${message}` }),
+        (username, message) => ({ username, message })
+      ]
+    }
   });
 
-  it('should return default state with empty handlers and undefined previous state', () => {
-    const { unhandled } = createActions('UNHANDLED');
-    const reducer = handleActions({}, defaultState);
+  // NOTE: We should be using combineReducers in production, but this is just a test.
+  const reducer = handleActions(
+    {
+      [combineActions(increment, decrement)]: (
+        { counter, message },
+        { payload: { amount } }
+      ) => ({
+        counter: counter + amount,
+        message
+      }),
 
-    expect(reducer(undefined, unhandled())).to.deep.equal(defaultState);
-  });
-
-  it('should return previous defined state with empty handlers', () => {
-    const { unhandled } = createActions('UNHANDLED');
-    const reducer = handleActions({}, defaultState);
-
-    expect(reducer({ counter: 10 }, unhandled())).to.deep.equal({ counter: 10 });
-  });
-
-  it('should throw an error if handlers object has the wrong type', () => {
-    const wrongTypeHandlers = [1, 'string', [], null];
-
-    wrongTypeHandlers.forEach(wrongTypeHandler => {
-      expect(
-        () => handleActions(wrongTypeHandler, defaultState)
-      ).to.throw(Error, 'Expected handlers to be a plain object.');
-    });
-  });
-
-  it('should work with nested reducerMap', () => {
-    const {
-      app: {
-        counter: {
-          increment,
-          decrement
-        },
-        notify
+      APP: {
+        NOTIFY: {
+          next: ({ counter, message }, { payload }) => ({
+            counter,
+            message: `${message}---${payload.message}`
+          }),
+          throw: ({ _, message }, { payload }) => ({
+            counter: 0,
+            message: `${message}-x-${payload.message}`
+          })
+        }
       }
-    } = createActions({
+    },
+    { counter: 0, message: '' }
+  );
+
+  expect(reducer({ counter: 3, message: 'hello' }, increment(2))).toEqual({
+    counter: 5,
+    message: 'hello'
+  });
+  expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).toEqual({
+    counter: 7,
+    message: 'hello'
+  });
+  expect(
+    reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))
+  ).toEqual({
+    counter: 10,
+    message: 'hello---me: goodbye'
+  });
+
+  const error = new Error('no notification');
+  expect(reducer({ counter: 10, message: 'hello' }, notify(error))).toEqual({
+    counter: 0,
+    message: 'hello-x-no notification'
+  });
+});
+
+test('works with nested reducerMap and namespace', () => {
+  const {
+    app: {
+      counter: { increment, decrement },
+      notify
+    }
+  } = createActions(
+    {
       APP: {
         COUNTER: {
           INCREMENT: [
@@ -347,11 +438,17 @@ describe('handleActions', () => {
           (username, message) => ({ username, message })
         ]
       }
-    });
+    },
+    { namespace: ':' }
+  );
 
-    // note: we should be using combineReducers in production, but this is just a test
-    const reducer = handleActions({
-      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
+  // NOTE: We should be using combineReducers in production, but this is just a test.
+  const reducer = handleActions(
+    {
+      [combineActions(increment, decrement)]: (
+        { counter, message },
+        { payload: { amount } }
+      ) => ({
         counter: counter + amount,
         message
       }),
@@ -362,107 +459,47 @@ describe('handleActions', () => {
             counter,
             message: `${message}---${payload.message}`
           }),
-          throw: ({ counter, message }, { payload }) => ({
+          throw: ({ _, message }, { payload }) => ({
             counter: 0,
             message: `${message}-x-${payload.message}`
           })
         }
       }
-    }, { counter: 0, message: '' });
+    },
+    { counter: 0, message: '' },
+    { namespace: ':' }
+  );
 
-    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
-      counter: 5,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
-      counter: 7,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
-      counter: 10,
-      message: 'hello---me: goodbye'
-    });
+  expect(String(increment)).toBe('APP:COUNTER:INCREMENT');
 
-    const error = new Error('no notification');
-    expect(reducer({ counter: 10, message: 'hello' }, notify(error))).to.deep.equal({
-      counter: 0,
-      message: 'hello-x-no notification'
-    });
+  expect(reducer({ counter: 3, message: 'hello' }, increment(2))).toEqual({
+    counter: 5,
+    message: 'hello'
+  });
+  expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).toEqual({
+    counter: 7,
+    message: 'hello'
+  });
+  expect(
+    reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))
+  ).toEqual({
+    counter: 10,
+    message: 'hello---me: goodbye'
   });
 
-  it('should work with nested reducerMap and namespace', () => {
-    const {
-      app: {
-        counter: {
-          increment,
-          decrement
-        },
-        notify
-      }
-    } = createActions({
-      APP: {
-        COUNTER: {
-          INCREMENT: [
-            amount => ({ amount }),
-            amount => ({ key: 'value', amount })
-          ],
-          DECREMENT: amount => ({ amount: -amount })
-        },
-        NOTIFY: [
-          (username, message) => ({ message: `${username}: ${message}` }),
-          (username, message) => ({ username, message })
-        ]
-      }
-    }, { namespace: ':' });
-
-    // note: we should be using combineReducers in production, but this is just a test
-    const reducer = handleActions({
-      [combineActions(increment, decrement)]: ({ counter, message }, { payload: { amount } }) => ({
-        counter: counter + amount,
-        message
-      }),
-
-      APP: {
-        NOTIFY: {
-          next: ({ counter, message }, { payload }) => ({
-            counter,
-            message: `${message}---${payload.message}`
-          }),
-          throw: ({ counter, message }, { payload }) => ({
-            counter: 0,
-            message: `${message}-x-${payload.message}`
-          })
-        }
-      }
-    }, { counter: 0, message: '' }, { namespace: ':' });
-
-    expect(String(increment)).to.equal('APP:COUNTER:INCREMENT');
-
-    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
-      counter: 5,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, decrement(3))).to.deep.equal({
-      counter: 7,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 10, message: 'hello' }, notify('me', 'goodbye'))).to.deep.equal({
-      counter: 10,
-      message: 'hello---me: goodbye'
-    });
-
-    const error = new Error('no notification');
-    expect(reducer({ counter: 10, message: 'hello' }, notify(error))).to.deep.equal({
-      counter: 0,
-      message: 'hello-x-no notification'
-    });
+  const error = new Error('no notification');
+  expect(reducer({ counter: 10, message: 'hello' }, notify(error))).toEqual({
+    counter: 0,
+    message: 'hello-x-no notification'
   });
+});
 
-  it('should work with nested reducerMap and identity handlers', () => {
-    const noop = createAction('APP/NOOP');
-    const increment = createAction('APP/INCREMENT');
+test('works with nested reducerMap and identity handlers', () => {
+  const noop = createAction('APP/NOOP');
+  const increment = createAction('APP/INCREMENT');
 
-    const reducer = handleActions({
+  const reducer = handleActions(
+    {
       APP: {
         NOOP: undefined,
         INCREMENT: {
@@ -473,21 +510,22 @@ describe('handleActions', () => {
           throw: null
         }
       }
-    }, { counter: 0, message: '' });
+    },
+    { counter: 0, message: '' }
+  );
 
-    expect(reducer({ counter: 3, message: 'hello' }, noop('anything'))).to.deep.equal({
-      counter: 3,
-      message: 'hello'
-    });
-    expect(reducer({ counter: 3, message: 'hello' }, increment(2))).to.deep.equal({
-      counter: 5,
-      message: 'hello'
-    });
+  expect(reducer({ counter: 3, message: 'hello' }, noop('anything'))).toEqual({
+    counter: 3,
+    message: 'hello'
+  });
+  expect(reducer({ counter: 3, message: 'hello' }, increment(2))).toEqual({
+    counter: 5,
+    message: 'hello'
+  });
 
-    const error = new Error('cannot increment by Infinity');
-    expect(reducer({ counter: 3, message: 'hello' }, increment(error))).to.deep.equal({
-      counter: 3,
-      message: 'hello'
-    });
+  const error = new Error('cannot increment by Infinity');
+  expect(reducer({ counter: 3, message: 'hello' }, increment(error))).toEqual({
+    counter: 3,
+    message: 'hello'
   });
 });

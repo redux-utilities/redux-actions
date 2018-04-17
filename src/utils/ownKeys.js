@@ -1,7 +1,6 @@
 import isMap from 'lodash/isMap';
 
 export default function ownKeys(object) {
-
   if (isMap(object)) {
     return Array.from(object.keys());
   }

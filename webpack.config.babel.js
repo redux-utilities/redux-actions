@@ -1,5 +1,5 @@
-import webpack from 'webpack';
 import path from 'path';
+import webpack from 'webpack';
 
 const { NODE_ENV } = process.env;
 const production = NODE_ENV === 'production';
