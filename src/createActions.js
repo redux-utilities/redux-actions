@@ -11,9 +11,9 @@ import invariant from 'invariant';
 import arrayToObject from './utils/arrayToObject';
 import {
   flattenActionMap,
-  unflattenActionCreators,
-  defaultNamespace
+  unflattenActionCreators
 } from './utils/flattenUtils';
+import { DEFAULT_NAMESPACE } from './constants';
 
 export default function createActions(actionMap, ...identityActions) {
   const options = isPlainObject(last(identityActions))
@@ -39,7 +39,7 @@ function actionCreatorsFromActionMap(actionMap, options) {
   return unflattenActionCreators(flatActionCreators, options);
 }
 
-function actionMapToActionCreators(actionMap, { prefix, namespace = defaultNamespace } = {}) {
+function actionMapToActionCreators(actionMap, { prefix, namespace = DEFAULT_NAMESPACE } = {}) {
   function isValidActionMapValue(actionMapValue) {
     if (isFunction(actionMapValue) || isNil(actionMapValue)) {
       return true;
