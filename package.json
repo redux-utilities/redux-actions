@@ -6,18 +6,19 @@
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "scripts": {
+    "precommit": "lint-staged",
+    "format": "prettier --write \"**/*.{js,md}\"",
+    "format:check": "prettier --list-different \"**/*.{js,md}\"",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore *-test.js",
     "build:commonjs": "babel src --out-dir lib --ignore *-test.js",
     "build:umd": "cross-env NODE_ENV=development webpack",
     "build:umd:min": "cross-env NODE_ENV=production webpack",
     "build": "npm run clean && npm run build:es && npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "clean": "rimraf lib es",
-    "lint": "esw build src webpack.config --color",
-    "lint:fix": "npm run lint -- --fix",
-    "lint:watch": "npm run lint -- --watch",
-    "prepublish": "npm run lint && npm run test && npm run build",
-    "test": "mocha --compilers js:babel-register src/**/*-test.js",
-    "test:watch": "npm run test -- --watch src/**/*-test.js",
+    "lint": "xo",
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build -g acdlite/redux-actions",
@@ -48,28 +49,56 @@
   "devDependencies": {
     "babel-cli": "^6.7.7",
     "babel-core": "^6.7.7",
-    "babel-eslint": "^6.1.1",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.6.0",
-    "babel-register": "^6.7.2",
-    "chai": "^3.0.0",
     "cross-env": "^2.0.0",
-    "eslint": "^2.8.0",
-    "eslint-config-airbnb-base": "^1.0.3",
-    "eslint-plugin-import": "^1.5.0",
-    "eslint-watch": "^2.1.13",
+    "eslint-plugin-prettier": "^2.6.0",
     "flux-standard-action": "^1.0.0",
     "gitbook-cli": "^2.3.0",
-    "mocha": "^2.2.5",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
+    "lint-staged": "^7.0.4",
+    "prettier": "^1.12.1",
     "rimraf": "^2.5.3",
     "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.11"
+    "webpack-cli": "^2.0.11",
+    "xo": "^0.20.3"
   },
   "dependencies": {
     "invariant": "^2.2.1",
     "lodash": "^4.13.1",
     "lodash-es": "^4.17.4",
     "reduce-reducers": "^0.1.0"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        {
+          "case": "camelCase"
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": "test/**/*.js",
+        "env": ["jest"]
+      }
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  },
+  "lint-staged": {
+    "*.{js,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
