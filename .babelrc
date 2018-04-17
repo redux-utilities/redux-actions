@@ -5,7 +5,7 @@
   ],
   "env": {
     "es": {
-      "presets": [["env", { modules: false }]],
+      "presets": [["env", { "modules": false }]],
       "plugins": [
         "./build/use-lodash-es"
       ]
