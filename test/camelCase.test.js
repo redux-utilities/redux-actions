@@ -1,16 +1,13 @@
-import camelCase from '../camelCase';
-import { expect } from 'chai';
+import camelCase from '../src/utils/camelCase';
 
-describe('camelCase', () => {
-  it('should camel case a conventional action type', () => {
-    expect(camelCase('MY_ACTION')).to.equal('myAction');
-  });
+test('camel-cases a conventional action type', () => {
+  expect(camelCase('MY_ACTION')).toBe('myAction');
+});
 
-  it('should include forward slashes in words', () => {
-    expect(camelCase('NAMESPACE/MY_ACTION')).to.equal('namespace/myAction');
-  });
+test('includes forward slashes in words', () => {
+  expect(camelCase('NAMESPACE/MY_ACTION')).toBe('namespace/myAction');
+});
 
-  it('should do nothing to an already camel-cased action type', () => {
-    expect(camelCase('myAction')).to.equal('myAction');
-  });
+test('does nothing to an already camel-cased action type', () => {
+  expect(camelCase('myAction')).toBe('myAction');
 });

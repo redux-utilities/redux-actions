@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "node"
 script:
+  - npm run format:check
   - npm run lint
   - npm test
-  - npm run build
+after_success:
+  - npx codecov
