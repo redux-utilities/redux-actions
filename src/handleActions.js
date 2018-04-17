@@ -3,8 +3,8 @@ import isMap from 'lodash/isMap';
 import reduceReducers from 'reduce-reducers';
 import invariant from 'invariant';
 import handleAction from './handleAction';
-import ownKeys from './ownKeys';
-import { flattenReducerMap } from './flattenUtils';
+import ownKeys from './utils/ownKeys';
+import { flattenReducerMap } from './utils/flattenUtils';
 
 function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];
