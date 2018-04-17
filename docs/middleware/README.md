@@ -16,10 +16,9 @@ handleAction('ADD_TODO', (state = { todos: [] }, action) => ({
 // ...that works with all of these forms:
 // (Don't forget to use `bindActionCreators()` or equivalent.
 // I've left that bit out)
-addTodo('Use Redux')
+addTodo('Use Redux');
 addTodo(Promise.resolve('Weep with joy'));
-addTodo(Observable.of(
-  'Learn about middleware',
-  'Learn about higher-order stores'
-)).subscribe();
+addTodo(
+  Observable.of('Learn about middleware', 'Learn about higher-order stores')
+).subscribe();
 ```

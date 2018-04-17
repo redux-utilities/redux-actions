@@ -34,10 +34,15 @@ If the reducer argument (`reducer`) is `undefined`, then the identity function i
 The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
 ###### EXAMPLE
+
 ```js
-handleAction('APP/COUNTER/INCREMENT', (state, action) => ({
-  counter: state.counter + action.payload.amount,
-}), defaultState);
+handleAction(
+  'APP/COUNTER/INCREMENT',
+  (state, action) => ({
+    counter: state.counter + action.payload.amount
+  }),
+  defaultState
+);
 ```
 
 #### `handleAction(type, reducerMap, defaultState)`{#handleactiontype-reducermap-defaultstate}
@@ -47,6 +52,7 @@ Otherwise, you can specify separate reducers for `next()` and `throw()` using th
 If the reducer argument (`reducerMap`) is `undefined`, then the identity function is used.
 
 ###### EXAMPLE
+
 ```js
 handleAction('FETCH_DATA', {
   next(state, action) {...},
@@ -59,10 +65,7 @@ If either `next()` or `throw()` are `undefined` or `null`, then the identity fun
 ### handleActions
 
 ```js
-handleActions(
-  reducerMap,
-  defaultState,
-)
+handleActions(reducerMap, defaultState);
 ```
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
@@ -82,16 +85,20 @@ The second parameter `defaultState` is required, and is used when `undefined` is
 ###### EXAMPLE
 
 ```js
-const reducer = handleActions({
-  INCREMENT: (state, action) => ({
-    counter: state.counter + action.payload
-  }),
+const reducer = handleActions(
+  {
+    INCREMENT: (state, action) => ({
+      counter: state.counter + action.payload
+    }),
 
-  DECREMENT: (state, action) => ({
-    counter: state.counter - action.payload
-  })
-}, { counter: 0 });
+    DECREMENT: (state, action) => ({
+      counter: state.counter - action.payload
+    })
+  },
+  { counter: 0 }
+);
 ```
+
 Or using a JavaScript `Map` type:
 
 ```js
@@ -116,7 +123,6 @@ const reducer = handleActions(
 ```
 
 You can also use an action function as the key to a reduce function instead of using a string const:
-
 
 ```js
 const increment = createAction(INCREMENT);

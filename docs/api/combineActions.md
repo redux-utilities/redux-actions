@@ -9,9 +9,7 @@
 ### combineActions
 
 ```js
-combineActions(
-  ...types,
-)
+combineActions(...types);
 ```
 
 Combine any number of action types or action creators. `types` is a list of positional arguments which can be action type strings, symbols, or action creators.
@@ -44,20 +42,31 @@ expect(reducer(undefined, decrement(new Error)).to.deep.equal({ counter: 0 })
 Below is how you would use `combineActions` and `handleActions` together
 
 ###### EXAMPLE
+
 ```js
 const { increment, decrement } = createActions({
   INCREMENT: amount => ({ amount }),
   DECREMENT: amount => ({ amount: -amount })
 });
 
-const reducer = handleActions({
-  [combineActions(increment, decrement)](state, { payload: { amount } }) {
-    return { ...state, counter: state.counter + amount };
-  }
-}, { counter: 10 });
+const reducer = handleActions(
+  {
+    [combineActions(increment, decrement)](
+      state,
+      {
+        payload: { amount }
+      }
+    ) {
+      return { ...state, counter: state.counter + amount };
+    }
+  },
+  { counter: 10 }
+);
 
 expect(reducer({ counter: 5 }, increment(5))).to.deep.equal({ counter: 10 });
 expect(reducer({ counter: 5 }, decrement(5))).to.deep.equal({ counter: 0 });
-expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({ counter: 5 });
+expect(reducer({ counter: 5 }, { type: 'NOT_TYPE', payload: 1000 })).to.equal({
+  counter: 5
+});
 expect(reducer(undefined, increment(5))).to.deep.equal({ counter: 15 });
 ```
