@@ -36,17 +36,17 @@ Calling `createAction` with a `type` will return an action creator for dispatchi
 ###### EXAMPLE
 
 ```js
-export const increment = createAction('INCREMENT')
-export const decrement = createAction('DECREMENT')
+export const increment = createAction('INCREMENT');
+export const decrement = createAction('DECREMENT');
 
-increment() // { type: 'INCREMENT' }
-decrement() // { type: 'DECREMENT' }
-increment(10) // { type: 'INCREMENT', payload: 10 }
-decrement([1, 42]) // { type: 'DECREMENT', payload: [1, 42] }
+increment(); // { type: 'INCREMENT' }
+decrement(); // { type: 'DECREMENT' }
+increment(10); // { type: 'INCREMENT', payload: 10 }
+decrement([1, 42]); // { type: 'DECREMENT', payload: [1, 42] }
 ```
 
 If the payload is an instance of an [Error object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),
- `redux-actions` will automatically set `action.error` to true.
+`redux-actions` will automatically set `action.error` to true.
 
 ###### EXAMPLE
 
@@ -110,7 +110,6 @@ expect(noop(42)).to.deep.equal({
 });
 ```
 
-
 #### `createAction(type, payloadCreator, metaCreator)` {#createactiontype-payloadcreator-metacreator}
 
 `metaCreator` is an optional function that creates metadata for the payload. It receives the same arguments as the payload creator, but its result becomes the meta field of the resulting action. If `metaCreator` is undefined or not a function, the meta field is omitted.
@@ -118,12 +117,13 @@ expect(noop(42)).to.deep.equal({
 ###### EXAMPLE
 
 ```js
-const updateAdminUser = createAction('UPDATE_ADMIN_USER',
-  (updates) => updates,
+const updateAdminUser = createAction(
+  'UPDATE_ADMIN_USER',
+  updates => updates,
   () => ({ admin: true })
-)
+);
 
-updateAdminUser({ name: 'Foo' })
+updateAdminUser({ name: 'Foo' });
 // {
 //   type: 'UPDATE_ADMIN_USER',
 //   payload: { name: 'Foo' },
@@ -156,6 +156,7 @@ import { createActions } from 'redux-actions';
 * an `actionMap`
 
 ###### EXAMPLE
+
 ```js
 createActions({
   ADD_TODO: todo => ({ todo }), // payload creator
@@ -169,14 +170,12 @@ createActions({
 If `actionMap` has a recursive structure, its leaves are used as payload and meta creators, and the action type for each leaf is the combined path to that leaf:
 
 ###### EXAMPLE
+
 ```js
 const actionCreators = createActions({
   APP: {
     COUNTER: {
-      INCREMENT: [
-        amount => ({ amount }),
-        amount => ({ key: 'value', amount })
-      ],
+      INCREMENT: [amount => ({ amount }), amount => ({ key: 'value', amount })],
       DECREMENT: amount => ({ amount: -amount }),
       SET: undefined // given undefined, the identity function will be used
     },
@@ -200,7 +199,9 @@ expect(actionCreators.app.counter.set(100)).to.deep.equal({
   type: 'APP/COUNTER/SET',
   payload: 100
 });
-expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equal({
+expect(
+  actionCreators.app.notify('yangmillstheory', 'Hello World')
+).to.deep.equal({
   type: 'APP/NOTIFY',
   payload: { message: 'yangmillstheory: Hello World' },
   meta: { username: 'yangmillstheory', message: 'Hello World' }
@@ -210,6 +211,7 @@ expect(actionCreators.app.notify('yangmillstheory', 'Hello World')).to.deep.equa
 When using this form, you can pass an object with key `namespace` as the last positional argument (the default is `/`).
 
 ###### EXAMPLE
+
 ```js
 createActions({ ... }, 'INCREMENT', { namespace: '--' })
 ```
@@ -219,18 +221,21 @@ createActions({ ... }, 'INCREMENT', { namespace: '--' })
 `identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
 
 ```js
-const { actionOne, actionTwo, actionThree } = createActions({
-  // function form; payload creator defined inline
-  ACTION_ONE: (key, value) => ({ [key]: value }),
+const { actionOne, actionTwo, actionThree } = createActions(
+  {
+    // function form; payload creator defined inline
+    ACTION_ONE: (key, value) => ({ [key]: value }),
 
-  // array form
-  ACTION_TWO: [
-    (first) => [first],             // payload
-    (first, second) => ({ second }) // meta
-  ],
+    // array form
+    ACTION_TWO: [
+      first => [first], // payload
+      (first, second) => ({ second }) // meta
+    ]
 
-  // trailing action type string form; payload creator is the identity
-}, 'ACTION_THREE');
+    // trailing action type string form; payload creator is the identity
+  },
+  'ACTION_THREE'
+);
 
 expect(actionOne('key', 1)).to.deep.equal({
   type: 'ACTION_ONE',
@@ -245,6 +250,6 @@ expect(actionTwo('first', 'second')).to.deep.equal({
 
 expect(actionThree(3)).to.deep.equal({
   type: 'ACTION_THREE',
-  payload: 3,
+  payload: 3
 });
 ```

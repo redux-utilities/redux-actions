@@ -16,13 +16,14 @@ $ yarn add redux-actions
 
 For UMD users
 
-The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
+The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We _don’t_ recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
 
 ### Vanilla Counter
 
 We are going to be building a simple counter, I recommend using something like [jsfiddle](https://jsfiddle.net/) or [codepen](https://codepen.io/pen/) or [webpackbin](https://www.webpackbin.com) if you would like to follow along, that way you do not need a complicated setup to grasp the basics of `redux-actions`. All of the source code for this example can be found [here](https://www.webpackbin.com/bins/-KntJIfbsxVzsD98UEWF).
 
 To begin we are going to need some scaffolding so here is some HTML to get started with. You may need to create a new file called main.js depending on where you are trying to set this tutorial up.
+
 ```html
 <!doctype html>
 <html>
@@ -69,10 +70,7 @@ const { createStore } = window.Redux;
 We are going to want to create our first action and handle that action.
 
 ```js
-const {
-  createAction,
-  handleAction
-} = window.ReduxActions;
+const { createAction, handleAction } = window.ReduxActions;
 ```
 
 Next lets create our first action, 'increment', using `createAction`.
@@ -84,10 +82,14 @@ const increment = createAction('INCREMENT');
 Next we are going to handle that action with `handleAction`. We can provide it our `increment` action to let it know which action to handle, a method to handle our state transformation, and the default state.
 
 ```js
-const reducer = handleAction(increment, (state, action) => ({
-  ...state,
-  counter: state.counter + 1
-}), defaultState);
+const reducer = handleAction(
+  increment,
+  (state, action) => ({
+    ...state,
+    counter: state.counter + 1
+  }),
+  defaultState
+);
 ```
 
 `handleAction` produced a reducer for our `redux` store. Now that we have a reducer we can create a store.
@@ -149,10 +151,7 @@ You might be thinking at this point we are all done. We have both buttons hooked
 We have declarations for both `increment` and `decrement` action creators. We can modify these lines from using `createAction` to using `createActions` like so.
 
 ```js
-const {
-  createActions,
-  handleActions
-} = window.ReduxActions;
+const { createActions, handleActions } = window.ReduxActions;
 
 const { increment, decrement } = createActions('INCREMENT', 'DECREMENT');
 ```
@@ -161,34 +160,39 @@ We can still do better though. What if we want an action like `'INCREMENT_FIVE'`
 
 ```js
 const { increment, decrement } = createActions({
-  'INCREMENT': (amount = 1) => ({ amount }),
-  'DECREMENT': (amount = 1) => ({ amount: -amount })
+  INCREMENT: (amount = 1) => ({ amount }),
+  DECREMENT: (amount = 1) => ({ amount: -amount })
 });
 
-const reducer = handleActions({
-  [increment]: (state, { payload: { amount } }) => {
-    return { ...state, counter: state.counter + amount }
+const reducer = handleActions(
+  {
+    [increment]: (state, { payload: { amount } }) => {
+      return { ...state, counter: state.counter + amount };
+    },
+    [decrement]: (state, { payload: { amount } }) => {
+      return { ...state, counter: state.counter + amount };
+    }
   },
-  [decrement]: (state, { payload: { amount } }) => {
-    return { ...state, counter: state.counter + amount }
-  }
-}, defaultState);
+  defaultState
+);
 ```
 
 Now that we have moved our logic, our `reducers` are looking identical. If only we could combine them somehow. Well we can! `combineActions` can be used to reduce multiple distinct actions with the same reducer.
 
 ```js
-const {
-  createActions,
-  handleActions,
-  combineActions
-} = window.ReduxActions;
+const { createActions, handleActions, combineActions } = window.ReduxActions;
 
-const reducer = handleActions({
-  [combineActions(increment, decrement)]: (state, { payload: { amount } }) => {
-    return { ...state, counter: state.counter + amount };
-  }
-}, defaultState);
+const reducer = handleActions(
+  {
+    [combineActions(increment, decrement)]: (
+      state,
+      { payload: { amount } }
+    ) => {
+      return { ...state, counter: state.counter + amount };
+    }
+  },
+  defaultState
+);
 ```
 
 We have finally used all of the tools that `redux-actions` has to offer. Concluding our [vanilla tutorial](https://www.webpackbin.com/bins/-KntJIfbsxVzsD98UEWF). This doesn't mean you don't have more to learn though. Much more can be accomplished using these tools in many ways, just head on over to the [API Reference](../api) to begin exploring what else `redux-actions` can do for you.

@@ -7,11 +7,11 @@
 > [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux
 
 ### Table of Contents
+
 * [Getting Started](#getting-started)
   * [Installation](#installation)
   * [Usage](#usage)
 * [Documentation](#documentation)
-
 
 # Getting Started
 
@@ -29,12 +29,12 @@ $ yarn add redux-actions
 
 The [npm](https://www.npmjs.com) package provides a [CommonJS](http://webpack.github.io/docs/commonjs.html) build for use in Node.js, and with bundlers like [Webpack](http://webpack.github.io/) and [Browserify](http://browserify.org/). It also includes an [ES modules](http://jsmodules.io/) build that works well with [Rollup](http://rollupjs.org/) and [Webpack2](https://webpack.js.org)'s tree-shaking.
 
-The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We *don’t* recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
+The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We _don’t_ recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
 
 ## Usage
 
 ```js
-import { createActions, handleActions, combineActions } from 'redux-actions'
+import { createActions, handleActions, combineActions } from 'redux-actions';
 
 const defaultState = { counter: 10 };
 
@@ -43,11 +43,19 @@ const { increment, decrement } = createActions({
   DECREMENT: (amount = 1) => ({ amount: -amount })
 });
 
-const reducer = handleActions({
-  [combineActions(increment, decrement)] (state, { payload: { amount } }) {
-    return { ...state, counter: state.counter + amount };
-  }
-}, defaultState);
+const reducer = handleActions(
+  {
+    [combineActions(increment, decrement)](
+      state,
+      {
+        payload: { amount }
+      }
+    ) {
+      return { ...state, counter: state.counter + amount };
+    }
+  },
+  defaultState
+);
 
 export default reducer;
 ```
