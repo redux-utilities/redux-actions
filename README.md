@@ -1,16 +1,10 @@
 # redux-actions
 
-[![build status](https://img.shields.io/travis/acdlite/redux-actions/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-actions)
+[![Build Status](https://travis-ci.org/redux-utilities/redux-actions.svg?branch=master)](https://travis-ci.org/redux-utilities/redux-actions)
+[![npm](https://img.shields.io/npm/v/redux-actions.svg)](https://www.npmjs.com/package/redux-actions)
+[![npm](https://img.shields.io/npm/dm/redux-actions.svg)](https://www.npmjs.com/package/reduce-actions)
 
-[![NPM](https://nodei.co/npm/redux-actions.png?downloads=true)](https://nodei.co/npm/redux-actions/)
-
-[Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
-
-## Looking for Maintainers!
-
-We are currently looking for people who can maintain and improve this library.
-
-See [#251](https://github.com/reduxactions/redux-actions/issues/251) for more.
+> [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux
 
 ### Table of Contents
 * [Getting Started](#getting-started)
