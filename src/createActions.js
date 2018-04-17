@@ -1,4 +1,4 @@
-import camelCase from './camelCase';
+import camelCase from './utils/camelCase';
 import identity from 'lodash/identity';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
@@ -8,12 +8,12 @@ import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
 import createAction from './createAction';
 import invariant from 'invariant';
-import arrayToObject from './arrayToObject';
+import arrayToObject from './utils/arrayToObject';
 import {
   flattenActionMap,
   unflattenActionCreators,
   defaultNamespace
-} from './flattenUtils';
+} from './utils/flattenUtils';
 
 export default function createActions(actionMap, ...identityActions) {
   const options = isPlainObject(last(identityActions))
