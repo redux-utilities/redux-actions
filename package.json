@@ -50,8 +50,8 @@
     "babel-core": "^6.7.7",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-0": "^6.6.0",
     "cross-env": "^2.0.0",
     "eslint-plugin-prettier": "^2.6.0",
     "flux-standard-action": "^1.0.0",
@@ -85,7 +85,9 @@
     "overrides": [
       {
         "files": "test/**/*.js",
-        "env": ["jest"]
+        "env": [
+          "jest"
+        ]
       }
     ]
   },

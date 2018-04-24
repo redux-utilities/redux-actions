@@ -1,8 +1,8 @@
 {
   "presets": [
-    "env",
-    "stage-0"
+    "env"
   ],
+  "plugins": ["transform-object-rest-spread"],
   "env": {
     "es": {
       "presets": [["env", { "modules": false }]],
