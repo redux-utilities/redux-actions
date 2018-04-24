@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "node"
+  - "lts/*"
 script:
   - npm run format:check
   - npm run lint
