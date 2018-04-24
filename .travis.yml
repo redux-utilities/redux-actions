@@ -1,9 +1,15 @@
 language: node_js
 node_js:
   - "lts/*"
+install:
+  - npm i -g npm@6
+  - npm ci
 script:
   - npm run format:check
   - npm run lint
   - npm test
 after_success:
   - npx codecov
+cache:
+  directories:
+  - "$HOME/.npm"

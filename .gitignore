@@ -1,7 +1,8 @@
 node_modules
 coverage
-*.log
 es
 lib
 dist
 .idea
+*.log
+yarn.lock
