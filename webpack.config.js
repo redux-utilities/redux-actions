@@ -1,10 +1,10 @@
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
 const { NODE_ENV } = process.env;
 const production = NODE_ENV === 'production';
 
-export default {
+module.exports = {
   entry: path.join(__dirname, 'src/index.js'),
   output: {
     path: path.join(__dirname, 'dist'),
