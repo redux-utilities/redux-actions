@@ -10,4 +10,4 @@
   * [Tutorial](introduction/Tutorial.md)
 * [External Resources](ExternalResources.md)
 * [Change Log](ChangeLog.md)
-* [Contributors](Contributors.md)
+* [Contributors](https://github.com/redux-utilities/redux-actions/graphs/contributors)
