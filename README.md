@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/redux-utilities/redux-actions.svg?branch=master)](https://travis-ci.org/redux-utilities/redux-actions)
 [![codecov](https://codecov.io/gh/redux-utilities/redux-actions/branch/master/graph/badge.svg)](https://codecov.io/gh/redux-utilities/redux-actions)
 [![npm](https://img.shields.io/npm/v/redux-actions.svg)](https://www.npmjs.com/package/redux-actions)
-[![npm](https://img.shields.io/npm/dm/redux-actions.svg)](https://www.npmjs.com/package/reduce-actions)
+[![npm](https://img.shields.io/npm/dm/redux-actions.svg)](https://www.npmjs.com/package/redux-actions)
 
 > [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux
 
