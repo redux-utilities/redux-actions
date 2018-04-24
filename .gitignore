@@ -5,6 +5,3 @@ es
 lib
 dist
 .idea
-
-# docs generated files
-_book

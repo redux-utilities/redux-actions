@@ -1,4 +1,4 @@
-## External Resources
+# External Resources
 
 Use redux-actions in combination with [FSA](https://github.com/acdlite/flux-standard-action)-compliant libraries.
 
