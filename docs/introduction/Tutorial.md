@@ -127,15 +127,15 @@ const decrement = createAction('DECREMENT');
 Instead of using `handleAction` like we did for `increment`, we can replace it with our other tool `handleActions` which will let us handle both `increment` and `decrement` actions.
 
 ```js
-const {
-  createAction,
-  handleActions
-} = window.ReduxActions;
+const { createAction, handleActions } = window.ReduxActions;
 
-const reducer = handleActions({
-  [increment]: (state) => ({ ...state, counter: state.counter + 1 },
-  [decrement]: (state) => ({ ...state, counter: state.counter - 1 },
-}, defaultState);
+const reducer = handleActions(
+  {
+    [increment]: state => ({ ...state, counter: state.counter + 1 }),
+    [decrement]: state => ({ ...state, counter: state.counter - 1 })
+  },
+  defaultState
+);
 ```
 
 Now when we add a handler for dispatching our `decrement` action we can see both `increment` and `decrement` buttons now function appropriately.
