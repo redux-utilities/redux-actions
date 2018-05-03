@@ -1,5 +1,5 @@
-import curryN from 'lodash/fp/curryN';
+import curry from 'lodash/curry';
 import createAction from './createAction';
 
 export default (type, payloadCreator) =>
-  curryN(payloadCreator.length, createAction(type, payloadCreator));
+  curry(createAction(type, payloadCreator), payloadCreator.length);
