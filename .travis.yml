@@ -1,13 +1,9 @@
 language: node_js
-node_js:
-  - "lts/*"
-install:
-  - npm i -g npm@6
-  - npm ci
+node_js: lts/*
 script:
-  - npm run format:check
-  - npm run lint
-  - npm test
+  - yarn format:check
+  - yarn lint
+  - yarn test
 after_success:
   - npx codecov
 cache:
