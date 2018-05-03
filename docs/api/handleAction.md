@@ -31,7 +31,7 @@ If a `reducer` function is passed, it is used to handle both normal actions and 
 
 If the reducer argument (`reducer`) is `undefined`, then the identity function is used.
 
-The third parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
+The third parameter `defaultState` is required, and accepts either the default state or a function returning your default state. It is used/called when `undefined` is passed to the reducer.
 
 ###### EXAMPLE
 
@@ -78,7 +78,7 @@ import { handleActions } from 'redux-actions';
 
 #### `handleActions(reducerMap, defaultState)` {#handleactionsreducermap-defaultstate}
 
-The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
+The second parameter `defaultState` is required, and accepts either the default state or a function returning your default state. It is used/called  when `undefined` is passed to the reducer.
 
 (Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
 

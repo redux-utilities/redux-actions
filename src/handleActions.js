@@ -20,5 +20,5 @@ export default function handleActions(handlers, defaultState, options = {}) {
     handleAction(type, get(type, flattenedReducerMap), defaultState)
   );
   const reducer = reduceReducers(...reducers);
-  return (state = defaultState, action) => reducer(state, action);
+  return (state, action) => reducer(state, action);
 }

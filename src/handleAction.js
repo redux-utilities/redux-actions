@@ -24,7 +24,13 @@ export default function handleAction(type, reducer = identity, defaultState) {
         aReducer => (isNil(aReducer) ? identity : aReducer)
       );
 
-  return (state = defaultState, action) => {
+  return (state, action) => {
+    if (isUndefined(state)) {
+      state = typeof defaultState === 'function'
+        ? defaultState()
+        : defaultState;
+    }
+
     const { type: actionType } = action;
     if (!actionType || !includes(types, actionType.toString())) {
       return state;
