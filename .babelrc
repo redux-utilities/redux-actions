@@ -1,13 +1,24 @@
 {
   "presets": [
-    "env"
+    ["env", { "modules": false }]
   ],
-  "plugins": ["transform-object-rest-spread"],
+  "plugins": [
+    "transform-object-rest-spread"
+  ],
   "env": {
     "es": {
-      "presets": [["env", { "modules": false }]],
       "plugins": [
         "./build/use-lodash-es"
+      ]
+    },
+    "commonjs": {
+      "presets": [
+        "env"
+      ]
+    },
+    "test": {
+      "presets": [
+        "env"
       ]
     }
   }
