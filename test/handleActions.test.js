@@ -529,3 +529,54 @@ test('works with nested reducerMap and identity handlers', () => {
     message: 'hello'
   });
 });
+
+test('works with combineActions nested', () => {
+  const {
+    app: { counter, sameCounter }
+  } = createActions({
+    APP: {
+      COUNTER: undefined,
+      SAME_COUNTER: undefined
+    }
+  });
+  const { app } = createActions({
+    APP: {
+      COUNTER: {
+        INCREMENT: amount => ({ amount }),
+        DECREMENT: amount => ({ amount: -amount })
+      },
+      SAME_COUNTER: {
+        INCREMENT: amount => ({ amount }),
+        DECREMENT: amount => ({ amount: -amount })
+      }
+    }
+  });
+
+  // NOTE: We should be using combineReducers in production, but this is just a test.
+  const reducer = handleActions(
+    {
+      [combineActions(counter, sameCounter)]: {
+        INCREMENT: ({ counter }, { payload: { amount } }) => ({
+          counter: counter + amount
+        }),
+        DECREMENT: ({ counter }, { payload: { amount } }) => ({
+          counter: counter + amount
+        })
+      }
+    },
+    { counter: 0 }
+  );
+
+  expect(reducer({ counter: 3 }, app.counter.increment(2))).toEqual({
+    counter: 5
+  });
+  expect(reducer({ counter: 10 }, app.counter.decrement(3))).toEqual({
+    counter: 7
+  });
+  expect(reducer({ counter: 3 }, app.sameCounter.increment(2))).toEqual({
+    counter: 5
+  });
+  expect(reducer({ counter: 10 }, app.sameCounter.decrement(3))).toEqual({
+    counter: 7
+  });
+});
