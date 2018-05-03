@@ -48,6 +48,8 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "cross-env": "^2.0.0",
+    "eslint-config-jest-files": "^0.1.1",
+    "eslint-config-unicorn-camelcase": "^0.1.1",
     "eslint-plugin-prettier": "^2.6.0",
     "flux-standard-action": "^1.0.0",
     "husky": "^0.14.3",
@@ -69,21 +71,9 @@
   "xo": {
     "prettier": true,
     "space": true,
-    "rules": {
-      "unicorn/filename-case": [
-        "error",
-        {
-          "case": "camelCase"
-        }
-      ]
-    },
-    "overrides": [
-      {
-        "files": "test/**/*.js",
-        "env": [
-          "jest"
-        ]
-      }
+    "extends": [
+      "unicorn-camelcase",
+      "jest-files"
     ]
   },
   "prettier": {
