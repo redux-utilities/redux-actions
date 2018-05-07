@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
+  "sideEffects": false,
   "scripts": {
     "precommit": "lint-staged",
     "format": "prettier --write \"**/*.{js,md}\"",
