@@ -529,3 +529,30 @@ test('works with nested reducerMap and identity handlers', () => {
     message: 'hello'
   });
 });
+
+test('works with combineActions nested', () => {
+  const { apiCall1, apiCall2 } = createActions('API_CALL_1', 'API_CALL_2');
+  const {
+    apiCall1: { loading: apiCallLoading1 },
+    apiCall2: { loading: apiCallLoading2 }
+  } = createActions({
+    API_CALL_1: { LOADING: undefined },
+    API_CALL_2: { LOADING: undefined }
+  });
+
+  const reducer = handleActions(
+    {
+      [combineActions(apiCall1, apiCall2)]: {
+        LOADING: (state, { payload: loading }) => ({ loading })
+      }
+    },
+    { loading: false }
+  );
+
+  expect(reducer({ loading: false }, apiCallLoading1(true))).toEqual({
+    loading: true
+  });
+  expect(reducer({ loading: false }, apiCallLoading2(true))).toEqual({
+    loading: true
+  });
+});
