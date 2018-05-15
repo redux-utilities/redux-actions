@@ -20,7 +20,7 @@ The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global ca
 
 ### Vanilla Counter
 
-We are going to be building a simple counter, I recommend using something like [jsfiddle](https://jsfiddle.net/) or [codepen](https://codepen.io/pen/) or [webpackbin](https://www.webpackbin.com) if you would like to follow along, that way you do not need a complicated setup to grasp the basics of `redux-actions`. All of the source code for this example can be found [here](https://www.webpackbin.com/bins/-KntJIfbsxVzsD98UEWF).
+We are going to be building a simple counter, I recommend using something like [jsfiddle](https://jsfiddle.net/) or [codepen](https://codepen.io/pen/) or [codesandbox](https://codesandbox.io) if you would like to follow along, that way you do not need a complicated setup to grasp the basics of `redux-actions`.
 
 To begin we are going to need some scaffolding so here is some HTML to get started with. You may need to create a new file called main.js depending on where you are trying to set this tutorial up.
 
