@@ -48,9 +48,7 @@ const reducer = handleActions(
   {
     [combineActions(increment, decrement)]: (
       state,
-      {
-        payload: { amount }
-      }
+      { payload: { amount } }
     ) => {
       return { ...state, counter: state.counter + amount };
     }
