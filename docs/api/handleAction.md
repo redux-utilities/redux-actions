@@ -80,7 +80,7 @@ import { handleActions } from 'redux-actions';
 
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
-(Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/acdlite/reduce-reducers).)
+(Internally, `handleActions()` works by applying multiple reducers in sequence using [reduce-reducers](https://github.com/redux-utilities/reduce-reducers).)
 
 ###### EXAMPLE
 
