@@ -31,3 +31,9 @@ test('returns a stringifiable object', () => {
     'ACTION_1||ACTION_2||ACTION_3'
   );
 });
+
+test('should throw error if actions is empty', () => {
+  expect(() => combineActions()).toThrow(
+    'Expected action types to be strings, symbols, or action creators'
+  );
+});

@@ -8,8 +8,8 @@ export default function unflattenActionCreators(
 ) {
   function unflatten(
     flatActionType,
-    partialNestedActionCreators = {},
-    partialFlatActionTypePath = []
+    partialNestedActionCreators,
+    partialFlatActionTypePath
   ) {
     const nextNamespace = camelCase(partialFlatActionTypePath.shift());
     if (isEmpty(partialFlatActionTypePath)) {

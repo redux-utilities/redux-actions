@@ -3,9 +3,9 @@ import camelCase from 'to-camel-case';
 const namespacer = '/';
 
 export default type =>
-  type.indexOf(namespacer) === -1
-    ? camelCase(type)
-    : type
+  type.includes(namespacer)
+    ? type
         .split(namespacer)
-        .map(part => camelCase(part))
-        .join(namespacer);
+        .map(camelCase)
+        .join(namespacer)
+    : camelCase(type);
