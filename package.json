@@ -12,7 +12,7 @@
     "format:check": "prettier --list-different \"**/*.{js,md}\"",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "build:umd": "cross-env NODE_ENV=development webpack && es-check es5 dist/redux-actions.js",
+    "build:umd": "cross-env NODE_ENV=development webpack",
     "build:umd:min": "cross-env NODE_ENV=production webpack && es-check es5 dist/redux-actions.min.js",
     "build": "run-s clean && run-p build:**",
     "clean": "rimraf coverage dist es lib",
