@@ -12,6 +12,7 @@ module.exports = {
     library: 'ReduxActions',
     libraryTarget: 'umd'
   },
+  devtool: 'sourcemaps',
   mode: production ? 'production' : 'development',
   module: {
     rules: [
