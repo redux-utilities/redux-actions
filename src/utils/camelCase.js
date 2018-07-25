@@ -1,4 +1,4 @@
-import camelCase from 'camelcase';
+import camelCase from 'lodash.camelcase';
 
 const namespacer = '/';
 
@@ -7,5 +7,5 @@ export default type =>
     ? camelCase(type)
     : type
         .split(namespacer)
-        .map(camelCase)
+        .map(part => camelCase(part))
         .join(namespacer);

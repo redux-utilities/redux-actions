@@ -13,7 +13,7 @@
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:umd": "cross-env NODE_ENV=development webpack",
-    "build:umd:min": "cross-env NODE_ENV=production webpack",
+    "build:umd:min": "cross-env NODE_ENV=production webpack && es-check es5 dist/redux-actions.min.js",
     "build": "run-s clean && run-p build:**",
     "clean": "rimraf coverage dist es lib",
     "lint": "xo",
@@ -49,6 +49,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "cross-env": "^2.0.0",
+    "es-check": "^2.0.4",
     "eslint-config-jest-files": "^0.1.1",
     "eslint-config-unicorn-camelcase": "^0.1.1",
     "eslint-plugin-prettier": "^2.6.0",
@@ -64,11 +65,11 @@
     "xo": "^0.20.3"
   },
   "dependencies": {
-    "camelcase": "^5.0.0",
     "invariant": "^2.2.1",
     "is-function": "^1.0.1",
     "is-plain-object": "^2.0.4",
     "is-symbol": "^1.0.1",
+    "lodash.camelcase": "^4.3.0",
     "lodash.curry": "^4.1.1",
     "reduce-reducers": "^0.1.0"
   },
