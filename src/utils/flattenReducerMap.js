@@ -1,5 +1,5 @@
-import isPlainObject from 'lodash/isPlainObject';
-import isMap from 'lodash/isMap';
+import isPlainObject from 'is-plain-object';
+import isMap from './isMap';
 import hasGeneratorInterface from './hasGeneratorInterface';
 import flattenWhenNode from './flattenWhenNode';
 

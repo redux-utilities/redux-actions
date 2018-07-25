@@ -1,11 +1,11 @@
-import identity from 'lodash/identity';
-import isPlainObject from 'lodash/isPlainObject';
-import isArray from 'lodash/isArray';
-import last from 'lodash/last';
-import isString from 'lodash/isString';
-import isFunction from 'lodash/isFunction';
-import isNil from 'lodash/isNil';
+import isPlainObject from 'is-plain-object';
+import isFunction from 'is-function';
 import invariant from 'invariant';
+import identity from './utils/identity';
+import isArray from './utils/isArray';
+import isString from './utils/isString';
+import isNil from './utils/isNil';
+import getLastElement from './utils/getLastElement';
 import camelCase from './utils/camelCase';
 import arrayToObject from './utils/arrayToObject';
 import flattenActionMap from './utils/flattenActionMap';
@@ -14,7 +14,7 @@ import createAction from './createAction';
 import { DEFAULT_NAMESPACE } from './constants';
 
 export default function createActions(actionMap, ...identityActions) {
-  const options = isPlainObject(last(identityActions))
+  const options = isPlainObject(getLastElement(identityActions))
     ? identityActions.pop()
     : {};
   invariant(

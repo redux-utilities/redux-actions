@@ -1,5 +1,5 @@
-import isEmpty from 'lodash/isEmpty';
 import { DEFAULT_NAMESPACE } from '../constants';
+import isEmpty from './isEmpty';
 import camelCase from './camelCase';
 
 export default function unflattenActionCreators(
