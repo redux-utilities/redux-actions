@@ -1,5 +1,5 @@
-import isMap from 'lodash/isMap';
 import { DEFAULT_NAMESPACE, ACTION_TYPE_DELIMITER } from '../constants';
+import isMap from './isMap';
 import ownKeys from './ownKeys';
 
 function get(key, x) {

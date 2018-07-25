@@ -1,14 +1,14 @@
-import isFunction from 'lodash/isFunction';
-import isPlainObject from 'lodash/isPlainObject';
-import identity from 'lodash/identity';
-import isNil from 'lodash/isNil';
-import isUndefined from 'lodash/isUndefined';
-import includes from 'lodash/includes';
 import invariant from 'invariant';
+import isFunction from 'is-function';
+import isPlainObject from 'is-plain-object';
+import identity from './utils/identity';
+import isNil from './utils/isNil';
+import isUndefined from './utils/isUndefined';
+import toString from './utils/toString';
 import { ACTION_TYPE_DELIMITER } from './constants';
 
 export default function handleAction(type, reducer = identity, defaultState) {
-  const types = type.toString().split(ACTION_TYPE_DELIMITER);
+  const types = toString(type).split(ACTION_TYPE_DELIMITER);
   invariant(
     !isUndefined(defaultState),
     `defaultState for reducer handling ${types.join(', ')} should be defined`
@@ -26,7 +26,7 @@ export default function handleAction(type, reducer = identity, defaultState) {
 
   return (state = defaultState, action) => {
     const { type: actionType } = action;
-    if (!actionType || !includes(types, actionType.toString())) {
+    if (!actionType || !types.includes(toString(actionType))) {
       return state;
     }
 

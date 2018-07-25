@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'is-plain-object';
 import flattenWhenNode from './flattenWhenNode';
 
 export default flattenWhenNode(isPlainObject);

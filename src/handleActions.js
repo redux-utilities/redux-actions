@@ -1,10 +1,10 @@
-import isPlainObject from 'lodash/isPlainObject';
-import isMap from 'lodash/isMap';
 import reduceReducers from 'reduce-reducers';
+import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
-import handleAction from './handleAction';
+import isMap from './utils/isMap';
 import ownKeys from './utils/ownKeys';
 import flattenReducerMap from './utils/flattenReducerMap';
+import handleAction from './handleAction';
 
 function get(key, x) {
   return isMap(x) ? x.get(key) : x[key];

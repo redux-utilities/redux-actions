@@ -6,11 +6,6 @@
     "transform-object-rest-spread"
   ],
   "env": {
-    "es": {
-      "plugins": [
-        "./build/use-lodash-es"
-      ]
-    },
     "commonjs": {
       "presets": [
         "env"

@@ -64,9 +64,12 @@
     "xo": "^0.20.3"
   },
   "dependencies": {
+    "camelcase": "^5.0.0",
     "invariant": "^2.2.1",
-    "lodash": "^4.13.1",
-    "lodash-es": "^4.17.4",
+    "is-function": "^1.0.1",
+    "is-plain-object": "^2.0.4",
+    "is-symbol": "^1.0.1",
+    "lodash.curry": "^4.1.1",
     "reduce-reducers": "^0.1.0"
   },
   "xo": {

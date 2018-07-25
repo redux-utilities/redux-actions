@@ -1,4 +1,4 @@
-import curry from 'lodash/curry';
+import curry from 'lodash.curry';
 import createAction from './createAction';
 
 export default (type, payloadCreator) =>

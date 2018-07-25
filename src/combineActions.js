@@ -1,9 +1,9 @@
-import isString from 'lodash/isString';
-import isFunction from 'lodash/isFunction';
-import isEmpty from 'lodash/isEmpty';
-import toString from 'lodash/toString';
-import isSymbol from 'lodash/isSymbol';
 import invariant from 'invariant';
+import isFunction from 'is-function';
+import isSymbol from 'is-symbol';
+import isEmpty from './utils/isEmpty';
+import toString from './utils/toString';
+import isString from './utils/isString';
 import { ACTION_TYPE_DELIMITER } from './constants';
 
 function isValidActionType(type) {

@@ -1,7 +1,7 @@
-import identity from 'lodash/identity';
-import isFunction from 'lodash/isFunction';
-import isNull from 'lodash/isNull';
+import isFunction from 'is-function';
 import invariant from 'invariant';
+import identity from './utils/identity';
+import isNull from './utils/isNull';
 
 export default function createAction(
   type,

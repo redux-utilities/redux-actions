@@ -1,4 +1,4 @@
-import isMap from 'lodash/isMap';
+import isMap from './isMap';
 
 export default function ownKeys(object) {
   if (isMap(object)) {
