@@ -1,4 +1,4 @@
-import isPlainObject from 'is-plain-object';
+import isPlainObject from './isPlainObject';
 import flattenWhenNode from './flattenWhenNode';
 
 export default flattenWhenNode(isPlainObject);
