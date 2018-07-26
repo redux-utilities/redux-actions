@@ -8,6 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "precommit": "lint-staged",
+    "size": "size-limit",
     "format": "prettier --write \"**/*.{js,md}\"",
     "format:check": "prettier --list-different \"**/*.{js,md}\"",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
@@ -18,7 +19,7 @@
     "clean": "rimraf coverage dist es lib",
     "lint": "xo",
     "prepublishOnly": "run-s build",
-    "test": "jest"
+    "test": "run-s size && jest"
   },
   "files": [
     "es",
@@ -60,6 +61,7 @@
     "npm-run-all": "^4.1.2",
     "prettier": "^1.12.1",
     "rimraf": "^2.5.3",
+    "size-limit": "^0.19.0",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.11",
     "xo": "^0.20.3"
@@ -86,6 +88,12 @@
   "jest": {
     "collectCoverage": true
   },
+  "size-limit": [
+    {
+      "limit": "7 KB",
+      "path": "src/index.js"
+    }
+  ],
   "lint-staged": {
     "*.{js,md}": [
       "prettier --write",
