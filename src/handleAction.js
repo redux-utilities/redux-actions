@@ -26,7 +26,7 @@ export default function handleAction(type, reducer = identity, defaultState) {
 
   return (state = defaultState, action) => {
     const { type: actionType } = action;
-    if (!actionType || !types.includes(toString(actionType))) {
+    if (!actionType || types.indexOf(toString(actionType)) === -1) {
       return state;
     }
 
