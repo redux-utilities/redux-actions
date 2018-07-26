@@ -1,5 +1,5 @@
-import isFunction from 'is-function';
 import invariant from 'invariant';
+import isFunction from './utils/isFunction';
 import identity from './utils/identity';
 import isNull from './utils/isNull';
 

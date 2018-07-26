@@ -1,6 +1,6 @@
 import reduceReducers from 'reduce-reducers';
-import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
+import isPlainObject from './utils/isPlainObject';
 import isMap from './utils/isMap';
 import ownKeys from './utils/ownKeys';
 import flattenReducerMap from './utils/flattenReducerMap';
