@@ -66,5 +66,5 @@ export default reducer;
 * [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
 * [API](https://redux-actions.js.org/docs/api/index.html)
 * [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
-* [Change Log](https://redux-actions.js.org/docs/ChangeLog.html)
+* [Changelog](https://redux-actions.js.org/docs/Changelog.html)
 * [Contributors](https://redux-actions.js.org/docs/Contributors.html)
