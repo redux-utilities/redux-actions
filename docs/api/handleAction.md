@@ -19,7 +19,7 @@ handleAction(
 )
 ```
 
-Wraps a reducer so that it only handles Flux Standard Actions of a certain type.
+Wraps a reducer so that it only handles [Flux Standard Actions](https://github.com/redux-utilities/flux-standard-action#flux-standard-action) of a certain type.
 
 ```js
 import { handleAction } from 'redux-actions';
