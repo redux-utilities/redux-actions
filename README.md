@@ -24,7 +24,7 @@ $ npm install --save redux-actions
 
 or
 
-```
+```bash
 $ yarn add redux-actions
 ```
 
@@ -61,11 +61,10 @@ export default reducer;
 
 [See the full API documentation.](https://redux-actions.js.org/)
 
-# Documentation
+## Documentation
 
 * [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
 * [API](https://redux-actions.js.org/docs/api/index.html)
-* [Middleware](https://redux-actions.js.org/docs/middleware/index.html)
 * [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
-* [Change Log](https://redux-actions.js.org/docs/ChangeLog.html)
+* [Changelog](https://redux-actions.js.org/docs/Changelog.html)
 * [Contributors](https://redux-actions.js.org/docs/Contributors.html)

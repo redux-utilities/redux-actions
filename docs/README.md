@@ -9,5 +9,5 @@
   * [handleAction(s)](api/handleAction.md)
   * [combineActions](api/combineActions.md)
 * [External Resources](ExternalResources.md)
-* [Change Log](ChangeLog.md)
+* [Changelog](Changelog.md)
 * [Contributors](https://github.com/redux-utilities/redux-actions/graphs/contributors)
