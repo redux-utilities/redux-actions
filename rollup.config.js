@@ -35,8 +35,7 @@ export default [
     output: { file: 'es/redux-actions.mjs', format: 'es', indent: false },
     plugins: [
       nodeResolve({
-        jsnext: true,
-        main: true
+        jsnext: true
       }),
       commonjs(),
       replace({
@@ -64,8 +63,7 @@ export default [
     },
     plugins: [
       nodeResolve({
-        jsnext: true,
-        main: true
+        jsnext: true
       }),
       commonjs(),
       babel(),
@@ -86,8 +84,7 @@ export default [
     },
     plugins: [
       nodeResolve({
-        jsnext: true,
-        main: true
+        jsnext: true
       }),
       commonjs(),
       babel(),

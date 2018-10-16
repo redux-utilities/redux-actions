@@ -7,7 +7,6 @@
   "module": "es/redux-actions.js",
   "sideEffects": false,
   "scripts": {
-    "precommit": "lint-staged",
     "format": "prettier --write \"**/*.{js,md}\"",
     "format:check": "prettier --list-different \"**/*.{js,md}\"",
     "build": "run-s clean && rollup -c && es-check es5 dist/redux-actions.min.js",
@@ -39,26 +38,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
-    "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/register": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
-    "cross-env": "^2.0.0",
-    "es-check": "^2.0.4",
+    "es-check": "^4.0.0",
     "eslint-config-jest-files": "^0.1.3",
     "eslint-config-unicorn-camelcase": "^0.1.1",
     "eslint-plugin-prettier": "^3.0.0",
-    "flux-standard-action": "^1.0.0",
-    "husky": "^0.14.3",
+    "flux-standard-action": "^2.0.3",
+    "husky": "^1.1.2",
     "jest": "^23.6.0",
-    "lint-staged": "^7.0.4",
+    "lint-staged": "^7.3.0",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.14.3",
     "rimraf": "^2.6.2",
@@ -76,6 +70,11 @@
     "just-curry-it": "^3.1.0",
     "loose-envify": "^1.4.0",
     "reduce-reducers": "^0.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "browserify": {
     "transform": [
