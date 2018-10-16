@@ -1,13 +1,13 @@
 # API Reference for createAction(s)
 
-* [Methods](#methods)
-  * [createAction](#createaction)
-    * [`createAction(type)`](#createactiontype)
-    * [`createAction(type, payloadCreator)`](#createactiontype-payloadcreator)
-    * [`createAction(type, payloadCreator, metaCreator)`](#createactiontype-payloadcreator-metacreator)
-  * [createActions](#createactions)
-    * [`createActions(actionMap)`](#createactionsactionmap)
-    * [`createActions(actionMap, ...identityActions)`](#createactionsactionmap-identityactions)
+- [Methods](#methods)
+  - [createAction](#createaction)
+    - [`createAction(type)`](#createactiontype)
+    - [`createAction(type, payloadCreator)`](#createactiontype-payloadcreator)
+    - [`createAction(type, payloadCreator, metaCreator)`](#createactiontype-payloadcreator-metacreator)
+  - [createActions](#createactions)
+    - [`createActions(actionMap)`](#createactionsactionmap)
+    - [`createActions(actionMap, ...identityActions)`](#createactionsactionmap-identityactions)
 
 ## Methods
 
@@ -150,10 +150,10 @@ import { createActions } from 'redux-actions';
 
 `actionMap` is an object which can optionally have a recursive data structure, with action types as keys, and whose values **must** be either
 
-* a function, which is the payload creator for that action
-* an array with `payload` and `meta` functions in that order, as in [`createAction`](#createaction)
-  * `meta` is **required** in this case \(otherwise use the function form above\)
-* an `actionMap`
+- a function, which is the payload creator for that action
+- an array with `payload` and `meta` functions in that order, as in [`createAction`](#createaction)
+  - `meta` is **required** in this case \(otherwise use the function form above\)
+- an `actionMap`
 
 ###### EXAMPLE
 

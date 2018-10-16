@@ -1,8 +1,8 @@
 # API Reference for combineActions
 
-* [Methods](#methods)
-  * [combineActions](#combineactions)
-    * [`combineActions(...types)`](#combineactionstypes)
+- [Methods](#methods)
+  - [combineActions](#combineactions)
+    - [`combineActions(...types)`](#combineactionstypes)
 
 ## Methods
 

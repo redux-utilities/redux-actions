@@ -1,11 +1,11 @@
 # API Reference for handleAction(s)
 
-* [Methods](#methods)
-  * [handleAction](#handleaction)
-    * [`handleAction(type, reducer, defaultState)`](#handleactiontype-reducer-defaultstate)
-    * [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
-  * [handleActions](#handleactions)
-    * [`handleActions(reducerMap, defaultState)`](#handleactionsreducermap-defaultstate)
+- [Methods](#methods)
+  - [handleAction](#handleaction)
+    - [`handleAction(type, reducer, defaultState)`](#handleactiontype-reducer-defaultstate)
+    - [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
+  - [handleActions](#handleactions)
+    - [`handleActions(reducerMap, defaultState)`](#handleactionsreducermap-defaultstate)
 
 ## Methods
 

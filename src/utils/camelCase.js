@@ -1,4 +1,6 @@
-import camelCase from 'lodash.camelcase';
+import justCamelCase from 'just-camel-case';
+
+const camelCase = string => justCamelCase(string, { strict: true });
 
 const namespacer = '/';
 
