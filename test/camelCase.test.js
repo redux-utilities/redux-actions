@@ -9,5 +9,5 @@ test('includes forward slashes in words', () => {
 });
 
 test('does nothing to an already camel-cased action type', () => {
-  expect(camelCase('myAction')).toBe('myaction');
+  expect(camelCase('myAction')).toBe('myAction');
 });

@@ -1,6 +1,4 @@
-import justCamelCase from 'just-camel-case';
-
-const camelCase = string => justCamelCase(string, { strict: true });
+import camelCase from 'to-camel-case';
 
 const namespacer = '/';
 

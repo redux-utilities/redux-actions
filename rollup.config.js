@@ -34,13 +34,9 @@ export default [
     input: 'src/index.js',
     output: { file: 'es/redux-actions.mjs', format: 'es', indent: false },
     plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
+      nodeResolve(),
       commonjs(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       terser({
         compress: {
           pure_getters: true,
@@ -62,14 +58,10 @@ export default [
       indent: false
     },
     plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
+      nodeResolve(),
       commonjs(),
       babel(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('development')
-      })
+      replace({ 'process.env.NODE_ENV': JSON.stringify('development') })
     ]
   },
 
@@ -83,14 +75,10 @@ export default [
       indent: false
     },
     plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
+      nodeResolve(),
       commonjs(),
       babel(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       terser({
         compress: {
           pure_getters: true,
