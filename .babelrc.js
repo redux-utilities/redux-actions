@@ -1,4 +1,4 @@
-const { NODE_ENV } = process.env;
+const { BABEL_ENV, NODE_ENV } = process.env;
 
 module.exports = {
   presets: [
@@ -9,7 +9,7 @@ module.exports = {
           browsers: ['ie >= 11']
         },
         exclude: ['transform-async-to-generator', 'transform-regenerator'],
-        modules: false,
+        modules: BABEL_ENV === 'commonjs' ? 'cjs' : false,
         loose: true
       }
     ]

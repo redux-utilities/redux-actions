@@ -7,47 +7,6 @@ import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
 export default [
-  // CommonJS
-  {
-    input: 'src/index.js',
-    output: { file: 'lib/redux-actions.js', format: 'cjs', indent: false },
-    external: [
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {})
-    ],
-    plugins: [babel()]
-  },
-
-  // ES
-  {
-    input: 'src/index.js',
-    output: { file: 'es/redux-actions.js', format: 'es', indent: false },
-    external: [
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {})
-    ],
-    plugins: [babel()]
-  },
-
-  // ES for Browsers
-  {
-    input: 'src/index.js',
-    output: { file: 'es/redux-actions.mjs', format: 'es', indent: false },
-    plugins: [
-      nodeResolve(),
-      commonjs(),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      })
-    ]
-  },
-
   // UMD Development
   {
     input: 'src/index.js',
