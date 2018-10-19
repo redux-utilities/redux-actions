@@ -1,4 +1,4 @@
-import camelCase from 'lodash.camelcase';
+import camelCase from 'to-camel-case';
 
 const namespacer = '/';
 

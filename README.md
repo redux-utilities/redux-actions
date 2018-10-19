@@ -9,10 +9,10 @@
 
 ### Table of Contents
 
-* [Getting Started](#getting-started)
-  * [Installation](#installation)
-  * [Usage](#usage)
-* [Documentation](#documentation)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Documentation](#documentation)
 
 # Getting Started
 
@@ -63,8 +63,8 @@ export default reducer;
 
 ## Documentation
 
-* [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
-* [API](https://redux-actions.js.org/docs/api/index.html)
-* [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
-* [Changelog](https://redux-actions.js.org/docs/Changelog.html)
-* [Contributors](https://redux-actions.js.org/docs/Contributors.html)
+- [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
+- [API](https://redux-actions.js.org/docs/api/index.html)
+- [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
+- [Changelog](https://redux-actions.js.org/docs/Changelog.html)
+- [Contributors](https://redux-actions.js.org/docs/Contributors.html)
