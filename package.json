@@ -1,6 +1,6 @@
 {
   "name": "redux-actions",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "description": "Flux Standard Action utlities for Redux",
   "main": "lib/index.js",
   "unpkg": "dist/redux-actions.js",
