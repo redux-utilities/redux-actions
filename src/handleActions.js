@@ -5,10 +5,7 @@ import isMap from './utils/isMap';
 import ownKeys from './utils/ownKeys';
 import flattenReducerMap from './utils/flattenReducerMap';
 import handleAction from './handleAction';
-
-function get(key, x) {
-  return isMap(x) ? x.get(key) : x[key];
-}
+import get from './utils/get';
 
 export default function handleActions(handlers, defaultState, options = {}) {
   invariant(
