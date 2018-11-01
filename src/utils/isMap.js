@@ -1,1 +1,1 @@
-export default value => value instanceof Map;
+export default value => typeof Map !== 'undefined' && value instanceof Map;
