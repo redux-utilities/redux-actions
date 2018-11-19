@@ -207,14 +207,20 @@ expect(
   meta: { username: 'yangmillstheory', message: 'Hello World' }
 });
 ```
+##### Action prefix
 
-When using this form, you can pass an object with key `namespace` as the last positional argument (the default is `/`).
+You can prefix each action type by passing a configuration object as the last argument of `createActions`.
 
 ###### EXAMPLE
 
 ```js
-createActions({ ... }, 'INCREMENT', { namespace: '--' })
+createActions({ ... }, 'INCREMENT', {
+  prefix: 'counter', // String used to prefix each type
+  namespace: '--' // Separator between prefix and type.  Default: `/`
+})
 ```
+
+`'INCREMENT'` in this example will be prefixed as `counter--INCREMENT`.
 
 #### `createActions(actionMap, ...identityActions)`{#createactionsactionmap-identityactions}
 
