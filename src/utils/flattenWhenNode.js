@@ -19,7 +19,11 @@ export default predicate =>
     }
 
     function connectPrefix(type) {
-      if (partialFlatActionType || !prefix) {
+      if (
+        partialFlatActionType ||
+        !prefix ||
+        (prefix && new RegExp(`^${prefix}${namespace}`).test(type))
+      ) {
         return type;
       }
 
