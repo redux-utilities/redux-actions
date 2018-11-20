@@ -207,6 +207,7 @@ expect(
   meta: { username: 'yangmillstheory', message: 'Hello World' }
 });
 ```
+
 ##### Action prefix
 
 You can prefix each action type by passing a configuration object as the last argument of `createActions`.
