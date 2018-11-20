@@ -5,7 +5,7 @@
     - [`handleAction(type, reducer, defaultState)`](#handleactiontype-reducer-defaultstate)
     - [`handleAction(type, reducerMap, defaultState)`](#handleactiontype-reducermap-defaultstate)
   - [handleActions](#handleactions)
-    - [`handleActions(reducerMap, defaultState)`](#handleactionsreducermap-defaultstate)
+    - [`handleActions(reducerMap, defaultState[, options])`](#handleactionsreducermap-defaultstate)
 
 ## Methods
 
@@ -70,13 +70,13 @@ handleActions(reducerMap, defaultState);
 
 Creates multiple reducers using `handleAction()` and combines them into a single reducer that handles multiple actions. Accepts a map where the keys are passed as the first parameter to `handleAction()` (the action type), and the values are passed as the second parameter (either a reducer or reducer map). The map must not be empty.
 
-If `reducerMap` has a recursive structure, its leaves are used as reducers, and the action type for each leaf is the path to that leaf. If a node's only children are `next()` and `throw()`, the node will be treated as a reducer. If the leaf is `undefined` or `null`, the identity function is used as the reducer. Otherwise, the leaf should be the reducer function. When using this form, you can pass an object with key `namespace` as the last positional argument (the default is `/`).
+If `reducerMap` has a recursive structure, its leaves are used as reducers, and the action type for each leaf is the path to that leaf. If a node's only children are `next()` and `throw()`, the node will be treated as a reducer. If the leaf is `undefined` or `null`, the identity function is used as the reducer. Otherwise, the leaf should be the reducer function.
 
 ```js
 import { handleActions } from 'redux-actions';
 ```
 
-#### `handleActions(reducerMap, defaultState)` {#handleactionsreducermap-defaultstate}
+#### `handleActions(reducerMap, defaultState[, options])` {#handleactionsreducermap-defaultstate}
 
 The second parameter `defaultState` is required, and is used when `undefined` is passed to the reducer.
 
@@ -146,4 +146,21 @@ const reducer = handleActions(
   ]),
   { counter: 0 }
 );
+```
+
+#### `handleActions(actionMap[, defaultState], options)`
+
+You can prefix each action type by passing a configuration object as the last argument of `handleActions`.
+
+###### EXAMPLE
+
+```js
+const options = {
+  prefix: 'counter', // String used to prefix each type
+  namespace: '--' // Separator between prefix and type.  Default: `/`
+}
+
+createActions({ ... }, 'INCREMENT', options)
+
+handleActions({ ... }, defaultState, options)
 ```
