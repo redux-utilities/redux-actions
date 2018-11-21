@@ -557,7 +557,7 @@ test('works with combineActions nested', () => {
   });
 });
 
-test.only('works with a prefix and namespace', () => {
+test('works with a prefix and namespace', () => {
   const { increment, decrement } = createActions(
     {
       INCREMENT: [amount => ({ amount }), amount => ({ key: 'value', amount })],
