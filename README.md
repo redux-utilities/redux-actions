@@ -63,8 +63,8 @@ export default reducer;
 
 ## Documentation
 
-- [Introduction](https://redux-actions.js.org/docs/introduction/index.html)
-- [API](https://redux-actions.js.org/docs/api/index.html)
-- [External Resources](https://redux-actions.js.org/docs/ExternalResources.html)
-- [Changelog](https://redux-actions.js.org/docs/Changelog.html)
-- [Contributors](https://redux-actions.js.org/docs/Contributors.html)
+- [Introduction](https://redux-actions.js.org/introduction)
+- [API](https://redux-actions.js.org/api)
+- [External Resources](https://redux-actions.js.org/externalresources)
+- [Changelog](https://redux-actions.js.org/changelog)
+- [Contributors](https://github.com/redux-utilities/redux-actions/graphs/contributors)
