@@ -6,8 +6,8 @@
     - [`createAction(type, payloadCreator)`](#createactiontype-payloadcreator)
     - [`createAction(type, payloadCreator, metaCreator)`](#createactiontype-payloadcreator-metacreator)
   - [createActions](#createactions)
-    - [`createActions(actionMap)`](#createactionsactionmap)
-    - [`createActions(actionMap, ...identityActions)`](#createactionsactionmap-identityactions)
+    - [`createActions(actionMap[, options])`](#createactionsactionmap)
+    - [`createActions(actionMap, ...identityActions[, options])`](#createactionsactionmap-identityactions)
 
 ## Methods
 
@@ -137,6 +137,7 @@ updateAdminUser({ name: 'Foo' });
 createActions(
   actionMap,
   ?...identityActions,
+  ?options
 )
 ```
 
@@ -146,7 +147,7 @@ Returns an object mapping action types to action creators. The keys of this obje
 import { createActions } from 'redux-actions';
 ```
 
-#### `createActions(actionMap)` {#createactionsactionmap}
+#### `createActions(actionMap[, options])` {#createactionsactionmap}
 
 `actionMap` is an object which can optionally have a recursive data structure, with action types as keys, and whose values **must** be either
 
@@ -208,15 +209,7 @@ expect(
 });
 ```
 
-When using this form, you can pass an object with key `namespace` as the last positional argument (the default is `/`).
-
-###### EXAMPLE
-
-```js
-createActions({ ... }, 'INCREMENT', { namespace: '--' })
-```
-
-#### `createActions(actionMap, ...identityActions)`{#createactionsactionmap-identityactions}
+#### `createActions(actionMap, ...identityActions[, options])`{#createactionsactionmap-identityactions}
 
 `identityActions` is an optional list of positional string arguments that are action type strings; these action types will use the identity payload creator.
 
@@ -253,3 +246,18 @@ expect(actionThree(3)).to.deep.equal({
   payload: 3
 });
 ```
+
+#### `createActions(actionMap[, ...identityActions], options)`
+
+You can prefix each action type by passing a configuration object as the last argument of `createActions`.
+
+###### EXAMPLE
+
+```js
+createActions({ ... }, 'INCREMENT', {
+  prefix: 'counter', // String used to prefix each type
+  namespace: '--' // Separator between prefix and type.  Default: `/`
+})
+```
+
+`'INCREMENT'` in this example will be prefixed as `counter--INCREMENT`.
