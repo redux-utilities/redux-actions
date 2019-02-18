@@ -556,3 +556,36 @@ test('works with combineActions nested', () => {
     loading: true
   });
 });
+
+test('works with a prefix and namespace', () => {
+  const { increment, decrement } = createActions(
+    {
+      INCREMENT: [amount => ({ amount }), amount => ({ key: 'value', amount })],
+      DECREMENT: amount => ({ amount: -amount })
+    },
+    { prefix: 'my-custom-prefix', namespace: '--' }
+  );
+
+  // NOTE: We should be using combineReducers in production, but this is just a test.
+  const reducer = handleActions(
+    {
+      [combineActions(increment, decrement)]: (
+        { counter },
+        { payload: { amount } }
+      ) => ({
+        counter: counter + amount
+      })
+    },
+    { counter: 0 },
+    { prefix: 'my-custom-prefix', namespace: '--' }
+  );
+
+  expect(String(increment)).toBe('my-custom-prefix--INCREMENT');
+
+  expect(reducer({ counter: 3 }, increment(2))).toEqual({
+    counter: 5
+  });
+  expect(reducer({ counter: 10 }, decrement(3))).toEqual({
+    counter: 7
+  });
+});

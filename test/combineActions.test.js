@@ -32,6 +32,26 @@ test('returns a stringifiable object', () => {
   );
 });
 
+test('handles prefixed action types', () => {
+  const options = { prefix: 'my-custom-prefix' };
+  const { action1, action2 } = createActions('ACTION_1', 'ACTION_2', options);
+
+  expect(
+    combineActions(
+      'my-custom-prefix/ACTION_1',
+      'my-custom-prefix/ACTION_2'
+    ).toString()
+  ).toBe('my-custom-prefix/ACTION_1||my-custom-prefix/ACTION_2');
+  expect(combineActions(action1, action2).toString()).toBe(
+    'my-custom-prefix/ACTION_1||my-custom-prefix/ACTION_2'
+  );
+  expect(
+    combineActions(action1, action2, 'my-custom-prefix/ACTION_3').toString()
+  ).toBe(
+    'my-custom-prefix/ACTION_1||my-custom-prefix/ACTION_2||my-custom-prefix/ACTION_3'
+  );
+});
+
 test('should throw error if actions is empty', () => {
   expect(() => combineActions()).toThrow(
     'Expected action types to be strings, symbols, or action creators'
