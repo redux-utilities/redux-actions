@@ -1,2 +1,2 @@
 Upgrade npm's outdated depencies:
-npm-upgrade
+npm i -g npm-upgrade
