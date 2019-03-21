@@ -20,7 +20,7 @@ export default function createAction(
           head instanceof Error ? head : payloadCreator(head, ...args);
 
   const hasMeta = isFunction(metaCreator);
-  const typeString = type.toString();
+  const typeString = String(type);
 
   const actionCreator = (...args) => {
     const payload = finalPayloadCreator(...args);
