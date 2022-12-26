@@ -1,5 +1,5 @@
 import reduceReducers from 'reduce-reducers';
-import invariant from 'invariant';
+import invariant from './utils/invariant';
 import isPlainObject from './utils/isPlainObject';
 import isMap from './utils/isMap';
 import ownKeys from './utils/ownKeys';
@@ -13,7 +13,7 @@ export default function handleActions(handlers, defaultState, options = {}) {
     'Expected handlers to be a plain object.'
   );
   const flattenedReducerMap = flattenReducerMap(handlers, options);
-  const reducers = ownKeys(flattenedReducerMap).map(type =>
+  const reducers = ownKeys(flattenedReducerMap).map((type) =>
     handleAction(type, get(type, flattenedReducerMap), defaultState)
   );
   const reducer = reduceReducers(...reducers, defaultState);
