@@ -4,18 +4,18 @@ specifiers:
   eslint-config-unicorn-camelcase: 0.1.1
   flux-standard-action: 2.1.2
   husky: 8.0.2
+  just-curry-it: 5.3.0
   lint-staged: 13.1.0
   npm-run-all: 4.1.5
   prettier: 2.8.1
-  ramda: 0.28.0
-  reduce-reducers: ^0.4.3
+  reduce-reducers: 1.0.4
   vite: 4.0.3
   vitest: 0.26.2
   xo: 0.53.1
 
 dependencies:
-  ramda: 0.28.0
-  reduce-reducers: 0.4.3
+  just-curry-it: 5.3.0
+  reduce-reducers: 1.0.4
 
 devDependencies:
   eslint-config-unicorn-camelcase: 0.1.1
@@ -2125,6 +2125,10 @@ packages:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
 
+  /just-curry-it/5.3.0:
+    resolution: {integrity: sha512-silMIRiFjUWlfaDhkgSzpuAyQ6EX/o09Eu8ZBfmFwQMbax7+LQzeIU2CBrICT6Ne4l86ITCGvUCBpCubWYy0Yw==}
+    dev: false
+
   /kind-of/6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
@@ -2811,10 +2815,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /ramda/0.28.0:
-    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
-    dev: false
-
   /read-pkg-up/7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==}
     engines: {node: '>=8'}
@@ -2870,8 +2870,8 @@ packages:
       strip-indent: 4.0.0
     dev: true
 
-  /reduce-reducers/0.4.3:
-    resolution: {integrity: sha512-+CNMnI8QhgVMtAt54uQs3kUxC3Sybpa7Y63HR14uGLgI9/QR5ggHvpxwhGGe3wmx5V91YwqQIblN9k5lspAmGw==}
+  /reduce-reducers/1.0.4:
+    resolution: {integrity: sha512-Mb2WZ2bJF597exiqX7owBzrqJ74DHLK3yOQjCyPAaNifRncE8OD0wFIuoMhXxTnHK07+8zZ2SJEKy/qtiyR7vw==}
     dev: false
 
   /regexp-tree/0.1.24:

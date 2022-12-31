@@ -1,4 +1,4 @@
-import { curry } from 'ramda';
+import curry from 'just-curry-it';
 import createAction from './createAction';
 
 export default (type, payloadCreator) =>

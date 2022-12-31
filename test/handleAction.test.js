@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import handleAction from '../src/handleAction';
 import createAction from '../src/createAction';
 import createActions from '../src/createActions';
@@ -10,7 +12,7 @@ const defaultState = { counter: 0 };
 test('throws an error if the reducer is the wrong type', () => {
   const wrongTypeReducers = [1, 'string', [], null];
 
-  wrongTypeReducers.forEach(wrongTypeReducer => {
+  wrongTypeReducers.forEach((wrongTypeReducer) => {
     expect(() => {
       handleAction(type, wrongTypeReducer, defaultState);
     }).toThrow(
@@ -105,7 +107,7 @@ test('single handler form - resulting reducer - works with createActions action 
 });
 
 test('single handler form - resulting reducer - not throws and returns state when action is non-FSA', () => {
-  const reducer = handleAction(type, state => state, defaultState);
+  const reducer = handleAction(type, (state) => state, defaultState);
   const action = {
     foo: {
       bar: 'baz'

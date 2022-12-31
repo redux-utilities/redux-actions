@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import createCurriedAction from '../src/createCurriedAction';
 
 const type = 'TYPE';

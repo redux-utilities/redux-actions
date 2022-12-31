@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import handleActions from '../src/handleActions';
 import createAction from '../src/createAction';
 import createActions from '../src/createActions';
@@ -169,20 +171,15 @@ test('accepts action function as action type', () => {
 
 test('accepts combined actions as action types in single reducer form', () => {
   const { increment, decrement } = createActions({
-    INCREMENT: amount => ({ amount }),
-    DECREMENT: amount => ({ amount: -amount })
+    INCREMENT: (amount) => ({ amount }),
+    DECREMENT: (amount) => ({ amount: -amount })
   });
 
   const initialState = { counter: 10 };
 
   const reducer = handleActions(
     {
-      [combineActions(increment, decrement)](
-        state,
-        {
-          payload: { amount }
-        }
-      ) {
+      [combineActions(increment, decrement)](state, { payload: { amount } }) {
         return { ...state, counter: state.counter + amount };
       }
     },
@@ -199,8 +196,8 @@ test('accepts combined actions as action types in single reducer form', () => {
 
 test('accepts combined actions as action types in the next/throw form', () => {
   const { increment, decrement } = createActions({
-    INCREMENT: amount => ({ amount }),
-    DECREMENT: amount => ({ amount: -amount })
+    INCREMENT: (amount) => ({ amount }),
+    DECREMENT: (amount) => ({ amount: -amount })
   });
 
   const initialState = { counter: 10 };
@@ -208,12 +205,7 @@ test('accepts combined actions as action types in the next/throw form', () => {
   const reducer = handleActions(
     {
       [combineActions(increment, decrement)]: {
-        next(
-          state,
-          {
-            payload: { amount }
-          }
-        ) {
+        next(state, { payload: { amount } }) {
           return { ...state, counter: state.counter + amount };
         },
 
@@ -275,10 +267,10 @@ test('works with namespaced actions', () => {
     APP: {
       COUNTER: {
         INCREMENT: [
-          amount => ({ amount }),
-          amount => ({ key: 'value', amount })
+          (amount) => ({ amount }),
+          (amount) => ({ key: 'value', amount })
         ],
-        DECREMENT: amount => ({ amount: -amount })
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: [
         (username, message) => ({ message: `${username}: ${message}` }),
@@ -339,7 +331,7 @@ test('returns previous defined state with empty handlers', () => {
 test('throws an error if handlers object has the wrong type', () => {
   const wrongTypeHandlers = [1, 'string', [], null];
 
-  wrongTypeHandlers.forEach(wrongTypeHandler => {
+  wrongTypeHandlers.forEach((wrongTypeHandler) => {
     expect(() => handleActions(wrongTypeHandler, defaultState)).toThrow(
       'Expected handlers to be a plain object.'
     );
@@ -356,10 +348,10 @@ test('works with nested reducerMap', () => {
     APP: {
       COUNTER: {
         INCREMENT: [
-          amount => ({ amount }),
-          amount => ({ key: 'value', amount })
+          (amount) => ({ amount }),
+          (amount) => ({ key: 'value', amount })
         ],
-        DECREMENT: amount => ({ amount: -amount })
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: [
         (username, message) => ({ message: `${username}: ${message}` }),
@@ -428,10 +420,10 @@ test('works with nested reducerMap and namespace', () => {
       APP: {
         COUNTER: {
           INCREMENT: [
-            amount => ({ amount }),
-            amount => ({ key: 'value', amount })
+            (amount) => ({ amount }),
+            (amount) => ({ key: 'value', amount })
           ],
-          DECREMENT: amount => ({ amount: -amount })
+          DECREMENT: (amount) => ({ amount: -amount })
         },
         NOTIFY: [
           (username, message) => ({ message: `${username}: ${message}` }),
@@ -560,8 +552,11 @@ test('works with combineActions nested', () => {
 test('works with a prefix and namespace', () => {
   const { increment, decrement } = createActions(
     {
-      INCREMENT: [amount => ({ amount }), amount => ({ key: 'value', amount })],
-      DECREMENT: amount => ({ amount: -amount })
+      INCREMENT: [
+        (amount) => ({ amount }),
+        (amount) => ({ key: 'value', amount })
+      ],
+      DECREMENT: (amount) => ({ amount: -amount })
     },
     { prefix: 'my-custom-prefix', namespace: '--' }
   );

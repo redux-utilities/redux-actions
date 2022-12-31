@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import createActions from '../src/createActions';
 
 test('throws an error when given arguments that contain a non-string', () => {
@@ -88,7 +90,7 @@ test('honors special delimiters in action types', () => {
 
 test('uses the identity if the payload creator is undefined in array form', () => {
   const { action1, action2 } = createActions({
-    ACTION_1: [undefined, meta1 => ({ meta1 })],
+    ACTION_1: [undefined, (meta1) => ({ meta1 })],
     ACTION_2: [undefined, ({ value }) => ({ meta2: value })]
   });
 
@@ -107,7 +109,7 @@ test('uses the identity if the payload creator is undefined in array form', () =
 
 test('uses the identity and meta creators in array form', () => {
   const { action1, action2 } = createActions({
-    ACTION_1: [value => ({ value }), meta1 => ({ meta1 })],
+    ACTION_1: [(value) => ({ value }), (meta1) => ({ meta1 })],
     ACTION_2: [({ value }) => value, ({ value }) => ({ meta2: value })]
   });
 
@@ -142,7 +144,7 @@ test('creates actions from an action map and action types', () => {
   const { action1, action2, action3, action4 } = createActions(
     {
       ACTION_1: (key, value) => ({ [key]: value }),
-      ACTION_2: [first => [first], (first, second) => ({ second })]
+      ACTION_2: [(first) => [first], (first, second) => ({ second })]
     },
     'ACTION_3',
     'ACTION_4'
@@ -172,13 +174,13 @@ test('creates actions from a namespaced action map', () => {
     {
       APP: {
         COUNTER: {
-          INCREMENT: amount => ({ amount }),
-          DECREMENT: amount => ({ amount: -amount }),
+          INCREMENT: (amount) => ({ amount }),
+          DECREMENT: (amount) => ({ amount: -amount }),
           SET: undefined
         },
         NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
       },
-      LOGIN: username => ({ username })
+      LOGIN: (username) => ({ username })
     },
     'ACTION_ONE',
     'ACTION_TWO'
@@ -219,10 +221,10 @@ test('creates namespaced actions with payload creators in array form', () => {
     APP: {
       COUNTER: {
         INCREMENT: [
-          amount => ({ amount }),
-          amount => ({ key: 'value', amount })
+          (amount) => ({ amount }),
+          (amount) => ({ key: 'value', amount })
         ],
-        DECREMENT: amount => ({ amount: -amount })
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: [
         (username, message) => ({ message: `${username}: ${message}` }),
@@ -253,10 +255,10 @@ test('creates namespaced actions with a chosen namespace string', () => {
       APP: {
         COUNTER: {
           INCREMENT: [
-            amount => ({ amount }),
-            amount => ({ key: 'value', amount })
+            (amount) => ({ amount }),
+            (amount) => ({ key: 'value', amount })
           ],
-          DECREMENT: amount => ({ amount: -amount })
+          DECREMENT: (amount) => ({ amount: -amount })
         },
         NOTIFY: [
           (username, message) => ({ message: `${username}: ${message}` }),
@@ -288,13 +290,13 @@ test('creates prefixed actions if `prefix` option exists', () => {
     {
       APP: {
         COUNTER: {
-          INCREMENT: amount => ({ amount }),
-          DECREMENT: amount => ({ amount: -amount }),
+          INCREMENT: (amount) => ({ amount }),
+          DECREMENT: (amount) => ({ amount: -amount }),
           SET: undefined
         },
         NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
       },
-      LOGIN: username => ({ username })
+      LOGIN: (username) => ({ username })
     },
     'ACTION_ONE',
     'ACTION_TWO',
@@ -342,13 +344,13 @@ test('properly handles `prefix` and `namespace` options provided together', () =
     {
       APP: {
         COUNTER: {
-          INCREMENT: amount => ({ amount }),
-          DECREMENT: amount => ({ amount: -amount }),
+          INCREMENT: (amount) => ({ amount }),
+          DECREMENT: (amount) => ({ amount: -amount }),
           SET: undefined
         },
         NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
       },
-      LOGIN: username => ({ username })
+      LOGIN: (username) => ({ username })
     },
     'ACTION_ONE',
     'ACTION_TWO',

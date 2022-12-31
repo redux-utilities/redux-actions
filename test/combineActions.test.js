@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import combineActions from '../src/combineActions';
 import createActions from '../src/createActions';
 
