@@ -25,9 +25,9 @@ test('uses the identity if the specified reducer is undefined', () => {
   const reducer = handleAction(type, undefined, defaultState);
 
   expect(reducer(prevState, { type })).toBe(prevState);
-  expect(reducer(prevState, { type, error: true, payload: new Error() })).toBe(
-    prevState
-  );
+  expect(
+    reducer(prevState, { type, error: true, payload: new Error('Test') })
+  ).toBe(prevState);
 });
 
 test('single handler form - throw an error if defaultState is not specified', () => {
@@ -223,7 +223,7 @@ test('with combined actions - handles combined error actions', () => {
     },
     defaultState
   );
-  const error = new Error();
+  const error = new Error('Test');
 
   expect(reducer({ number: 0 }, action1(error))).toEqual({
     number: 0,

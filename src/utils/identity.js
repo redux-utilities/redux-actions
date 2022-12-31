@@ -1,1 +1,1 @@
-export default value => value;
+export default (value) => value;

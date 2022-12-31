@@ -73,7 +73,20 @@
     ],
     "ignores": [
       "vite.config.js"
-    ]
+    ],
+    "rules": {
+			"import/no-anonymous-default-export": "off",
+      "unicorn/no-array-reduce": "off",
+      "n/file-extension-in-import": "off",
+      "import/extensions": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "unicorn/no-array-for-each": "off",
+      "unicorn/no-for-loop": "off",
+      "padding-line-between-statements": "off",
+      "unicorn/no-array-callback-reference": "off",
+      "n/prefer-global/process": "off",
+      "unicorn/prefer-export-from": "off"
+		}
   },
   "prettier": {
     "singleQuote": true,

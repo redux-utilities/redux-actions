@@ -1,1 +1,1 @@
-export default value => value.length === 0;
+export default (value) => value.length === 0;

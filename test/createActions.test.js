@@ -16,7 +16,7 @@ test('throws an error when given arguments that contain a non-string', () => {
 test('throws an error when given bad payload creators', () => {
   expect(() =>
     createActions({
-      ACTION_1: () => {},
+      ACTION_1() {},
       ACTION_2: 'string'
     })
   ).toThrow(

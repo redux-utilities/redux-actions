@@ -1,5 +1,5 @@
 const hasSpace = /\s/;
-const hasSeparator = /(_|-|\.|:)/;
+const hasSeparator = /([-.:_])/;
 const hasCamel = /([a-z][A-Z]|[A-Z][a-z])/;
 const namespacer = '/';
 
@@ -36,6 +36,6 @@ const toCamelCase = (string) =>
   );
 
 export default (type) =>
-  type.indexOf(namespacer) === -1
-    ? toCamelCase(type)
-    : type.split(namespacer).map(toCamelCase).join(namespacer);
+  type.includes(namespacer)
+    ? type.split(namespacer).map(toCamelCase).join(namespacer)
+    : toCamelCase(type);

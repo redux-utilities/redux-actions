@@ -1,1 +1,1 @@
-export default array => array[array.length - 1];
+export default (array) => array[array.length - 1];

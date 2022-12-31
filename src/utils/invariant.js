@@ -1,8 +1,6 @@
 export default function (condition, format, ...args) {
-  if (process.env.NODE_ENV !== 'production') {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
+  if (process.env.NODE_ENV !== 'production' && format === undefined) {
+    throw new Error('invariant requires an error message argument');
   }
 
   if (!condition) {
@@ -22,7 +20,7 @@ export default function (condition, format, ...args) {
       error.name = 'Invariant Violation';
     }
 
-    error.framesToPop = 1; // we don't care about invariant's own frame
+    error.framesToPop = 1; // We don't care about invariant's own frame
     throw error;
   }
 }

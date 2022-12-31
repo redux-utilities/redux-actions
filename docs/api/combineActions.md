@@ -45,8 +45,8 @@ Below is how you would use `combineActions` and `handleActions` together
 
 ```js
 const { increment, decrement } = createActions({
-  INCREMENT: amount => ({ amount }),
-  DECREMENT: amount => ({ amount: -amount })
+  INCREMENT: (amount) => ({ amount }),
+  DECREMENT: (amount) => ({ amount: -amount })
 });
 
 const reducer = handleActions(

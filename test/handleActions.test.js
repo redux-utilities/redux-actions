@@ -216,7 +216,7 @@ test('accepts combined actions as action types in the next/throw form', () => {
     },
     defaultState
   );
-  const error = new Error();
+  const error = new Error('Test');
 
   // Non-Errors
   expect(reducer(initialState, increment(5))).toEqual({ counter: 15 });
