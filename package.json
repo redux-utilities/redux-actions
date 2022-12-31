@@ -9,7 +9,7 @@
     "build": "vite build",
     "clean": "rimraf coverage dist es lib",
     "prepublishOnly": "run-s build",
-    "test": "vitest run",
+    "test": "vitest run --coverage",
     "lint": "xo"
   },
   "files": [
@@ -40,6 +40,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@vitest/coverage-c8": "^0.26.2",
+    "eslint-config-unicorn-camelcase": "0.1.1",
     "flux-standard-action": "2.1.2",
     "husky": "8.0.2",
     "lint-staged": "13.1.0",
@@ -47,8 +49,7 @@
     "prettier": "2.8.1",
     "vite": "4.0.3",
     "vitest": "0.26.2",
-    "xo": "0.53.1",
-    "eslint-config-unicorn-camelcase": "0.1.1"
+    "xo": "0.53.1"
   },
   "dependencies": {
     "just-curry-it": "5.3.0",
@@ -75,7 +76,7 @@
       "vite.config.js"
     ],
     "rules": {
-			"import/no-anonymous-default-export": "off",
+      "import/no-anonymous-default-export": "off",
       "unicorn/no-array-reduce": "off",
       "n/file-extension-in-import": "off",
       "import/extensions": "off",
@@ -85,8 +86,9 @@
       "padding-line-between-statements": "off",
       "unicorn/no-array-callback-reference": "off",
       "n/prefer-global/process": "off",
-      "unicorn/prefer-export-from": "off"
-		}
+      "unicorn/prefer-export-from": "off",
+      "unicorn/prefer-array-flat": "off"
+    }
   },
   "prettier": {
     "singleQuote": true,
