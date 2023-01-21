@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Looking for Maintainers
 
 **Unfortunately I ([timche](https://github.com/timche)) don't have the required time anymore to maintain this library and give it the necessary attention. Therefore I'm looking for maintainers that are willing to take care of this library on a long-term basis.**
@@ -15,6 +16,8 @@ It's also possible to join [redux-utilities](https://github.com/redux-utilities)
 
 Please send me an email (adress on my profile) with the subject "redux-actions" and some information about you, if you want to be a maintainer.
 
+=======
+>>>>>>> upstream/master
 # redux-actions
 
 [![Build Status](https://travis-ci.org/redux-utilities/redux-actions.svg?branch=master)](https://travis-ci.org/redux-utilities/redux-actions)
