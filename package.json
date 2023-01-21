@@ -15,12 +15,10 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/redux-actions.umd.js",
-  "module": "./dist/redux-actions.mjs",
+  "module": "./dist/redux-actions.js",
   "exports": {
     ".": {
-      "import": "./dist/redux-actions.mjs",
-      "require": "./dist/redux-actions.umd.cjs"
+      "import": "./dist/redux-actions.js"
     }
   },
   "keywords": [
