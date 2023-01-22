@@ -2,6 +2,10 @@ on:
   - push
   - pull_request
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   cache-and-install:
     runs-on: ubuntu-latest
