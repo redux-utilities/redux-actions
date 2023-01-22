@@ -1,13 +1,14 @@
 on:
-  - pull_request
+  push:
+    branches: [ master ]
 
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  review:
-    name: Review
+  push:
+    name: Push
     runs-on: ubuntu-latest
 
     steps:
@@ -43,17 +44,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Format
-        run: pnpm format:check
-
-      - name: Lint
-        run: pnpm format:check
-
       - name: Tests
         run: pnpm test
 
       - name: Coverage
         uses: codecov/codecov-action@v3
-
-      - name: Build
-        run: pnpm build
