@@ -1,11 +1,17 @@
 language: node_js
-node_js: 11
+node_js: 18
+cache:
+  npm: false
+  directories:
+    - "~/.pnpm-store"
+before_install:
+  - curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@7
+  - pnpm config set store-dir ~/.pnpm-store
+install:
+  - pnpm install
 script:
-  - yarn format:check
-  - yarn lint
-  - yarn test
+  - pnpm format:check
+  - pnpm lint
+  - pnpm test
 after_success:
   - npx codecov
-cache:
-  directories:
-  - "$HOME/.npm"

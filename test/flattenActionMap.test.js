@@ -1,15 +1,17 @@
+import { test, expect } from 'vitest';
+
 import flattenActionMap from '../src/utils/flattenActionMap';
 
 test('flattens an action map with the default namespacer', () => {
   const actionMap = {
     APP: {
       COUNTER: {
-        INCREMENT: amount => ({ amount }),
-        DECREMENT: amount => ({ amount: -amount })
+        INCREMENT: (amount) => ({ amount }),
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
     },
-    LOGIN: username => ({ username })
+    LOGIN: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap)).toEqual({
@@ -22,9 +24,9 @@ test('flattens an action map with the default namespacer', () => {
 
 test('does nothing to an already flattened map', () => {
   const actionMap = {
-    INCREMENT: amount => ({ amount }),
-    DECREMENT: amount => ({ amount: -amount }),
-    LOGIN: username => ({ username })
+    INCREMENT: (amount) => ({ amount }),
+    DECREMENT: (amount) => ({ amount: -amount }),
+    LOGIN: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap)).toEqual(actionMap);
@@ -34,12 +36,12 @@ test('is case-sensitive', () => {
   const actionMap = {
     app: {
       counter: {
-        increment: amount => ({ amount }),
-        decrement: amount => ({ amount: -amount })
+        increment: (amount) => ({ amount }),
+        decrement: (amount) => ({ amount: -amount })
       },
       notify: (username, message) => ({ message: `${username}: ${message}` })
     },
-    login: username => ({ username })
+    login: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap)).toEqual({
@@ -54,12 +56,12 @@ test('uses a custom namespace string', () => {
   const actionMap = {
     APP: {
       COUNTER: {
-        INCREMENT: amount => ({ amount }),
-        DECREMENT: amount => ({ amount: -amount })
+        INCREMENT: (amount) => ({ amount }),
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
     },
-    LOGIN: username => ({ username })
+    LOGIN: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap, { namespace: '-' })).toEqual({
@@ -74,12 +76,12 @@ test('handles prefix option', () => {
   const actionMap = {
     APP: {
       COUNTER: {
-        INCREMENT: amount => ({ amount }),
-        DECREMENT: amount => ({ amount: -amount })
+        INCREMENT: (amount) => ({ amount }),
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
     },
-    LOGIN: username => ({ username })
+    LOGIN: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap, { prefix: 'my' })).toEqual({
@@ -94,12 +96,12 @@ test('handles prefix + namespace options', () => {
   const actionMap = {
     APP: {
       COUNTER: {
-        INCREMENT: amount => ({ amount }),
-        DECREMENT: amount => ({ amount: -amount })
+        INCREMENT: (amount) => ({ amount }),
+        DECREMENT: (amount) => ({ amount: -amount })
       },
       NOTIFY: (username, message) => ({ message: `${username}: ${message}` })
     },
-    LOGIN: username => ({ username })
+    LOGIN: (username) => ({ username })
   };
 
   expect(flattenActionMap(actionMap, { namespace: '-', prefix: 'my' })).toEqual(

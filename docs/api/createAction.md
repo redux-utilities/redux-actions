@@ -100,7 +100,7 @@ createAction('ADD_TODO')('Use Redux');
 ###### EXAMPLE
 
 ```js
-let noop = createAction('NOOP', amount => amount);
+let noop = createAction('NOOP', (amount) => amount);
 // same as
 noop = createAction('NOOP');
 
@@ -119,7 +119,7 @@ expect(noop(42)).to.deep.equal({
 ```js
 const updateAdminUser = createAction(
   'UPDATE_ADMIN_USER',
-  updates => updates,
+  (updates) => updates,
   () => ({ admin: true })
 );
 
@@ -160,9 +160,9 @@ import { createActions } from 'redux-actions';
 
 ```js
 createActions({
-  ADD_TODO: todo => ({ todo }), // payload creator
+  ADD_TODO: (todo) => ({ todo }), // payload creator
   REMOVE_TODO: [
-    todo => ({ todo }), // payload creator
+    (todo) => ({ todo }), // payload creator
     (todo, warn) => ({ todo, warn }) // meta
   ]
 });
@@ -176,8 +176,11 @@ If `actionMap` has a recursive structure, its leaves are used as payload and met
 const actionCreators = createActions({
   APP: {
     COUNTER: {
-      INCREMENT: [amount => ({ amount }), amount => ({ key: 'value', amount })],
-      DECREMENT: amount => ({ amount: -amount }),
+      INCREMENT: [
+        (amount) => ({ amount }),
+        (amount) => ({ key: 'value', amount })
+      ],
+      DECREMENT: (amount) => ({ amount: -amount }),
       SET: undefined // given undefined, the identity function will be used
     },
     NOTIFY: [
@@ -221,7 +224,7 @@ const { actionOne, actionTwo, actionThree } = createActions(
 
     // array form
     ACTION_TWO: [
-      first => [first], // payload
+      (first) => [first], // payload
       (first, second) => ({ second }) // meta
     ]
 

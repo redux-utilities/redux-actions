@@ -8,7 +8,6 @@ export default function ownKeys(object) {
     // spread over Array.from.
     //
     // Instead of disabling loose mode we simply disable the warning.
-    // eslint-disable-next-line unicorn/prefer-spread
     return Array.from(object.keys());
   }
 

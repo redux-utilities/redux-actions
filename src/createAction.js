@@ -1,4 +1,4 @@
-import invariant from 'invariant';
+import invariant from './utils/invariant';
 import isFunction from './utils/isFunction';
 import identity from './utils/identity';
 import isNull from './utils/isNull';

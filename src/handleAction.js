@@ -1,4 +1,4 @@
-import invariant from 'invariant';
+import invariant from './utils/invariant';
 import isFunction from './utils/isFunction';
 import isPlainObject from './utils/isPlainObject';
 import identity from './utils/identity';
@@ -20,13 +20,13 @@ export default function handleAction(type, reducer = identity, defaultState) {
 
   const [nextReducer, throwReducer] = isFunction(reducer)
     ? [reducer, reducer]
-    : [reducer.next, reducer.throw].map(
-        aReducer => (isNil(aReducer) ? identity : aReducer)
+    : [reducer.next, reducer.throw].map((aReducer) =>
+        isNil(aReducer) ? identity : aReducer
       );
 
   return (state = defaultState, action) => {
     const { type: actionType } = action;
-    if (!actionType || types.indexOf(toString(actionType)) === -1) {
+    if (!actionType || !types.includes(toString(actionType))) {
       return state;
     }
 

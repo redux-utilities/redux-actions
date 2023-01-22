@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest';
 import camelCase from '../src/utils/camelCase';
 
 test('camel-cases a conventional action type', () => {

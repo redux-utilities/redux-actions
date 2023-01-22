@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import handleAction from '../src/handleAction';
 import createAction from '../src/createAction';
 import createActions from '../src/createActions';
@@ -10,7 +12,7 @@ const defaultState = { counter: 0 };
 test('throws an error if the reducer is the wrong type', () => {
   const wrongTypeReducers = [1, 'string', [], null];
 
-  wrongTypeReducers.forEach(wrongTypeReducer => {
+  wrongTypeReducers.forEach((wrongTypeReducer) => {
     expect(() => {
       handleAction(type, wrongTypeReducer, defaultState);
     }).toThrow(
@@ -23,9 +25,9 @@ test('uses the identity if the specified reducer is undefined', () => {
   const reducer = handleAction(type, undefined, defaultState);
 
   expect(reducer(prevState, { type })).toBe(prevState);
-  expect(reducer(prevState, { type, error: true, payload: new Error() })).toBe(
-    prevState
-  );
+  expect(
+    reducer(prevState, { type, error: true, payload: new Error('Test') })
+  ).toBe(prevState);
 });
 
 test('single handler form - throw an error if defaultState is not specified', () => {
@@ -105,7 +107,7 @@ test('single handler form - resulting reducer - works with createActions action 
 });
 
 test('single handler form - resulting reducer - not throws and returns state when action is non-FSA', () => {
-  const reducer = handleAction(type, state => state, defaultState);
+  const reducer = handleAction(type, (state) => state, defaultState);
   const action = {
     foo: {
       bar: 'baz'
@@ -221,7 +223,7 @@ test('with combined actions - handles combined error actions', () => {
     },
     defaultState
   );
-  const error = new Error();
+  const error = new Error('Test');
 
   expect(reducer({ number: 0 }, action1(error))).toEqual({
     number: 0,

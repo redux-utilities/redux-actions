@@ -1,17 +1,19 @@
+import { test, expect } from 'vitest';
+
 import { isFSA } from 'flux-standard-action';
 import createAction from '../src/createAction';
 
 const type = 'TYPE';
 
 test('returns a valid FSA', () => {
-  const actionCreator = createAction(type, b => b);
+  const actionCreator = createAction(type, (b) => b);
   const foobar = { foo: 'bar' };
   const action = actionCreator(foobar);
   expect(isFSA(action)).toBeTruthy();
 });
 
 test('uses return value as payload', () => {
-  const actionCreator = createAction(type, b => b);
+  const actionCreator = createAction(type, (b) => b);
   const foobar = { foo: 'bar' };
   const action = actionCreator(foobar);
   expect(action).toEqual({
@@ -23,7 +25,7 @@ test('uses return value as payload', () => {
 test('throws an error if payloadCreator is not a function, undefined, null', () => {
   const wrongTypePayloadCreators = [1, false, 'string', {}, []];
 
-  wrongTypePayloadCreators.forEach(wrongTypePayloadCreator => {
+  wrongTypePayloadCreators.forEach((wrongTypePayloadCreator) => {
     expect(() => {
       createAction(type, wrongTypePayloadCreator);
     }).toThrow('Expected payloadCreator to be a function, undefined or null');
@@ -132,7 +134,11 @@ test('sets payload only when defined', () => {
 });
 
 test('bypasses payloadCreator if payload is an Error object', () => {
-  const actionCreator = createAction(type, () => 'not this', (_, meta) => meta);
+  const actionCreator = createAction(
+    type,
+    () => 'not this',
+    (_, meta) => meta
+  );
   const errObj = new TypeError('this is an error');
 
   const errAction = actionCreator(errObj, { foo: 'bar' });

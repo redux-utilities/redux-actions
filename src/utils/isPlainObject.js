@@ -1,4 +1,4 @@
-export default value => {
+export default (value) => {
   if (typeof value !== 'object' || value === null) return false;
 
   let proto = value;

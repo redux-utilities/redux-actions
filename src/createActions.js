@@ -1,4 +1,4 @@
-import invariant from 'invariant';
+import invariant from './utils/invariant';
 import isPlainObject from './utils/isPlainObject';
 import isFunction from './utils/isFunction';
 import identity from './utils/identity';

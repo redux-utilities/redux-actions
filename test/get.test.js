@@ -1,3 +1,5 @@
+import { test, expect } from 'vitest';
+
 import get from '../src/utils/get';
 
 test('get util helper', () => {

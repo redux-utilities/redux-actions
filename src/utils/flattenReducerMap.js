@@ -4,5 +4,5 @@ import hasGeneratorInterface from './hasGeneratorInterface';
 import flattenWhenNode from './flattenWhenNode';
 
 export default flattenWhenNode(
-  node => (isPlainObject(node) || isMap(node)) && !hasGeneratorInterface(node)
+  (node) => (isPlainObject(node) || isMap(node)) && !hasGeneratorInterface(node)
 );

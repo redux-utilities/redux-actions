@@ -28,7 +28,7 @@ export default function unflattenActionCreators(
   }
 
   const nestedActionCreators = {};
-  Object.getOwnPropertyNames(flatActionCreators).forEach(type => {
+  Object.getOwnPropertyNames(flatActionCreators).forEach((type) => {
     const unprefixedType = prefix
       ? type.replace(`${prefix}${namespace}`, '')
       : type;

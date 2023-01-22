@@ -1,13 +1,15 @@
+import { test, expect } from 'vitest';
+
 import unflattenActionCreators from '../src/utils/unflattenActionCreators';
 
 test('unflattens a flattened action map and camel-case keys', () => {
   const actionMap = unflattenActionCreators({
-    'APP/COUNTER/INCREMENT': amount => ({ amount }),
-    'APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
+    'APP/COUNTER/INCREMENT': (amount) => ({ amount }),
+    'APP/COUNTER/DECREMENT': (amount) => ({ amount: -amount }),
     'APP/NOTIFY': (username, message) => ({
       message: `${username}: ${message}`
     }),
-    LOGIN: username => ({ username })
+    LOGIN: (username) => ({ username })
   });
 
   expect(actionMap.login('yangmillstheory')).toEqual({
@@ -23,12 +25,12 @@ test('unflattens a flattened action map and camel-case keys', () => {
 test('unflattens a flattened action map with custom namespace', () => {
   const actionMap = unflattenActionCreators(
     {
-      'APP--COUNTER--INCREMENT': amount => ({ amount }),
-      'APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
+      'APP--COUNTER--INCREMENT': (amount) => ({ amount }),
+      'APP--COUNTER--DECREMENT': (amount) => ({ amount: -amount }),
       'APP--NOTIFY': (username, message) => ({
         message: `${username}: ${message}`
       }),
-      LOGIN: username => ({ username })
+      LOGIN: (username) => ({ username })
     },
     { namespace: '--' }
   );
@@ -46,12 +48,12 @@ test('unflattens a flattened action map with custom namespace', () => {
 test('unflattens a flattened action map with prefix', () => {
   const actionMap = unflattenActionCreators(
     {
-      'my/feature/APP/COUNTER/INCREMENT': amount => ({ amount }),
-      'my/feature/APP/COUNTER/DECREMENT': amount => ({ amount: -amount }),
+      'my/feature/APP/COUNTER/INCREMENT': (amount) => ({ amount }),
+      'my/feature/APP/COUNTER/DECREMENT': (amount) => ({ amount: -amount }),
       'my/feature/APP/NOTIFY': (username, message) => ({
         message: `${username}: ${message}`
       }),
-      'my/feature/LOGIN': username => ({ username })
+      'my/feature/LOGIN': (username) => ({ username })
     },
     { prefix: 'my/feature' }
   );
@@ -67,12 +69,12 @@ test('unflattens a flattened action map with prefix', () => {
 test('unflattens a flattened action map with custom namespace and prefix', () => {
   const actionMap = unflattenActionCreators(
     {
-      'my--feature--APP--COUNTER--INCREMENT': amount => ({ amount }),
-      'my--feature--APP--COUNTER--DECREMENT': amount => ({ amount: -amount }),
+      'my--feature--APP--COUNTER--INCREMENT': (amount) => ({ amount }),
+      'my--feature--APP--COUNTER--DECREMENT': (amount) => ({ amount: -amount }),
       'my--feature--APP--NOTIFY': (username, message) => ({
         message: `${username}: ${message}`
       }),
-      'my--feature--LOGIN': username => ({ username })
+      'my--feature--LOGIN': (username) => ({ username })
     },
     { namespace: '--', prefix: 'my--feature' }
   );
