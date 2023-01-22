@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@vitest/coverage-c8': ^0.26.2
+  '@vitest/coverage-c8': 0.26.2
   eslint-config-unicorn-camelcase: 0.1.1
   flux-standard-action: 2.1.2
   husky: 8.0.2
