@@ -1,61 +1,33 @@
+name: CI
 on:
   pull_request:
   push:
     branches: [ master ]
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  review:
-    name: Review
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - uses: pnpm/action-setup@v2
-        name: Install pnpm
         id: pnpm-install
         with:
           version: 7
-          run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - run: pnpm install
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - run: pnpm format:check
 
-      - name: Install dependencies
-        run: pnpm install
+      - run: pnpm format:check
 
-      - name: Format
-        run: pnpm format:check
+      - run: pnpm test
 
-      - name: Lint
-        run: pnpm format:check
+      - uses: codecov/codecov-action@v3
 
-      - name: Tests
-        run: pnpm test
-
-      - name: Coverage
-        uses: codecov/codecov-action@v3
-
-      - name: Build
-        run: pnpm build
+      - run: pnpm build
