@@ -16,7 +16,6 @@ jobs:
           node-version: 18
 
       - uses: pnpm/action-setup@v2
-        id: pnpm-install
         with:
           version: 7
 
@@ -24,7 +23,7 @@ jobs:
 
       - run: pnpm format:check
 
-      - run: pnpm format:check
+      - run: pnpm lint
 
       - run: pnpm test
 

@@ -35,8 +35,8 @@ jobs:
 
     - uses: bcomnes/npm-bump@v2
       with:
-        git_email: bcomnes@gmail.com
-        git_username: ${{ github.actor }}
+        git_email: github-actions@github.com
+        git_username: github-actions
         newversion: ${{ github.event.inputs.newversion }}
         push_version_commit: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
