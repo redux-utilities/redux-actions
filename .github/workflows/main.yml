@@ -1,0 +1,32 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - run: pnpm install
+
+      - run: pnpm format:check
+
+      - run: pnpm lint
+
+      - run: pnpm test
+
+      - uses: codecov/codecov-action@v3
+
+      - run: pnpm build
