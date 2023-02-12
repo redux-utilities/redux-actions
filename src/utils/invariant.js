@@ -1,5 +1,5 @@
 export default function (condition, format, ...args) {
-  if (process.env.NODE_ENV !== 'production' && format === undefined) {
+  if (import.meta.NODE_ENV !== 'production' && format === undefined) {
     throw new Error('invariant requires an error message argument');
   }
 
