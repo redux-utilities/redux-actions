@@ -14,13 +14,16 @@ For Yarn users
 $ yarn add redux-actions
 ```
 
-For UMD users
-
-The [UMD](https://unpkg.com/redux-actions@latest/dist) build exports a global called `window.ReduxActions` if you add it to your page via a `<script>` tag. We _don’t_ recommend UMD builds for any serious application, as most of the libraries complementary to Redux are only available on [npm](https://www.npmjs.com/search?q=redux).
-
 ### Vanilla Counter
 
-We are going to be building a simple counter, I recommend using something like [jsfiddle](https://jsfiddle.net/) or [codepen](https://codepen.io/pen/) or [codesandbox](https://codesandbox.io) if you would like to follow along, that way you do not need a complicated setup to grasp the basics of `redux-actions`.
+We are going to be building a simple counter, you can find the final working example here:
+
+<iframe src="https://codesandbox.io/embed/redux-actions-example-ztg7qp?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="redux-actions-example"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
 
 To begin we are going to need some scaffolding so here is some HTML to get started with. You may need to create a new file called main.js depending on where you are trying to set this tutorial up.
 
@@ -28,15 +31,16 @@ To begin we are going to need some scaffolding so here is some HTML to get start
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <script src="https://unpkg.com/redux@latest/dist/redux.js"></script>
-    <script src="https://unpkg.com/redux-actions@latest/dist/redux-actions.js"></script>
+    <title>Redux Actions Example</title>
+    <meta charset="UTF-8" />
   </head>
+
   <body>
     <button id="increment">INCREMENT</button>
     <button id="decrement">DECREMENT</button>
-    <div id="content" />
-    <script src="main.js"></script>
+    <div id="content"></div>
+
+    <script src="src/index.js"></script>
   </body>
 </html>
 ```
@@ -59,18 +63,18 @@ const render = () => {
 render();
 ```
 
-With our default state and renderer in place we can start to use our libraries. `redux` and `redux-actions` can be found via the globals `window.Redux` and `window.ReduxActions`. Okay enough setup lets start to make something with `redux`!
+With our default state and renderer in place we can start to use our libraries. `redux` and `redux-actions`. Okay enough setup lets start to make something with `redux`!
 
 We are going to want a store for our defaultState. We can create one from `redux` using `createStore`.
 
 ```js
-const { createStore } = window.Redux;
+import { createStore } from 'redux';
 ```
 
 We are going to want to create our first action and handle that action.
 
 ```js
-const { createAction, handleAction } = window.ReduxActions;
+import { createAction, handleAction } from 'redux-actions';
 ```
 
 Next lets create our first action, 'increment', using `createAction`.
@@ -127,7 +131,7 @@ const decrement = createAction('DECREMENT');
 Instead of using `handleAction` like we did for `increment`, we can replace it with our other tool `handleActions` which will let us handle both `increment` and `decrement` actions.
 
 ```js
-const { createAction, handleActions } = window.ReduxActions;
+import { createAction, handleActions } from 'redux-actions';
 
 const reducer = handleActions(
   {
@@ -151,7 +155,7 @@ You might be thinking at this point we are all done. We have both buttons hooked
 We have declarations for both `increment` and `decrement` action creators. We can modify these lines from using `createAction` to using `createActions` like so.
 
 ```js
-const { createActions, handleActions } = window.ReduxActions;
+import { createActions, handleActions } from 'redux-actions';
 
 const { increment, decrement } = createActions('INCREMENT', 'DECREMENT');
 ```
@@ -180,7 +184,7 @@ const reducer = handleActions(
 Now that we have moved our logic, our `reducers` are looking identical. If only we could combine them somehow. Well we can! `combineActions` can be used to reduce multiple distinct actions with the same reducer.
 
 ```js
-const { createActions, handleActions, combineActions } = window.ReduxActions;
+import { createActions, handleActions, combineActions } from 'redux-actions';
 
 const reducer = handleActions(
   {
