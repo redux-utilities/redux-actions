@@ -18,7 +18,8 @@
   "module": "./dist/redux-actions.js",
   "exports": {
     ".": {
-      "import": "./dist/redux-actions.js"
+      "import": "./dist/redux-actions.js",
+      "default": "./dist/redux-actions.js"
     }
   },
   "keywords": [
